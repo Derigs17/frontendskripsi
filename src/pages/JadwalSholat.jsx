@@ -1,137 +1,114 @@
-  import React, { useEffect, useState } from 'react';
-  import { Container, Row, Col, Card } from 'react-bootstrap';
-  import bgSholat from '../images/bgwaktusolat.png';
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Card, Table, Spinner } from 'react-bootstrap';
+import axios from 'axios';
 
-  const JadwalSholat = () => {
-    const [jadwal, setJadwal] = useState(null);
-    const [now, setNow] = useState(new Date());
-    const kota = 'Jakarta'; // Ganti sesuai lokasi masjid kamu
+const JadwalSholat = () => {
+  const [jadwalSholat, setJadwalSholat] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentDateTime, setCurrentDateTime] = useState('');
+  const kota = 'Sukabumi'; // Ganti dengan kota yang Anda inginkan
+  const negara = 'Indonesia'; // Ganti dengan negara yang Anda inginkan
 
-    useEffect(() => {
-      const interval = setInterval(() => setNow(new Date()), 1000);
-      return () => clearInterval(interval);
-    }, []);
-
-    useEffect(() => {
-      fetch(`https://api.aladhan.com/v1/timingsByCity?city=${kota}&country=Indonesia&method=11`)
-        .then((res) => res.json())
-        .then((data) => setJadwal(data.data.timings));
-    }, []);
-
-    const formatWaktu = (waktu) => `${waktu} WIB`;
-    const formatTanggal = (tgl) =>
-      tgl.toLocaleDateString('id-ID', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
+  useEffect(() => {
+    // Ambil data jadwal sholat untuk satu bulan
+    axios
+      .get(`https://api.aladhan.com/v1/calendarByCity`, {
+        params: {
+          city: kota,
+          country: negara,
+          method: 2, // Metode perhitungan sholat (2 adalah ISNA)
+          month: new Date().getMonth() + 1, // Bulan ini
+          year: new Date().getFullYear(), // Tahun ini
+        },
+      })
+      .then((response) => {
+        setJadwalSholat(response.data.data);
+        setLoading(false); // Selesai mengambil data
+      })
+      .catch((error) => {
+        console.error("Ada kesalahan saat mengambil data:", error);
+        setLoading(false);
       });
 
-    const waktuSholat = [
-      { key: 'Fajr', label: 'Subuh' },
-      { key: 'Sunrise', label: 'Terbit' },
-      { key: 'Dhuhr', label: 'Dzuhur' },
-      { key: 'Asr', label: 'Ashar' },
-      { key: 'Maghrib', label: 'Maghrib' },
-      { key: 'Isha', label: 'Isya' },
-    ];
+    // Set interval untuk memperbarui waktu setiap detik
+    const interval = setInterval(() => {
+      const now = new Date();
+      const formattedTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const formattedDate = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      setCurrentDateTime(`${formattedTime} - ${formattedDate}`);
+    }, 1000); // Update setiap 1 detik
 
-    return (
-      <Container className="py-5">
-        <h2 className="text-center mb-2">Jadwal Waktu Sholat Harian Masjid At-Taqwa</h2>
-        <p className="text-center text-muted mb-4">
-          Setiap detik adalah panggilan cinta dari-Nya. Waktu sholat bukan hanya jadwal,
-          tapi pertemuan jiwa dengan Sang Pencipta. Waktunya kembali pada Allah.
-        </p>
-        <Card
-    className="text-white overflow-hidden"
-    style={{
-      backgroundImage: `url(${bgSholat})`,
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-      width: '100%',
-      maxWidth: '1000px',
-      margin: '0 auto',
-      aspectRatio: '2 / 1',
-      borderRadius: '50px',
-    }}
-  >
-    <Card.Body
-      className="d-flex flex-column justify-content-center align-items-center text-center"
-      style={{
-        backgroundColor: 'rgba(0,0,0,0.05)', // Darken the overlay
-        width: '100%',
-        height: '100%',
-        borderRadius: '40px',
-      }}
-    >
-      <h1 style={{ fontSize: '6rem', fontWeight: 'bold', fontFamily: 'Mono', color: '#000' }}>
-        {now.toLocaleTimeString('id-ID')}
-      </h1>
-      <p style={{ fontSize: '1.2rem', color: '#fff' }}>{formatTanggal(now)}</p>
+    // Bersihkan interval saat komponen di-unmount
+    return () => clearInterval(interval);
+  }, []); // Hanya dijalankan sekali saat komponen pertama kali dimuat
 
-      {/* Check if jadwal is available */}
-      {jadwal ? (
-        <div className="d-flex justify-content-center flex-column mt-4" style={{ gap: '1px' }}>
-          {/* Subuh above Terbit */}
-          <Card
-            bg="dark"
-            text="white"
-            className="text-center shadow-sm mb-3"
-            style={{
-              minWidth: '95px',
-              maxWidth: '120px',
-              borderRadius: '12px',
-              padding: '0.6rem',
-            }}
-          >
+  return (
+    <Container className="mt-5">
+      <Row>
+        <Col>
+          <Card>
             <Card.Body>
-              <Card.Title className="mb-1" style={{ fontSize: '0.9rem' }}>
-                Subuh
-              </Card.Title>
-              <Card.Text style={{ fontSize: '0.8rem' }}>
-                {formatWaktu(jadwal['Fajr'])}
-              </Card.Text>
-            </Card.Body>
-          </Card>
-
-          {/* Other prayer times in one row */}
-          <div className="d-flex justify-content-center flex-wrap" style={{ gap: '25px' }}>
-            {waktuSholat.slice(1).map((item) => (
-              <Card
-                key={item.key}
-                bg={item.key === 'Sunrise' ? 'white' : 'dark'}
-                text={item.key === 'Sunrise' ? 'dark' : 'white'}
-                className="text-center shadow-sm"
+              {/* Menampilkan waktu dan tanggal saat ini */}
+              <div 
                 style={{
-                  minWidth: '95px',
-                  maxWidth: '120px',
-                  borderRadius: '12px',
-                  padding: '0.6rem',
+                  fontSize: '48px', 
+                  fontWeight: 'bold', 
+                  textAlign: 'center', 
+                  marginBottom: '10px',
+                  fontFamily: 'Roboto Mono, monospace' // Menggunakan font Roboto Mono
                 }}
               >
-                <Card.Body>
-                  <Card.Title className="mb-1" style={{ fontSize: '0.9rem' }}>
-                    {item.label}
-                  </Card.Title>
-                  <Card.Text style={{ fontSize: '0.8rem' }}>
-                    {formatWaktu(jadwal[item.key])}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <p className="text-white">Memuat jadwal...</p>
-      )}
-    </Card.Body>
-  </Card>
+                {currentDateTime.split(' - ')[0]} {/* Menampilkan jam dan detik */}
+              </div>
+              <div 
+                style={{
+                  fontSize: '20px', 
+                  textAlign: 'center', 
+                  fontFamily: 'Roboto Mono, monospace'
+                }}
+              >
+                {currentDateTime.split(' - ')[1]} {/* Menampilkan tanggal */}
+              </div>
 
+              <Card.Title className='pt-3'>Jadwal Sholat</Card.Title>
+              {loading ? (
+                <div className="d-flex justify-content-center">
+                  <Spinner animation="border" role="status" />
+                </div>
+              ) : (
+                <div className="table-responsive"> {/* Membuat tabel responsif */}
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Tanggal</th>
+                        <th>Subuh</th>
+                        <th>Dzuhur</th>
+                        <th>Ashar</th>
+                        <th>Maghrib</th>
+                        <th>Isha</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {jadwalSholat.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item.date.gregorian.date}</td>
+                          <td>{item.timings.Fajr}</td>
+                          <td>{item.timings.Dhuhr}</td>
+                          <td>{item.timings.Asr}</td>
+                          <td>{item.timings.Maghrib}</td>
+                          <td>{item.timings.Isha}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
+              )}
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
-      </Container>
-    );
-  };
-
-  export default JadwalSholat;
+export default JadwalSholat;

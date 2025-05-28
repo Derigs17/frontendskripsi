@@ -1,3 +1,13 @@
+/* Global Styles */
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scroll Behavior */
 @media (max-width: 768px) {
   body {
     padding-top: 60px; 
@@ -11,24 +21,10 @@
   }
 }
 
-* {
-  font-family: "Poppins", sans-serif;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-
-
-
 /* Styling navbar */
 .navbar-custom .nav-link {
   color: #000; /* Default color for links */
   text-decoration: none; /* Remove underline */
-  
-}
-.navbar-custom .nav-link {
   margin-left: 25px; /* Menambahkan jarak antar menu */
 }
 
@@ -67,7 +63,6 @@ html {
   color: white;
 }
 
-
 .home-hero-overlay {
   background-color: rgba(0, 0, 0, 0.5); /* Efek gelap transparan */
   height: 100%;
@@ -80,7 +75,6 @@ html {
   margin-bottom: 10px;
   font-weight: 500;
 }
-
 
 .home-description {
   max-width: 600px;
@@ -104,8 +98,34 @@ html {
 }
 
 
-
-
-
-
+/* Responsif Table Styling */
+@media (max-width: 768px) {
+  .table-responsive table th,
+  .table-responsive table td {
+    font-size: 10px;  /* Menurunkan ukuran font lebih kecil */
+    padding: 0.3rem;  /* Mengurangi padding untuk lebih efisien */
+  }
+  
+  /* Mengatur lebar kolom tabel agar lebih kompak pada layar kecil */
+  .table-responsive table th:nth-child(6),
+  .table-responsive table td:nth-child(6) {
+    width: 8%; /* Mempersempit lebar kolom Isha */
+  }
+  .table-responsive table th:nth-child(5),
+  .table-responsive table td:nth-child(5) {
+    width: 13%; /* Mempersempit lebar kolom Maghrib */
+  }
+  .table-responsive table th:nth-child(4),
+  .table-responsive table td:nth-child(4) {
+    width: 13%; /* Mempersempit lebar kolom Ashar */
+  }
+  .table-responsive table th:nth-child(3),
+  .table-responsive table td:nth-child(3) {
+    width: 13%; /* Mempersempit lebar kolom Dzuhur */
+  }
+  .table-responsive table th:nth-child(2),
+  .table-responsive table td:nth-child(2) {
+    width: 13%; /* Mempersempit lebar kolom Subuh */
+  }
+}
 
