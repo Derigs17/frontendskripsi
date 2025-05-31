@@ -189,13 +189,13 @@ const Home = () => {
               {now.toLocaleTimeString('id-ID')}
             </h1>
             <p style={{
-                  fontSize: '20px', 
-                  fontWeight: 'bold', 
-                  textAlign: 'center', 
-                  marginBottom: '10px',
-                  fontFamily: 'Roboto Mono, monospace', // Menggunakan font Roboto Mono
-                  color: '#000'
-                }}>{formatTanggal(now)}</p>
+              fontSize: '20px',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              marginBottom: '10px',
+              fontFamily: 'Roboto Mono, monospace', // Menggunakan font Roboto Mono
+              color: '#000'
+            }}>{formatTanggal(now)}</p>
 
             {jadwal ? (
               <div
@@ -268,138 +268,138 @@ const Home = () => {
       </Container>
 
       {/* Layanan dan Fasilitas Section */}
-<Container className="py-5">
-  <h2 className="text-center mb-4">Layanan dan Fasilitas Masjid</h2>
-  <p className="text-center text-muted mb-4">
-    Kami menyediakan berbagai layanan dan fasilitas untuk kenyamanan Anda beribadah.
-  </p>
+      <Container className="py-5">
+        <h2 className="text-center mb-4">Layanan dan Fasilitas Masjid</h2>
+        <p className="text-center text-muted mb-4">
+          Kami menyediakan berbagai layanan dan fasilitas untuk kenyamanan Anda beribadah.
+        </p>
 
-  <Row className="d-flex flex-wrap justify-content-center gap-4">
-    {/* Area Parkir */}
-    <Col className="service-icon text-center">
-      <img
-        src={parkir}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Area Parkir"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Area Parkir</h5>
-      <p>Area parkir luas dan aman untuk kendaraan Anda, tersedia dekat dengan pintu masuk.</p>
-    </Col>
-    {/* Area Sholat */}
-    <Col className="service-icon text-center">
-      <img
-        src={solat}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Area Sholat"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Sholat Berjamaah</h5>
-      <p>Tempat sholat yang nyaman dan luas untuk berjamaah dengan pengaturan yang rapi.</p>
-    </Col>
-    {/* Area Wudhu */}
-    <Col className="service-icon text-center">
-      <img
-        src={wudhu}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Area Wudhu"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Air Wudhu</h5>
-      <p>Fasilitas wudhu yang bersih dan nyaman untuk memudahkan ibadah Anda.</p>
-    </Col>
-    {/* Infaq */}
-    <Col className="service-icon text-center">
-      <img
-        src={infaq}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Infaq"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Infaq & Sodakoh</h5>
-      <p>Tempat untuk menyalurkan infaq dan sodakoh yang dikelola dengan baik.</p>
-    </Col>
-    {/* Aktifitas */}
-    <Col className="service-icon text-center">
-      <img
-        src={aktifitas}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Aktifitas"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Kegiatan Keagamaan</h5>
-      <p>Berbagai kegiatan keagamaan rutin untuk mendukung spiritualitas jamaah.</p>
-    </Col>
-    {/* Mengaji */}
-    <Col className="service-icon text-center">
-      <img
-        src={mengaji}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Mengaji"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Mengajar Anak Mengaji</h5>
-      <p>Program mengaji untuk anak-anak agar bisa mempelajari Al-Qur'an dengan baik.</p>
-    </Col>
-  </Row>
+        <Row className="d-flex flex-wrap justify-content-center gap-4">
+          {/* Area Parkir */}
+          <Col className="service-icon text-center">
+            <img
+              src={parkir}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Area Parkir"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Area Parkir</h5>
+            <p>Area parkir luas dan aman untuk kendaraan Anda, tersedia dekat dengan pintu masuk.</p>
+          </Col>
+          {/* Area Sholat */}
+          <Col className="service-icon text-center">
+            <img
+              src={solat}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Area Sholat"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Sholat Berjamaah</h5>
+            <p>Tempat sholat yang nyaman dan luas untuk berjamaah dengan pengaturan yang rapi.</p>
+          </Col>
+          {/* Area Wudhu */}
+          <Col className="service-icon text-center">
+            <img
+              src={wudhu}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Area Wudhu"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Air Wudhu</h5>
+            <p>Fasilitas wudhu yang bersih dan nyaman untuk memudahkan ibadah Anda.</p>
+          </Col>
+          {/* Infaq */}
+          <Col className="service-icon text-center">
+            <img
+              src={infaq}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Infaq"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Infaq & Sodakoh</h5>
+            <p>Tempat untuk menyalurkan infaq dan sodakoh yang dikelola dengan baik.</p>
+          </Col>
+          {/* Aktifitas */}
+          <Col className="service-icon text-center">
+            <img
+              src={aktifitas}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Aktifitas"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Kegiatan Keagamaan</h5>
+            <p>Berbagai kegiatan keagamaan rutin untuk mendukung spiritualitas jamaah.</p>
+          </Col>
+          {/* Mengaji */}
+          <Col className="service-icon text-center">
+            <img
+              src={mengaji}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Mengaji"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Mengajar Anak Mengaji</h5>
+            <p>Program mengaji untuk anak-anak agar bisa mempelajari Al-Qur'an dengan baik.</p>
+          </Col>
+        </Row>
 
-  <Row className="d-flex flex-wrap justify-content-center gap-4">
-    {/* Iftar */}
-    <Col className="service-icon text-center">
-      <img
-        src={iftar}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Iftar"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Iftar & Buka Puasa</h5>
-      <p>Menyiapkan hidangan untuk berbuka puasa bagi jamaah setiap hari di bulan Ramadhan.</p>
-    </Col>
-    {/* Zakat */}
-    <Col className="service-icon text-center">
-      <img
-        src={zakat}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Zakat"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Pengelolaan Zakat</h5>
-      <p>Fasilitas pengumpulan dan pendistribusian zakat yang efisien dan aman.</p>
-    </Col>
-    {/* Qurban */}
-    <Col className="service-icon text-center">
-      <img
-        src={qurban}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Qurban"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Qurban Idul Adha</h5>
-      <p>Pelaksanaan ibadah qurban dengan penyaluran yang tepat sasaran setiap tahun.</p>
-    </Col>
-    {/* Itikaf */}
-    <Col className="service-icon text-center">
-      <img
-        src={itikaf}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Itikaf"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Itikaf Bersama</h5>
-      <p>Fasilitas untuk melaksanakan ibadah itikaf dengan nyaman selama bulan Ramadhan.</p>
-    </Col>
-    {/* Tadarus */}
-    <Col className="service-icon text-center">
-      <img
-        src={tadarus}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Tadarus"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Kajian & Tadarus</h5>
-      <p>Program kajian dan tadarus untuk memperdalam ilmu agama dan memahami Al-Qur'an.</p>
-    </Col>
-    {/* Toilet */}
-    <Col className="service-icon text-center">
-      <img
-        src={toilet}  // Menggunakan gambar lokal yang sudah diimpor
-        alt="Toilet"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mt-2">Toilet</h5>
-      <p>Fasilitas toilet yang bersih dan nyaman untuk jamaah.</p>
-    </Col>
-  </Row>
-</Container>
+        <Row className="d-flex flex-wrap justify-content-center gap-4">
+          {/* Iftar */}
+          <Col className="service-icon text-center">
+            <img
+              src={iftar}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Iftar"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Iftar & Buka Puasa</h5>
+            <p>Menyiapkan hidangan untuk berbuka puasa bagi jamaah setiap hari di bulan Ramadhan.</p>
+          </Col>
+          {/* Zakat */}
+          <Col className="service-icon text-center">
+            <img
+              src={zakat}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Zakat"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Pengelolaan Zakat</h5>
+            <p>Fasilitas pengumpulan dan pendistribusian zakat yang efisien dan aman.</p>
+          </Col>
+          {/* Qurban */}
+          <Col className="service-icon text-center">
+            <img
+              src={qurban}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Qurban"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Qurban Idul Adha</h5>
+            <p>Pelaksanaan ibadah qurban dengan penyaluran yang tepat sasaran setiap tahun.</p>
+          </Col>
+          {/* Itikaf */}
+          <Col className="service-icon text-center">
+            <img
+              src={itikaf}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Itikaf"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Itikaf Bersama</h5>
+            <p>Fasilitas untuk melaksanakan ibadah itikaf dengan nyaman selama bulan Ramadhan.</p>
+          </Col>
+          {/* Tadarus */}
+          <Col className="service-icon text-center">
+            <img
+              src={tadarus}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Tadarus"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Kajian & Tadarus</h5>
+            <p>Program kajian dan tadarus untuk memperdalam ilmu agama dan memahami Al-Qur'an.</p>
+          </Col>
+          {/* Toilet */}
+          <Col className="service-icon text-center">
+            <img
+              src={toilet}  // Menggunakan gambar lokal yang sudah diimpor
+              alt="Toilet"
+              style={{ width: '50px', height: '50px' }}
+            />
+            <h5 className="mt-2">Toilet</h5>
+            <p>Fasilitas toilet yang bersih dan nyaman untuk jamaah.</p>
+          </Col>
+        </Row>
+      </Container>
 
 
     </div>

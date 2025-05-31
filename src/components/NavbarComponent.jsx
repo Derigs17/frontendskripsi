@@ -1,66 +1,75 @@
-import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom'; // Gunakan NavLink untuk berpindah halaman
-import logomasjid from '../images/logomasjid.png';
-
-const sections = [
-  { id: 'home', label: 'Home', path: '/' },
-  { id: 'jadwal-sholat', label: 'Waktu Solat', path: '/jadwal-sholat' },
-  { id: 'kegiatan-masjid', label: 'Kegiatan', path: '/kegiatan-masjid' },
-  { id: 'donasi-online', label: 'Donasi', path: '/donasi-online' },
-  { id: 'transparansi-keuangan', label: 'Keuangan', path: '/transparansi-keuangan' },
-];
+import React from 'react';
+import { Navbar, Nav, Container, Button, NavDropdown } from 'react-bootstrap';
+import { NavLink, useLocation } from 'react-router-dom';
+import logomasjid from '../assets/logomasjid.png';
 
 const NavbarComponent = () => {
-  const [, setActiveSection] = useState('home');
+  const location = useLocation();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 150;
-      let currentSection = 'home';
-
-      for (const section of sections) {
-        const el = document.getElementById(section.id);
-        if (el && scrollPosition >= el.offsetTop) {
-          currentSection = section.id;
-        }
-      }
-
-      setActiveSection(currentSection);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Aktifkan dropdown jika route cocok
+  const isJadwalActive = ['/jadwal-sholat', '/jadwal-imam'].includes(location.pathname);
+  const isLaporanActive = ['/laporan-kegiatan', '/laporan-keuangan'].includes(location.pathname);
 
   return (
-    <Navbar expand="lg" className="navbar-custom fixed-top" bg="light">
+    <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary navbar-custom fixed-top ">
       <Container fluid>
-        <Navbar.Brand href="#home">
+        {/* Brand Logo */}
+        <Navbar.Brand as={NavLink} to="/" className="ms-0 d-flex align-items-center">
           <img
             src={logomasjid}
             alt="Logo Masjid"
-            style={{ width: '50px', marginRight: '15px' }}
+            style={{ width: '40px', marginRight: '10px', marginLeft: '20px' }}
           />
-          Masjid At-Taqwa
+          <span className="">Masjid At-Taqwa</span>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav className="mx-auto">
-            {sections.map((section) => (
-              <NavLink
-                key={section.id}
-                to={section.path}  // Menggunakan 'to' untuk navigasi ke halaman yang berbeda
-                className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
-              >
-                {section.label}
-              </NavLink>
-            ))}
+
+        {/* Toggle Button */}
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+
+        {/* Menu */}
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mx-auto me-auto ps-5 gap-3 "  >
+            <Nav.Link as={NavLink} to="/" end>
+              Home
+            </Nav.Link>
+
+            {/* Dropdown Jadwal */}
+            <NavDropdown
+              title="Jadwal"
+              id="jadwal-dropdown"
+              className={isJadwalActive ? 'active text-warning' : ''}
+            >
+              <NavDropdown.Item as={NavLink} to="/jadwal-sholat">
+                Jadwal Sholat
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/jadwal-imam">
+                Jadwal Imam
+              </NavDropdown.Item>
+            </NavDropdown>
+
+            {/* Dropdown Laporan */}
+            <NavDropdown
+              title="Laporan"
+              id="laporan-dropdown"
+              className={isLaporanActive ? 'active text-warning' : ''}
+            >
+              <NavDropdown.Item as={NavLink} to="/laporan-kegiatan">
+                Laporan Kegiatan
+              </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to="/laporan-keuangan">
+                Laporan Keuangan
+              </NavDropdown.Item>
+            </NavDropdown>
+
+            <Nav.Link as={NavLink} to="/peminjaman-inventaris">
+              Peminjaman Inventaris
+            </Nav.Link>
           </Nav>
-          <Button variant="warning" className="btn-masuk">
-            Masuk
-          </Button>
+
+          {/* Tombol Masuk */}
+          <Nav className="ms-4 " style={{ marginRight: '20px', }}>
+            <Button variant="warning" className="btn-masuk" >Masuk</Button>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

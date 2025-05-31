@@ -2,12 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import NavbarComponent from './components/NavbarComponent';
+import FooterComponent from './components/FooterComponent';
+
 import Home from './pages/Home';
 import JadwalSholat from './pages/JadwalSholat';
-import KegiatanMasjid from './pages/KegiatanMasjid';
-import DonasiOnline from './pages/DonasiOnline';
-import TransparansiKeuangan from './pages/TransparansiKeuangan';
-import FooterComponent from './components/FooterComponent';
+import JadwalImam from './pages/JadwalImam';
+import LaporanKegiatan from './pages/LaporanKegiatan';
+import LaporanKeuangan from './pages/LaporanKeuangan';
+import PeminjamanInventaris from './pages/PeminjamanInventaris';
 
 function App() {
   return (
@@ -16,9 +18,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/jadwal-sholat" element={<JadwalSholat />} />
-        <Route path="/kegiatan-masjid" element={<KegiatanMasjid />} />
-        <Route path="/donasi-online" element={<DonasiOnline />} />
-        <Route path="/transparansi-keuangan" element={<TransparansiKeuangan />} />
+        <Route path="/jadwal-imam" element={<JadwalImam />} />
+        <Route path="/laporan-kegiatan" element={<LaporanKegiatan />} />
+        <Route path="/laporan-keuangan" element={<LaporanKeuangan />} />
+        <Route path="/peminjaman-inventaris" element={<PeminjamanInventaris />} />
       </Routes>
       <FooterComponent />
     </Router>

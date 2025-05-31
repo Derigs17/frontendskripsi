@@ -21,37 +21,40 @@ html {
   }
 }
 
-/* Styling navbar */
-.navbar-custom .nav-link {
-  color: #000; /* Default color for links */
-  text-decoration: none; /* Remove underline */
-  margin-left: 25px; /* Menambahkan jarak antar menu */
-}
-
 .navbar-custom {
-  background-color: #FFFFE7; /* Warna putih */
+  background-color: #fffffe !important;
 }
 
-.navbar-custom .nav-link.active {
-  color: #FDC921 !important; /* Yellow color for active link */
+.navbar-custom .nav-link,
+.navbar-custom .dropdown-item {
+  color: #000;
+  font-weight: 400;
 }
 
-.navbar-custom .nav-link:hover {
-  color: #FDC921; /* Yellow color on hover */
+.navbar-custom .nav-link.active,
+.navbar-custom .dropdown-item.active {
+  color: #FDC921 !important;
+}
+
+.navbar-custom .nav-link:hover,
+.navbar-custom .dropdown-item:hover {
+  color: #FDC921;
 }
 
 .navbar-custom .btn-masuk {
-  margin-right: 20px;
-  padding: 10px 10px;
-  color: rgb(0, 0, 0);
-  background-color: #FDC921 !important; /* Yellow color for the button */
+  color: #000;
+  background-color: #FDC921 !important;
   border-color: #FDC921;
+  font-weight: 400;
 }
 
 .navbar-custom .btn-masuk:hover {
-  background-color: #e6a800; /* Darker yellow on hover */
+  background-color: #e6a800 !important;
   border-color: #e6a800;
 }
+
+
+
 
 /* HOME HERO STYLING */
 .home-hero {

@@ -1,0 +1,5 @@
+jadwal sholat, jadwal khatib dan imam shalat jumat
+zakat
+peminjaman inventaris
+jadwal sholat digital, pengumuman kegiatan masjid, peminjaman inventaris masjid, serta penyebaran informasi secara real-time kepada jamaah.
+D:\skripsi\website\masid-ataqwa\frontend\index.html
