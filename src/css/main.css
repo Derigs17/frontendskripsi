@@ -297,6 +297,18 @@ html, body, #root {
     grid-template-columns: 1fr;
   }
 }
+
+/* admin layout css */
+
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
 /* Sidebar Styling for Admin Layout */
 .admin-wrapper .sidebar {
   width: 250px;
@@ -309,6 +321,13 @@ html, body, #root {
   top: 0;
   left: 0;
   font-family: 'Poppins', sans-serif;
+  transition: width 0.3s ease;
+  z-index: 100;
+}
+
+.admin-wrapper.collapsed .sidebar {
+  width: 60px;  /* Sidebar mengecil saat collapse */
+  background-color: #fff;
 }
 
 .admin-wrapper .sidebar h2 {
@@ -316,6 +335,11 @@ html, body, #root {
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
   font-weight: bold;
+  transition: opacity 0.3s ease;
+}
+
+.admin-wrapper.collapsed .sidebar h2 {
+  opacity: 0;  /* Hide title when collapsed */
 }
 
 .admin-wrapper .sidebar ul {
@@ -324,6 +348,7 @@ html, body, #root {
   margin-top: 2rem;
 }
 
+/* Menyembunyikan teks saat sidebar collapse */
 .admin-wrapper .sidebar a {
   color: #333;
   text-decoration: none;
@@ -331,16 +356,25 @@ html, body, #root {
   padding: 10px 15px;
   display: block;
   border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s, font-size 0.3s;
   font-size: 1.1rem;
+  white-space: nowrap;  /* Mencegah teks untuk wrap */
+  overflow: hidden;
+  text-overflow: ellipsis;  /* Menambahkan elipsis (...) saat teks tidak muat */
 }
 
-/* Active Link (Menu Aktif) */
+/* Atur ukuran font ketika sidebar ter-collapse */
+.admin-wrapper.collapsed .sidebar a {
+  font-size: 0.9rem;  /* Menyesuaikan ukuran font ketika sidebar kecil */
+  padding: 10px 5px;  /* Mengurangi padding supaya lebih rapat */
+}
+
+/* Active Link */
 .admin-wrapper .sidebar a.active {
-  background-color: #FDC921;  /* Highlight active menu with yellow background */
+  background-color: #FDC921;
   color: black;
-  font-weight: semibold;  /* Make active menu bold */
-  border-bottom: 3px solid #FDC921;  /* Optional underline effect */
+  font-weight: semibold;
+  border-bottom: 3px solid #FDC921;
 }
 
 /* Hover Effect */
@@ -349,14 +383,38 @@ html, body, #root {
   color: black;
 }
 
+/* Main Content */
 .admin-wrapper .main-content {
   margin-left: 250px;
   padding: 20px;
   background-color: #f9f9f9;
-  transition: margin-left 0.3s;
+  transition: margin-left 0.3s ease;
 }
 
-/* Mobile Responsive */
+.admin-wrapper.collapsed .main-content {
+  margin-left: 60px;
+}
+
+/* Hamburger Toggle Button */
+.toggle-btn {
+  position: fixed;
+  top: 15px;
+  left: 260px;
+  background-color: #FDC921;
+  color: black;
+  border: none;
+  padding: 8px 12px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 200;
+  transition: left 0.3s;
+}
+
+.admin-wrapper.collapsed .toggle-btn {
+  left: 70px; /* Geser tombol saat collapsed */
+}
+
+/* Mobile responsive */
 @media (max-width: 768px) {
   .admin-wrapper {
     flex-direction: column;
@@ -372,5 +430,9 @@ html, body, #root {
   .admin-wrapper .main-content {
     margin-left: 0;
     padding: 15px;
+  }
+
+  .toggle-btn {
+    left: 10px;
   }
 }
