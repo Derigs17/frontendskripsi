@@ -9,13 +9,19 @@ html {
 
 html, body, #root {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-main {
-  flex: 1 0 auto;
+.layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-
+.main-content {
+  flex: 1;
+}
 
 /* Scroll Behavior */
 @media (max-width: 768px) {
@@ -47,8 +53,7 @@ main {
   flex-grow: 1;
 }
 
-
-
+/* Navbar Styling */
 .navbar-custom {
   background-color: #eeeeee !important;
 }
@@ -81,12 +86,9 @@ main {
   border-color: #e6a800;
 }
 
-
-
-
 /* HOME HERO STYLING */
 .home-hero {
-  background-size: cover; /* Gambar akan disesuaikan dengan ukuran elemen */
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   height: 90vh;
@@ -95,7 +97,7 @@ main {
 }
 
 .home-hero-overlay {
-  background-color: rgba(0, 0, 0, 0.5); /* Efek gelap transparan */
+  background-color: rgba(0, 0, 0, 0.5);
   height: 100%;
   display: flex;
   align-items: center;
@@ -128,38 +130,37 @@ main {
   color: black;
 }
 
-
 /* Responsif Table Styling */
 @media (max-width: 768px) {
   .table-responsive table th,
   .table-responsive table td {
-    font-size: 10px;  /* Menurunkan ukuran font lebih kecil */
-    padding: 0.3rem;  /* Mengurangi padding untuk lebih efisien */
+    font-size: 10px;
+    padding: 0.3rem;
   }
-  
-  /* Mengatur lebar kolom tabel agar lebih kompak pada layar kecil */
+
   .table-responsive table th:nth-child(6),
   .table-responsive table td:nth-child(6) {
-    width: 8%; /* Mempersempit lebar kolom Isha */
+    width: 8%;
   }
   .table-responsive table th:nth-child(5),
   .table-responsive table td:nth-child(5) {
-    width: 13%; /* Mempersempit lebar kolom Maghrib */
+    width: 13%;
   }
   .table-responsive table th:nth-child(4),
   .table-responsive table td:nth-child(4) {
-    width: 13%; /* Mempersempit lebar kolom Ashar */
+    width: 13%;
   }
   .table-responsive table th:nth-child(3),
   .table-responsive table td:nth-child(3) {
-    width: 13%; /* Mempersempit lebar kolom Dzuhur */
+    width: 13%;
   }
   .table-responsive table th:nth-child(2),
   .table-responsive table td:nth-child(2) {
-    width: 13%; /* Mempersempit lebar kolom Subuh */
+    width: 13%;
   }
 }
 
+/* Tabel Laporan dan Jadwal */
 @media (max-width: 768px) {
   .table-laporan th:first-child,
   .table-laporan td:first-child {
@@ -173,8 +174,8 @@ main {
   }
 }
 
+/* Tabel Jadwal pada tampilan kecil */
 @media (max-width: 768px) {
-  /* Kolom tanggal jangan terlalu lebar */
   .table-jadwal th:first-child,
   .table-jadwal td:first-child {
     min-width: 120px;
@@ -185,7 +186,6 @@ main {
     padding: 0.4rem 0.5rem;
   }
 
-  /* Kolom lain biar enakan juga */
   .table-jadwal td,
   .table-jadwal th {
     font-size: 12px;
@@ -193,6 +193,7 @@ main {
   }
 }
 
+/* Tabel Riwayat dengan kolom lebih fleksibel */
 @media (max-width: 768px) {
   .table-riwayat th:first-child,
   .table-riwayat td:first-child {
@@ -206,7 +207,6 @@ main {
     padding: 0.3rem 0.4rem;
   }
 
-  /* Kolom Barang biar fleksibel */
   .table-riwayat td:nth-child(2),
   .table-riwayat th:nth-child(2) {
     word-break: break-word;
@@ -217,5 +217,160 @@ main {
   .table-riwayat td {
     font-size: 12px;
     padding: 0.4rem 0.6rem;
+  }
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.dashboard-welcome p {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #666;
+}
+
+/* Flexbox Grid for Cards */
+.dashboard-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Styling for Each Dashboard Card */
+.dashboard-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.dashboard-card p {
+  font-size: 1rem;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-dashboard {
+  background-color: #FDC921;
+  border: none;
+  color: black;
+  padding: 12px 25px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-dashboard:hover {
+  background-color: #e6a800;
+  transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+  .dashboard-links {
+    grid-template-columns: 1fr;
+  }
+}
+/* Sidebar Styling for Admin Layout */
+.admin-wrapper .sidebar {
+  width: 250px;
+  background-color: #fff;
+  color: #333;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.admin-wrapper .sidebar h2 {
+  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.admin-wrapper .sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+
+.admin-wrapper .sidebar a {
+  color: #333;
+  text-decoration: none;
+  margin: 10px 0;
+  padding: 10px 15px;
+  display: block;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 1.1rem;
+}
+
+/* Active Link (Menu Aktif) */
+.admin-wrapper .sidebar a.active {
+  background-color: #FDC921;  /* Highlight active menu with yellow background */
+  color: black;
+  font-weight: semibold;  /* Make active menu bold */
+  border-bottom: 3px solid #FDC921;  /* Optional underline effect */
+}
+
+/* Hover Effect */
+.admin-wrapper .sidebar a:hover {
+  background-color: #FDC921;
+  color: black;
+}
+
+.admin-wrapper .main-content {
+  margin-left: 250px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  transition: margin-left 0.3s;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .admin-wrapper {
+    flex-direction: column;
+  }
+
+  .admin-wrapper .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-shadow: none;
+  }
+
+  .admin-wrapper .main-content {
+    margin-left: 0;
+    padding: 15px;
   }
 }
