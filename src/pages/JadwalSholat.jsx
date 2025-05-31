@@ -43,7 +43,7 @@ const JadwalSholat = () => {
   }, []); // Hanya dijalankan sekali saat komponen pertama kali dimuat
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-3">
       <Row>
         <Col>
           <Card>

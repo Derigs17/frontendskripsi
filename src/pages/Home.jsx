@@ -58,7 +58,7 @@ const Home = () => {
           backgroundImage: `url(${bgmasjid})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          height: '90vh',
+          height: '100vh',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',  // Menjaga konten tetap di tengah

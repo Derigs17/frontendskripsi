@@ -28,7 +28,7 @@ const NavbarComponent = () => {
 
         {/* Menu */}
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mx-auto me-auto ps-5 gap-3 "  >
+          <Nav className="mx-auto me-auto ps-5 gap-3 my-2"  >
             <Nav.Link as={NavLink} to="/" end>
               Home
             </Nav.Link>
@@ -61,13 +61,13 @@ const NavbarComponent = () => {
               </NavDropdown.Item>
             </NavDropdown>
 
-            <Nav.Link as={NavLink} to="/peminjaman-inventaris">
+            <Nav.Link as={NavLink} to="/peminjaman-inventaris" className=''>
               Peminjaman Inventaris
             </Nav.Link>
           </Nav>
 
           {/* Tombol Masuk */}
-          <Nav className="ms-4 " style={{ marginRight: '20px', }}>
+          <Nav className="ms-4 gap-3" style={{ marginRight: '20px', }}>
             <Button variant="warning" className="btn-masuk" >Masuk</Button>
           </Nav>
         </Navbar.Collapse>
