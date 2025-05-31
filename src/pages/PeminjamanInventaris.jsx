@@ -187,7 +187,7 @@ const PeminjamanInventaris = () => {
         {riwayat.length > 0 && (
           <div className="mt-5">
             <h5>Riwayat Peminjaman (sementara)</h5>
-            <Table striped bordered hover responsive>
+            <Table striped bordered hover responsive className="table-riwayat">
               <thead>
                 <tr>
                   <th>Nama</th>
@@ -200,7 +200,7 @@ const PeminjamanInventaris = () => {
               <tbody>
                 {riwayat.map((entry, idx) => (
                   <tr key={idx}>
-                    <td style={{maxWidth:'150px'}}>{entry.nama}</td>
+                    <td >{entry.nama}</td>
                     <td>{entry.barang.join(', ')}</td>
                     <td>{entry.tglMulai}</td>
                     <td>{entry.tglSelesai}</td>

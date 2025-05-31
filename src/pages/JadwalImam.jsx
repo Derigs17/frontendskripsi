@@ -56,7 +56,7 @@ const JadwalImam = () => {
         <h5 className="text-center mb-3">{bulanLabel} {tahunLabel}</h5>
 
         <div style={{ overflowX: 'auto' }}>
-          <Table striped bordered hover responsive>
+          <Table striped bordered hover responsive className="table-jadwal">
             <thead>
               <tr>
                 <th>Tanggal</th>

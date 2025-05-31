@@ -160,3 +160,62 @@ main {
   }
 }
 
+@media (max-width: 768px) {
+  .table-laporan th:first-child,
+  .table-laporan td:first-child {
+    min-width: 40px;
+    max-width: 50px;
+    width: 1%;
+    white-space: nowrap;
+    text-align: center;
+    padding: 0.3rem 0.5rem;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Kolom tanggal jangan terlalu lebar */
+  .table-jadwal th:first-child,
+  .table-jadwal td:first-child {
+    min-width: 120px;
+    max-width: 150px;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 12px;
+    padding: 0.4rem 0.5rem;
+  }
+
+  /* Kolom lain biar enakan juga */
+  .table-jadwal td,
+  .table-jadwal th {
+    font-size: 12px;
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-riwayat th:first-child,
+  .table-riwayat td:first-child {
+    min-width: 50px;
+    max-width: 100px;
+    width: 1%;
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    font-size: 12px;
+    padding: 0.3rem 0.4rem;
+  }
+
+  /* Kolom Barang biar fleksibel */
+  .table-riwayat td:nth-child(2),
+  .table-riwayat th:nth-child(2) {
+    word-break: break-word;
+    white-space: normal;
+  }
+
+  .table-riwayat th,
+  .table-riwayat td {
+    font-size: 12px;
+    padding: 0.4rem 0.6rem;
+  }
+}
