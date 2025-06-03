@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Row, Col, Alert, Table } from 'react-bootstrap';
-import axios from 'axios';  // Import axios untuk HTTP request
+import axios from 'axios';
 
 const inventarisList = ['Tenda', 'Keranda', 'Kursi', 'Meja', 'Sound System', 'Kipas Angin', 'Proyektor'];
 
@@ -13,77 +13,90 @@ const PeminjamanInventaris = () => {
     keperluan: '',
   });
 
-  const [riwayat, setRiwayat] = useState([]);
+  const [riwayat, setRiwayat] = useState([]); // Data riwayat yang disetujui/ditolak
   const [alert, setAlert] = useState({ show: false, type: '', message: '' });
+
+  // Ambil riwayat peminjaman berdasarkan email pengguna yang login
+  useEffect(() => {
+    const email = localStorage.getItem('loggedInUserEmail');
+    if (email) {
+      axios.get(`http://localhost:8001/getRiwayatPeminjaman/${email}`)
+        .then(response => {
+          // Urutkan data berdasarkan id (id terbesar di atas)
+          const sortedData = response.data.sort((a, b) => b.id - a.id);
+          setRiwayat(sortedData);
+        })
+        .catch(error => {
+          console.error('Error fetching riwayat peminjaman:', error);
+        });
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
- // Pada bagian handleSubmit di frontend
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  // Ambil email dari localStorage
-  const email = localStorage.getItem('loggedInUserEmail');
+    const email = localStorage.getItem('loggedInUserEmail');
 
-  // Validasi tanggal dan barang
-  if (new Date(formData.tglSelesai) < new Date(formData.tglMulai)) {
-    setAlert({
-      show: true,
-      type: 'danger',
-      message: 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai.',
+    // Validasi tanggal dan barang
+    if (new Date(formData.tglSelesai) < new Date(formData.tglMulai)) {
+      setAlert({
+        show: true,
+        type: 'danger',
+        message: 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai.',
+      });
+      return;
+    }
+
+    if (formData.barang.length === 0) {
+      setAlert({
+        show: true,
+        type: 'danger',
+        message: 'Silakan pilih minimal satu barang.',
+      });
+      return;
+    }
+
+    // Konversi barang menjadi string yang dipisahkan dengan koma
+    const barangString = formData.barang.join(',');
+
+    // Kirim data peminjaman ke server, termasuk email dan barang yang sudah diubah menjadi string
+    axios.post('http://localhost:8001/submitPeminjaman', {
+      email: email, // Kirim email yang diambil dari localStorage
+      ...formData,  // Kirim data form lainnya
+      barang: barangString // Kirim barang dalam format string
+    })
+    .then((response) => {
+      setAlert({
+        show: true,
+        type: 'success',
+        message: response.data.message,
+      });
+
+      // Simpan riwayat peminjaman
+      setRiwayat(prev => [{ ...formData, status: 'Menunggu' }, ...prev]);
+
+      // Reset form data
+      setFormData({
+        nama: '',
+        barang: [],
+        tglMulai: '',
+        tglSelesai: '',
+        keperluan: '',
+      });
+    })
+    .catch((error) => {
+      setAlert({
+        show: true,
+        type: 'danger',
+        message: 'Terjadi kesalahan saat mengajukan peminjaman.',
+      });
     });
-    return;
-  }
-
-  if (formData.barang.length === 0) {
-    setAlert({
-      show: true,
-      type: 'danger',
-      message: 'Silakan pilih minimal satu barang.',
-    });
-    return;
-  }
-
-  // Konversi barang menjadi string yang dipisahkan dengan koma
-  const barangString = formData.barang.join(',');
-
-  // Kirim data peminjaman ke server, termasuk email dan barang yang sudah diubah menjadi string
-  axios.post('http://localhost:8001/submitPeminjaman', {
-    email: email, // Kirim email yang diambil dari localStorage
-    ...formData,  // Kirim data form lainnya
-    barang: barangString // Kirim barang dalam format string
-  })
-  .then((response) => {
-    setAlert({
-      show: true,
-      type: 'success',
-      message: response.data.message,
-    });
-
-    // Simpan riwayat peminjaman
-    setRiwayat(prev => [...prev, formData]);
-
-    // Reset form data
-    setFormData({
-      nama: '',
-      barang: [],
-      tglMulai: '',
-      tglSelesai: '',
-      keperluan: '',
-    });
-  })
-  .catch((error) => {
-    setAlert({
-      show: true,
-      type: 'danger',
-      message: 'Terjadi kesalahan saat mengajukan peminjaman.',
-    });
-  });
-};
-
+  };
 
   return (
     <div className="page-content">
@@ -211,33 +224,63 @@ const handleSubmit = (e) => {
           </div>
         </Form>
 
-        {riwayat.length > 0 && (
-          <div className="mt-5">
-            <h5>Riwayat Peminjaman (sementara)</h5>
-            <Table striped bordered hover responsive className="table-riwayat">
-              <thead>
-                <tr>
-                  <th>Nama</th>
-                  <th>Barang</th>
-                  <th>Tgl Mulai</th>
-                  <th>Tgl Selesai</th>
-                  <th>Keperluan</th>
-                </tr>
-              </thead>
-              <tbody>
-                {riwayat.map((entry, idx) => (
-                  <tr key={idx}>
-                    <td>{entry.nama}</td>
-                    <td>{entry.barang.join(', ')}</td>
-                    <td>{entry.tglMulai}</td>
-                    <td>{entry.tglSelesai}</td>
-                    <td>{entry.keperluan}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
-        )}
+        {/* Tabel Peminjaman Inventaris (Menunggu) */}
+        <h4>Peminjaman Menunggu Persetujuan</h4>
+        <Table striped bordered hover responsive>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+              <th>Barang</th>
+              <th>Tanggal Mulai</th>
+              <th>Tanggal Selesai</th>
+              <th>Keperluan</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {riwayat.filter(pinjam => pinjam.status === 'Menunggu').map((pinjam, index) => (
+              <tr key={pinjam.id}>
+                <td>{index + 1}</td>
+                <td>{pinjam.nama}</td>
+                <td>{pinjam.barang}</td>
+                <td>{new Date(pinjam.tgl_mulai).toLocaleString()}</td>
+                <td>{new Date(pinjam.tgl_selesai).toLocaleString()}</td>
+                <td>{pinjam.keperluan}</td>
+                <td>{pinjam.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+
+        {/* Tabel Riwayat Peminjaman */}
+        <h4>Riwayat Peminjaman</h4>
+        <Table striped bordered hover responsive>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+              <th>Barang</th>
+              <th>Tanggal Mulai</th>
+              <th>Tanggal Selesai</th>
+              <th>Keperluan</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {riwayat.filter(pinjam => pinjam.status !== 'Menunggu').map((pinjam, index) => (
+              <tr key={pinjam.id}>
+                <td>{index + 1}</td>
+                <td>{pinjam.nama}</td>
+                <td>{pinjam.barang}</td>
+                <td>{new Date(pinjam.tgl_mulai).toLocaleString()}</td>
+                <td>{new Date(pinjam.tgl_selesai).toLocaleString()}</td>
+                <td>{pinjam.keperluan}</td>
+                <td>{pinjam.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </Container>
     </div>
   );
