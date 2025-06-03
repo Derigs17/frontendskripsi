@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';  // Import Link
 
 const AdminLayout = () => {
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+
+  // Pengecekan login status ketika pertama kali halaman di-render
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const userRole = localStorage.getItem('userRole'); // Pastikan menyimpan role setelah login
+
+    // Jika belum login atau bukan admin, arahkan ke halaman login
+    if (isLoggedIn !== 'IsLogin' || userRole !== 'admin') {
+      navigate('/login'); // Redirect ke halaman login
+    }
+  }, [navigate]);
 
   // Toggle untuk sidebar
   const toggleSidebar = () => {
@@ -79,7 +91,6 @@ const AdminLayout = () => {
               User Management
             </Link>
           </li>
-
         </ul>
       </div>
 

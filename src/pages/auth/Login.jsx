@@ -11,34 +11,35 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    // Kirim data login ke backend menggunakan axios
-    axios
-      .post('http://localhost:8001/login', {  // Pastikan URL benar
-        email: email,
-        password: password,
-      })
-      .then((response) => {
-        if (response.data.message === 'Login successful') {
-          // Menyimpan email pengguna di localStorage
-          localStorage.setItem('loggedInUserEmail', response.data.user.email);
-          localStorage.setItem('isLoggedIn', 'IsLogin'); // Menyimpan status login
+  // Kirim data login ke backend menggunakan axios
+  axios
+    .post('http://localhost:8001/login', {  // Pastikan URL benar
+      email: email,
+      password: password,
+    })
+    .then((response) => {
+      if (response.data.message === 'Login successful') {
+        // Menyimpan email pengguna dan role di localStorage
+        localStorage.setItem('loggedInUserEmail', response.data.user.email);
+        localStorage.setItem('isLoggedIn', 'IsLogin'); // Menyimpan status login
+        localStorage.setItem('userRole', response.data.user.role); // Menyimpan role
 
-          // Jika user adalah admin, arahkan ke dashboard admin
-          if (response.data.user.email === 'admin@example.com') {
-            navigate('/admin/dashboard');
-          } else {
-            navigate('/profile');  // Arahkan ke halaman profil pengguna setelah login
-          }
+        // Jika user adalah admin, arahkan ke dashboard admin
+        if (response.data.user.role === 'admin') {
+          navigate('/admin/dashboard');  // Arahkan ke dashboard admin
         } else {
-          alert('Email atau password salah!');
+          navigate('/profile');  // Arahkan ke halaman profil pengguna setelah login
         }
-      })
-      .catch((error) => {
-        console.error('Login failed:', error);
-        alert('Terjadi kesalahan saat login. Coba lagi.');
-      });
+      } else {
+        alert('Email atau password salah!');
+      }
+    })
+    .catch((error) => {
+      console.error('Login gagal:', error);
+      alert('Terjadi kesalahan saat login. Coba lagi.');
+    });
 };
 
 
