@@ -12,6 +12,7 @@ import JadwalImam from './pages/user/JadwalImam';
 import LaporanKegiatan from './pages/user/LaporanKegiatan';
 import LaporanKeuangan from './pages/user/LaporanKeuangan';
 import PeminjamanInventaris from './pages/user/PeminjamanInventaris';
+import UserProfile from './pages/user/UserProfile'; // Import User Profile
 
 // Pages (Admin)
 import Dashboard from './pages/admin/Dashboard';
@@ -39,6 +40,8 @@ function App() {
           <Route path="laporan-kegiatan" element={<LaporanKegiatan />} />
           <Route path="laporan-keuangan" element={<LaporanKeuangan />} />
           <Route path="peminjaman-inventaris" element={<PeminjamanInventaris />} />
+          <Route path="profile" element={<UserProfile />} />
+
         </Route>
 
         {/* ROUTE UNTUK ADMIN */}

@@ -16,7 +16,7 @@ const Register = () => {
 
     // Send the registration data to backend using axios
     axios
-      .post('http://127.0.0.1:8000/register', {
+      .post('http://localhost:8001/register', {  // URL disesuaikan dengan backend Anda (port 8001)
         nama: nama,
         email: email,
         password: password,

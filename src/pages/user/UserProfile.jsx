@@ -1,9 +1,7 @@
-
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
-import fotoprofile from '../../images/fotoprofile.png';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Untuk navigasi setelah logout atau login
 
 function UserProfile() {
   const [userData, setUserData] = useState({
@@ -11,43 +9,34 @@ function UserProfile() {
     email: '',
     password: ''
   });
-  const [loginStatus, setLoginStatus] = useState('');
-
+  const [showModal, setShowModal] = useState(false); // State untuk modal login
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [modifiedUserData, setModifiedUserData] = useState({});
-  const [originalUserData, setOriginalUserData] = useState({});
+  const [isEditing, setIsEditing] = useState(false); // Menandakan apakah sedang dalam mode edit
+  const navigate = useNavigate(); // Hook untuk melakukan navigasi
 
-
+  // Cek status login dan ambil data profil jika sudah login
   useEffect(() => {
     const fetchData = async () => {
-      await checkLoginStatus();
-      if (loginStatus === 'Success') {
-        await fetchUserProfile();
+      const email = localStorage.getItem('loggedInUserEmail');
+      const isLoggedIn = localStorage.getItem('isLoggedIn');
+
+      // Cek apakah pengguna sudah login atau belum
+      if (!email || isLoggedIn !== 'IsLogin') {
+        setShowModal(true); // Tampilkan modal jika belum login
+      } else {
+        await fetchUserProfile(email); // Ambil data profil pengguna jika sudah login
       }
     };
 
     fetchData();
-  }, [loginStatus]);
-  const checkLoginStatus = async () => {
-    try {
-      const response = await axios.post('http://localhost:8001/check-login', {
-        email: localStorage.getItem('loggedInUserEmail'),
-      });
-      setLoginStatus(response.data);
-    } catch (error) {
-      console.error('Error checking login status:', error);
-    }
-  };
+  }, [navigate]);
 
-  const fetchUserProfile = async () => {
+  // Fungsi untuk mengambil data profil pengguna berdasarkan email
+  const fetchUserProfile = async (email) => {
     try {
-      const userEmail = localStorage.getItem('loggedInUserEmail');
-      const response = await axios.get(`http://localhost:8001/getUserProfile/${encodeURIComponent(userEmail)}`);
-
+      const response = await axios.get(`http://localhost:8001/getUserProfile/${encodeURIComponent(email)}`);
       if (response.data) {
         setUserData(response.data);
-        setOriginalUserData(response.data); 
-        console.log('Fetched user data:', response.data);
       } else {
         console.error('Empty user data response');
       }
@@ -56,127 +45,86 @@ function UserProfile() {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      [name]: value
-    }));
-  };
-
-  const [showLogoutConfirmationModal, setShowLogoutConfirmationModal] = useState(false);
-
+  // Fungsi untuk logout
   const handleLogout = async () => {
-    setShowLogoutConfirmationModal(true);
-  };
-
-  const handleLogoutConfirmed = async () => {
     try {
-      await axios.post('http://localhost:8001/logout', {
-        email: localStorage.getItem('loggedInUserEmail'),
-      });
+      const email = localStorage.getItem('loggedInUserEmail');
+      await axios.post('http://localhost:8001/logout', { email });
 
+      // Menghapus data login di localStorage dan mengarahkan ke halaman login
       localStorage.removeItem('loggedInUserEmail');
-      window.location.href = '/Login';
+      localStorage.removeItem('isLoggedIn');
+      navigate('/login');
     } catch (error) {
       console.error('Error during logout:', error);
     }
   };
 
-  const handleLogoutCancel = () => {
-    setShowLogoutConfirmationModal(false);
-  };
-
-
-
+  // Fungsi untuk menyimpan perubahan data profil
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    const userEmail = localStorage.getItem('loggedInUserEmail');
+    // eslint-disable-next-line no-unused-vars
     const updatedUserData = {
       name: userData.name,
       email: userData.email,
       password: userData.password,
     };
 
-    setModifiedUserData(updatedUserData);
-
-
     setShowConfirmationModal(true);
   };
+
+  // Fungsi untuk mengonfirmasi perubahan data profil
   const handleSaveConfirmed = async () => {
     try {
-      const userEmail = localStorage.getItem('loggedInUserEmail');
-      const updatedUserData = {
-        name: userData.name,
-        email: userData.email,
-        password: userData.password,
-      };
+      const email = localStorage.getItem('loggedInUserEmail');
+      await axios.post(`http://localhost:8001/updateUserProfile/${encodeURIComponent(email)}`, userData);
 
-      await axios.post(`http://localhost:8001/updateUserProfile/${encodeURIComponent(userEmail)}`, updatedUserData);
-
-      console.log('User data updated successfully:', updatedUserData);
+      console.log('User data updated successfully:', userData);
+      setIsEditing(false); // Set mode edit ke false setelah simpan
       setShowConfirmationModal(false);
-      setModifiedUserData({});
     } catch (error) {
       console.error('Error updating user profile:', error);
     }
   };
 
+  // Fungsi untuk membatalkan perubahan
   const handleCancel = () => {
-    setUserData(originalUserData);
+    setIsEditing(false); // Set mode edit ke false jika cancel
     setShowConfirmationModal(false);
-    setModifiedUserData({});
   };
 
+  // Fungsi untuk menutup modal login dan tetap di home
+  const handleCloseModal = () => {
+    setShowModal(false); // Tutup modal login
+    navigate('/'); // Arahkan ke halaman home, bukan login
+  };
 
+  // Fungsi untuk login, setelah login mengarahkannya ke halaman login
+  const handleLoginRedirect = () => {
+    setShowModal(false); // Tutup modal login
+    navigate('/login'); // Arahkan ke halaman login
+  };
 
   return (
     <>
-      {loginStatus === 'Success' ? (
-        <Container className='mt-5 mb-5'>
-          <Row>
-            <Col className='foto-profile text-center' xs={{ order: 1, span: 12 }} md={{ order: 1, span: 6 }}>
-              <img src={fotoprofile} alt="fotoprofile" />
-              <div className='center mt-2'>
-                <Button className='mx-4 mt-4' id='button-edit' variant="success">
-                  Edit
-                </Button>
-                <Button className='mx-4 mt-4' id='button-logout' variant="success" onClick={handleLogout}>
-                  Logout
-                </Button>
-
-                <Modal show={showLogoutConfirmationModal} onHide={handleLogoutCancel}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Confirmation</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    Apakah Kamu yakin ingin Logout dari akun?
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="secondary" onClick={handleLogoutCancel}>
-                      Cancel
-                    </Button>
-                    <Button variant="success" onClick={handleLogoutConfirmed}>
-                      Logout
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
-
-              </div>
-            </Col>
-            <Col className='isi-form pt-5' xs={{ order: 2, span: 12 }} md={{ order: 2, span: 6 }}>
-              <div className='col-md-10'>
-                <div id='form-profile' className='container2'>
-                  <h5 className='mb-4'>Account Setting</h5>
+      {/* Halaman Profil jika sudah login */}
+      <Container className='mt-5 mb-5'>
+        <Row className='justify-content-center'>
+          <Col className='isi-form' xs={{ order: 2, span: 12 }} md={{ order: 2, span: 6 }}>
+            <div className='col-md-10'>
+              <div id='form-profile' className='container2'>
+                <h5 className='mb-4'>Account Settings</h5>
+                
+                <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-4">
                     <Form.Control
                       type="text"
                       placeholder="Name"
                       name="name"
                       value={userData.name}
-                      onChange={handleChange}
+                      onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+                      disabled={!isEditing} // Disable input jika tidak dalam mode edit
                     />
                   </Form.Group>
                   <Form.Group className="mb-4">
@@ -185,7 +133,8 @@ function UserProfile() {
                       placeholder="Email address"
                       name="email"
                       value={userData.email}
-                      onChange={handleChange}
+                      onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+                      disabled={!isEditing} // Disable input jika tidak dalam mode edit
                     />
                   </Form.Group>
                   <Form.Group className="mb-4">
@@ -194,43 +143,62 @@ function UserProfile() {
                       placeholder="Password"
                       name="password"
                       value={userData.password}
-                      onChange={handleChange}
+                      onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+                      disabled={!isEditing} // Disable input jika tidak dalam mode edit
                     />
                   </Form.Group>
-                  <Button variant="success" className='mb-4' onClick={handleSubmit}>
-                    Save
-                  </Button>{' '}
-                </div>
+                  
+                  {isEditing ? (
+                    <>
+                      <Button variant="success" className='mb-4' type="submit">
+                        Save Changes
+                      </Button>{' '}
+                      <Button variant="secondary" className='mb-4' onClick={handleCancel}>
+                        Cancel
+                      </Button>
+                    </>
+                  ) : (
+                    <Button variant="primary" onClick={() => setIsEditing(true)}>
+                      Edit
+                    </Button>
+                  )}
+                </Form>
               </div>
-            </Col>
-          </Row>
-        </Container>
-      ) : (
-        <Container className=' mt-5 mb-5'>
-          <Row>
-            <Col>
-              <h4> Anda belum login. Silahkan login terlebih dahulu untuk meengakses User Profile.</h4>
-              <Link to="/Login">
-                <Button type="button" className="btn btn-secondary btn-custom" >Login</Button>
-              </Link>
-            </Col>
-          </Row>
-        </Container>
-      )}
-      <Modal show={showConfirmationModal} onHide={() => setShowConfirmationModal(false)}>
+              {/* Tombol Logout */}
+              <Button variant="danger" className='mt-3 ' onClick={handleLogout}>
+                Logout
+              </Button>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+
+      {/* Modal untuk Pengguna yang Belum Login */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Login Required</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Anda belum login. Silahkan login terlebih dahulu untuk mengakses User Profile.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleLoginRedirect}>
+            Login
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal konfirmasi perubahan data */}
+      <Modal show={showConfirmationModal} onHide={handleCancel}>
         <Modal.Header closeButton>
           <Modal.Title>Confirmation</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Apa Kamu yakin Ingin mengubah data profile
+          Apa Kamu yakin ingin mengubah data profil?
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button variant="success" onClick={handleSaveConfirmed}>
-            Save
-          </Button>
+          <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
+          <Button variant="success" onClick={handleSaveConfirmed}>Save</Button>
         </Modal.Footer>
       </Modal>
     </>
