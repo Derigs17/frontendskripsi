@@ -21,59 +21,69 @@ const PeminjamanInventaris = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ // Pada bagian handleSubmit di frontend
+const handleSubmit = (e) => {
+  e.preventDefault();
 
-    // Validasi tanggal
-    if (new Date(formData.tglSelesai) < new Date(formData.tglMulai)) {
-      setAlert({
-        show: true,
-        type: 'danger',
-        message: 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai.',
-      });
-      return;
-    }
+  // Ambil email dari localStorage
+  const email = localStorage.getItem('loggedInUserEmail');
 
-    // Validasi barang yang dipilih
-    if (formData.barang.length === 0) {
-      setAlert({
-        show: true,
-        type: 'danger',
-        message: 'Silakan pilih minimal satu barang.',
-      });
-      return;
-    }
+  // Validasi tanggal dan barang
+  if (new Date(formData.tglSelesai) < new Date(formData.tglMulai)) {
+    setAlert({
+      show: true,
+      type: 'danger',
+      message: 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai.',
+    });
+    return;
+  }
 
-    // Kirim data peminjaman ke server
-    axios.post('http://localhost:8001/submitPeminjaman', formData)
-      .then((response) => {
-        setAlert({
-          show: true,
-          type: 'success',
-          message: response.data.message,
-        });
+  if (formData.barang.length === 0) {
+    setAlert({
+      show: true,
+      type: 'danger',
+      message: 'Silakan pilih minimal satu barang.',
+    });
+    return;
+  }
 
-        // Simpan riwayat peminjaman
-        setRiwayat(prev => [...prev, formData]);
+  // Konversi barang menjadi string yang dipisahkan dengan koma
+  const barangString = formData.barang.join(',');
 
-        // Reset form data
-        setFormData({
-          nama: '',
-          barang: [],
-          tglMulai: '',
-          tglSelesai: '',
-          keperluan: '',
-        });
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch((error) => {
-        setAlert({
-          show: true,
-          type: 'danger',
-          message: 'Terjadi kesalahan saat mengajukan peminjaman.',
-        });
-      });
-  };
+  // Kirim data peminjaman ke server, termasuk email dan barang yang sudah diubah menjadi string
+  axios.post('http://localhost:8001/submitPeminjaman', {
+    email: email, // Kirim email yang diambil dari localStorage
+    ...formData,  // Kirim data form lainnya
+    barang: barangString // Kirim barang dalam format string
+  })
+  .then((response) => {
+    setAlert({
+      show: true,
+      type: 'success',
+      message: response.data.message,
+    });
+
+    // Simpan riwayat peminjaman
+    setRiwayat(prev => [...prev, formData]);
+
+    // Reset form data
+    setFormData({
+      nama: '',
+      barang: [],
+      tglMulai: '',
+      tglSelesai: '',
+      keperluan: '',
+    });
+  })
+  .catch((error) => {
+    setAlert({
+      show: true,
+      type: 'danger',
+      message: 'Terjadi kesalahan saat mengajukan peminjaman.',
+    });
+  });
+};
+
 
   return (
     <div className="page-content">
