@@ -15,19 +15,21 @@ const Login = () => {
 
     // Kirim data login ke backend menggunakan axios
     axios
-      .post('http://127.0.0.1:8000/login', {
+      .post('http://localhost:8001/login', {  // Pastikan URL benar
         email: email,
         password: password,
       })
       .then((response) => {
-        // Jika login sukses, arahkan pengguna
-        console.log(response.data);
         if (response.data.message === 'Login successful') {
+          // Menyimpan email pengguna di localStorage
+          localStorage.setItem('loggedInUserEmail', response.data.user.email);
+          localStorage.setItem('isLoggedIn', 'IsLogin'); // Menyimpan status login
+
           // Jika user adalah admin, arahkan ke dashboard admin
           if (response.data.user.email === 'admin@example.com') {
             navigate('/admin/dashboard');
           } else {
-            navigate('/');
+            navigate('/profile');  // Arahkan ke halaman profil pengguna setelah login
           }
         } else {
           alert('Email atau password salah!');
@@ -37,10 +39,11 @@ const Login = () => {
         console.error('Login failed:', error);
         alert('Terjadi kesalahan saat login. Coba lagi.');
       });
-  };
+};
+
 
   return (
-    <Container className="login-container d-flex flex-column align-items-center justify-content-center mt-5">
+    <Container className="login-container d-flex flex-column align-items-center justify-content-center ">
       <Row className="login-content align-items-center mb-5">
         <Col
           className="login-form d-flex flex-column align-items-center justify-content-center"

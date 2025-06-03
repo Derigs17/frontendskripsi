@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Row, Col, Alert, Table } from 'react-bootstrap';
+import axios from 'axios';  // Import axios untuk HTTP request
 
 const inventarisList = ['Tenda', 'Keranda', 'Kursi', 'Meja', 'Sound System', 'Kipas Angin', 'Proyektor'];
 
@@ -23,6 +24,7 @@ const PeminjamanInventaris = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validasi tanggal
     if (new Date(formData.tglSelesai) < new Date(formData.tglMulai)) {
       setAlert({
         show: true,
@@ -32,6 +34,7 @@ const PeminjamanInventaris = () => {
       return;
     }
 
+    // Validasi barang yang dipilih
     if (formData.barang.length === 0) {
       setAlert({
         show: true,
@@ -41,21 +44,35 @@ const PeminjamanInventaris = () => {
       return;
     }
 
-    setRiwayat(prev => [...prev, formData]);
+    // Kirim data peminjaman ke server
+    axios.post('http://localhost:8001/submitPeminjaman', formData)
+      .then((response) => {
+        setAlert({
+          show: true,
+          type: 'success',
+          message: response.data.message,
+        });
 
-    setFormData({
-      nama: '',
-      barang: [],
-      tglMulai: '',
-      tglSelesai: '',
-      keperluan: '',
-    });
+        // Simpan riwayat peminjaman
+        setRiwayat(prev => [...prev, formData]);
 
-    setAlert({
-      show: true,
-      type: 'success',
-      message: 'Peminjaman berhasil diajukan.',
-    });
+        // Reset form data
+        setFormData({
+          nama: '',
+          barang: [],
+          tglMulai: '',
+          tglSelesai: '',
+          keperluan: '',
+        });
+      })
+      // eslint-disable-next-line no-unused-vars
+      .catch((error) => {
+        setAlert({
+          show: true,
+          type: 'danger',
+          message: 'Terjadi kesalahan saat mengajukan peminjaman.',
+        });
+      });
   };
 
   return (
@@ -200,7 +217,7 @@ const PeminjamanInventaris = () => {
               <tbody>
                 {riwayat.map((entry, idx) => (
                   <tr key={idx}>
-                    <td >{entry.nama}</td>
+                    <td>{entry.nama}</td>
                     <td>{entry.barang.join(', ')}</td>
                     <td>{entry.tglMulai}</td>
                     <td>{entry.tglSelesai}</td>
