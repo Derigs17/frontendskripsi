@@ -10,8 +10,11 @@ const NavbarComponent = () => {
 
   const [showModal, setShowModal] = useState(false); // State untuk modal login
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+<<<<<<< HEAD
   // eslint-disable-next-line no-unused-vars
   const [currentPath, setCurrentPath] = useState('');  // Simpan path halaman sebelum modal muncul
+=======
+>>>>>>> 3f5581965103f06081ac508fad924fe7e4b5d8ea
 
   useEffect(() => {
     // Cek status login
@@ -23,6 +26,7 @@ const NavbarComponent = () => {
 
   const handleProfileClick = () => {
     if (!isLoggedIn) {
+<<<<<<< HEAD
       setCurrentPath(location.pathname);  // Simpan halaman saat ini
       setShowModal(true);  // Tampilkan modal login jika belum login
     } else {
@@ -36,6 +40,11 @@ const NavbarComponent = () => {
       setShowModal(true);  // Tampilkan modal login jika belum login
     } else {
       navigate('/peminjaman-inventaris');  // Jika sudah login, arahkan ke menu peminjaman inventaris
+=======
+      setShowModal(true); // Tampilkan modal login jika belum login
+    } else {
+      navigate('/profile'); // Jika sudah login, arahkan ke halaman profile
+>>>>>>> 3f5581965103f06081ac508fad924fe7e4b5d8ea
     }
   };
 
@@ -62,7 +71,11 @@ const NavbarComponent = () => {
 
           {/* Menu */}
           <Navbar.Collapse id="responsive-navbar-nav">
+<<<<<<< HEAD
             <Nav className="mx-auto me-auto ps-5 gap-3 my-2">
+=======
+            <Nav className="mx-auto me-auto ps-5 gap-3 my-2"  >
+>>>>>>> 3f5581965103f06081ac508fad924fe7e4b5d8ea
               <Nav.Link as={NavLink} to="/" end>
                 Home
               </Nav.Link>
@@ -95,13 +108,21 @@ const NavbarComponent = () => {
                 </NavDropdown.Item>
               </NavDropdown>
 
+<<<<<<< HEAD
               <Nav.Link onClick={handlePeminjamanInventarisClick}>
+=======
+              <Nav.Link as={NavLink} to="/peminjaman-inventaris" className=''>
+>>>>>>> 3f5581965103f06081ac508fad924fe7e4b5d8ea
                 Peminjaman Inventaris
               </Nav.Link>
             </Nav>
 
             {/* Logo Profile */}
+<<<<<<< HEAD
             <Navbar.Brand className="logo-profile" onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
+=======
+            <Navbar.Brand className="logo-profile" onClick={handleProfileClick}style={{ cursor: 'pointer' }}>
+>>>>>>> 3f5581965103f06081ac508fad924fe7e4b5d8ea
               <img src={logosementara} alt="profile" style={{ width: '40px', marginRight: '10px', marginLeft: '20px' }} />
             </Navbar.Brand>
           </Navbar.Collapse>
@@ -114,7 +135,11 @@ const NavbarComponent = () => {
           <Modal.Title>Login Required</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+<<<<<<< HEAD
           Anda belum login. Silahkan login terlebih dahulu untuk mengakses halaman ini.
+=======
+          Anda belum login. Silahkan login terlebih dahulu untuk mengakses User Profile.
+>>>>>>> 3f5581965103f06081ac508fad924fe7e4b5d8ea
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => navigate('/login')}>
