@@ -6,20 +6,25 @@ import UserLayout from './layout/UserLayout';
 import AdminLayout from './layout/AdminLayout';
 
 // Pages (User)
-import Home from './pages/Home';
-import JadwalSholat from './pages/JadwalSholat';
-import JadwalImam from './pages/JadwalImam';
-import LaporanKegiatan from './pages/LaporanKegiatan';
-import LaporanKeuangan from './pages/LaporanKeuangan';
-import PeminjamanInventaris from './pages/PeminjamanInventaris';
+import Home from './pages/user/Home';
+import JadwalSholat from './pages/user/JadwalSholat';
+import JadwalImam from './pages/user/JadwalImam';
+import LaporanKegiatan from './pages/user/LaporanKegiatan';
+import LaporanKeuangan from './pages/user/LaporanKeuangan';
+import PeminjamanInventaris from './pages/user/PeminjamanInventaris';
 
 // Pages (Admin)
-import Dashboard from './admin/Dashboard';
-import PeminjamanAdmin from './admin/PeminjamanAdmin';
-import JadwalImamAdmin from './admin/JadwalImamAdmin';
-import LaporanKegiatanAdmin from './admin/LaporanKegiatanAdmin';
-import LaporanKeuanganAdmin from './admin/LaporanKeuanganAdmin';
-import Settings from './admin/Settings';
+import Dashboard from './pages/admin/Dashboard';
+import PeminjamanAdmin from './pages/admin/PeminjamanAdmin';
+import JadwalImamAdmin from './pages/admin/JadwalImamAdmin';
+import LaporanKegiatanAdmin from './pages/admin/LaporanKegiatanAdmin';
+import LaporanKeuanganAdmin from './pages/admin/LaporanKeuanganAdmin';
+import Settings from './pages/admin/Settings';
+import UserManagement from './pages/admin/UserManagement';  // Import User Management
+
+// Auth Pages
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 
 function App() {
   return (
@@ -45,7 +50,12 @@ function App() {
           <Route path="laporan-kegiatan" element={<LaporanKegiatanAdmin />} />
           <Route path="laporan-keuangan" element={<LaporanKeuanganAdmin />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="user-management" element={<UserManagement />} /> {/* Add route for User Management */}
         </Route>
+
+        {/* ROUTE UNTUK LOGIN DAN REGISTER */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
       </Routes>
     </Router>

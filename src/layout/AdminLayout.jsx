@@ -70,6 +70,16 @@ const AdminLayout = () => {
               Settings
             </Link>
           </li>
+          <li>
+            <Link
+              to="/admin/user-management"
+              className={activeMenu === 'user-management' ? 'active' : ''}
+              onClick={() => setActiveMenu('user-management')}
+            >
+              User Management
+            </Link>
+          </li>
+
         </ul>
       </div>
 

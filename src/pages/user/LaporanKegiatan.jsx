@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import bukabersama from '../images/bukabersama.png';
+import bukabersama from '../../images/bukabersama.png';
 
 const kegiatanAkanDatang = [
   {

@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
-import bgmasjid from '../images/bgmasjid.png'; // Gambar masjid
-import bgSholat from '../images/bgwaktusolat.png'; // Gambar jadwal sholat
-import parkir from '../assets/parkir.png'; // Gambar ikon parkir
-import solat from '../assets/solat.png'; // Gambar ikon sholat
-import wudhu from '../assets/wudhu.png'; // Gambar ikon wudhu
-import infaq from '../assets/infaq.png'; // Gambar ikon infaq
-import iftar from '../assets/iftar.png'; // Gambar ikon iftar
-import zakat from '../assets/zakat.png'; // Gambar ikon zakat
-import qurban from '../assets/qurban.png'; // Gambar ikon qurban
-import itikaf from '../assets/itikaf.png'; // Gambar ikon itikaf
-import tadarus from '../assets/tadarus.png'; // Gambar ikon tadarus
-import aktifitas from '../assets/aktifitas.png'; // Gambar ikon aktivitas
-import mengaji from '../assets/mengaji.png'; // Gambar ikon mengaji
-import toilet from '../assets/toilet.png'; // Gambar ikon toilet
+import bgmasjid from '../../images/bgmasjid.png'; // Gambar masjid
+import bgSholat from '../../images/bgwaktusolat.png'; // Gambar jadwal sholat
+import parkir from '../../assets/parkir.png'; // Gambar ikon parkir
+import solat from '../../assets/solat.png'; // Gambar ikon sholat
+import wudhu from '../../assets/wudhu.png'; // Gambar ikon wudhu
+import infaq from '../../assets/infaq.png'; // Gambar ikon infaq
+import iftar from '../../assets/iftar.png'; // Gambar ikon iftar
+import zakat from '../../assets/zakat.png'; // Gambar ikon zakat
+import qurban from '../../assets/qurban.png'; // Gambar ikon qurban
+import itikaf from '../../assets/itikaf.png'; // Gambar ikon itikaf
+import tadarus from '../../assets/tadarus.png'; // Gambar ikon tadarus
+import aktifitas from '../../assets/aktifitas.png'; // Gambar ikon aktivitas
+import mengaji from '../../assets/mengaji.png'; // Gambar ikon mengaji
+import toilet from '../../assets/toilet.png'; // Gambar ikon toilet
 
 const Home = () => {
   const [jadwal, setJadwal] = useState(null);
