@@ -1,42 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Table, Form } from 'react-bootstrap';
 
-const imamKhatibList = ['Ust. Dendi', 'Ust. Miftahudin', 'Ust. Asep', 'Ust. Amar Suherna'];
-const muazinBilalList = ['Aji', 'Saep', 'Wa Uban', 'Herdi', 'Enas'];
-
-const getFridaysInMonth = (year, month) => {
-  const dates = [];
-  const d = new Date(year, month, 1);
-  while (d.getMonth() === month) {
-    if (d.getDay() === 5) {
-      dates.push(new Date(d));
-    }
-    d.setDate(d.getDate() + 1);
-  }
-  return dates.slice(0, 4);
-};
-
-const rotateList = (list, shift) => {
-  const len = list.length;
-  return list.map((_, i) => list[(i + shift) % len]);
-};
-
 const JadwalImam = () => {
-  const now = new Date();
-  const [selectedMonth, setSelectedMonth] = useState(now.getMonth());
-  const [selectedYear] = useState(now.getFullYear());
+  const [jadwal, setJadwal] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1); // +1 karena month dimulai dari 0
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  
+  const bulanLabel = new Date(selectedYear, selectedMonth - 1).toLocaleString('id-ID', { month: 'long' });
+  
+  // Ambil data jadwal berdasarkan bulan dan tahun yang dipilih
+  useEffect(() => {
+    fetchJadwal();
+  }, [selectedMonth, selectedYear]); // Fetch ulang setiap bulan atau tahun berubah
 
-  const jumatDates = getFridaysInMonth(selectedYear, selectedMonth);
-  const bulanLabel = jumatDates[0]?.toLocaleString('id-ID', { month: 'long' });
-  const tahunLabel = selectedYear;
+  const fetchJadwal = async () => {
+    const response = await fetch(`http://localhost:8001/getJadwalImamForMonth?bulan=${selectedMonth}&tahun=${selectedYear}`);
+    const data = await response.json();
+    setJadwal(data);
+  };
 
   const handleChangeMonth = (e) => {
     setSelectedMonth(Number(e.target.value));
   };
 
-  const imamList = rotateList(imamKhatibList, selectedMonth);
-  const khatibList = rotateList(imamKhatibList.slice().reverse(), selectedMonth);
-  const muazinList = rotateList(muazinBilalList, selectedMonth);
+  const handleChangeYear = (e) => {
+    setSelectedYear(Number(e.target.value));
+  };
 
   return (
     <div className="page-content">
@@ -46,14 +35,22 @@ const JadwalImam = () => {
         <Form className="mb-3 d-flex gap-2 justify-content-center">
           <Form.Select value={selectedMonth} onChange={handleChangeMonth} style={{ maxWidth: '200px' }}>
             {Array.from({ length: 12 }, (_, i) => (
-              <option key={i} value={i}>
+              <option key={i} value={i + 1}>
                 {new Date(0, i).toLocaleString('id-ID', { month: 'long' })}
+              </option>
+            ))}
+          </Form.Select>
+
+          <Form.Select value={selectedYear} onChange={handleChangeYear} style={{ maxWidth: '200px' }}>
+            {Array.from({ length: 5 }, (_, i) => selectedYear - 2 + i).map((year) => (
+              <option key={year} value={year}>
+                {year}
               </option>
             ))}
           </Form.Select>
         </Form>
 
-        <h5 className="text-center mb-3">{bulanLabel} {tahunLabel}</h5>
+        <h5 className="text-center mb-3">{bulanLabel} {selectedYear}</h5>
 
         <div style={{ overflowX: 'auto' }}>
           <Table striped bordered hover responsive className="table-jadwal">
@@ -66,30 +63,21 @@ const JadwalImam = () => {
               </tr>
             </thead>
             <tbody>
-              {jumatDates.map((tgl, index) => {
-                const imam = imamList[index % imamList.length];
-                let khatib = khatibList[index % khatibList.length];
-                if (khatib === imam) {
-                  khatib = khatibList[(index + 1) % khatibList.length];
-                }
-                const muazin = muazinList[index % muazinList.length];
-
-                return (
-                  <tr key={index}>
-                    <td style={{ whiteSpace: 'nowrap' }}>
-                      {tgl.toLocaleDateString('id-ID', {
-                        weekday: 'short',
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
-                    </td>
-                    <td>{imam}</td>
-                    <td>{khatib}</td>
-                    <td>{muazin}</td>
-                  </tr>
-                );
-              })}
+              {jadwal.map((item) => (
+                <tr key={item.id}>
+                  <td style={{ whiteSpace: 'nowrap' }}>
+                    {new Date(item.tanggal).toLocaleDateString('id-ID', {
+                      weekday: 'short',
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
+                    })}
+                  </td>
+                  <td>{item.imam}</td>
+                  <td>{item.khatib}</td>
+                  <td>{item.muazin} & {item.bilal}</td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </div>
