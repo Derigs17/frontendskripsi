@@ -183,7 +183,7 @@ const PeminjamanInventaris = () => {
           <Row>
             <Col md={6}>
               <Form.Group className="mb-3">
-                <Form.Label>Tanggal Mulai Pinjam</Form.Label>
+                <Form.Label>Tanggal Mulai Peminjaman</Form.Label>
                 <Form.Control
                   type="date"
                   name="tglMulai"
@@ -195,7 +195,7 @@ const PeminjamanInventaris = () => {
             </Col>
             <Col md={6}>
               <Form.Group className="mb-3">
-                <Form.Label>Tanggal Selesai Pinjam</Form.Label>
+                <Form.Label>Tanggal Selesai Peminjaman</Form.Label>
                 <Form.Control
                   type="date"
                   name="tglSelesai"
@@ -233,8 +233,8 @@ const PeminjamanInventaris = () => {
               <th>No</th>
               <th>Nama</th>
               <th>Barang</th>
-              <th>Tanggal Mulai</th>
-              <th>Tanggal Selesai</th>
+              <th> Mulai Peminjaman</th>
+              <th> Selesai Peminjaman</th>
               <th>Keperluan</th>
               <th>Status</th>
             </tr>
@@ -245,8 +245,8 @@ const PeminjamanInventaris = () => {
                 <td>{index + 1}</td>
                 <td>{pinjam.nama}</td>
                 <td>{pinjam.barang}</td>
-                <td>{new Date(pinjam.tgl_mulai).toLocaleString()}</td>
-                <td>{new Date(pinjam.tgl_selesai).toLocaleString()}</td>
+                <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
+                <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
                 <td>{pinjam.keperluan}</td>
                 <td>{pinjam.status}</td>
               </tr>
@@ -262,8 +262,8 @@ const PeminjamanInventaris = () => {
               <th>No</th>
               <th>Nama</th>
               <th>Barang</th>
-              <th>Tanggal Mulai</th>
-              <th>Tanggal Selesai</th>
+              <th> Mulai Peminjaman</th>
+              <th> Selesai Peminjaman</th>
               <th>Keperluan</th>
               <th>Status</th>
             </tr>
@@ -274,8 +274,8 @@ const PeminjamanInventaris = () => {
                 <td>{index + 1}</td>
                 <td>{pinjam.nama}</td>
                 <td>{pinjam.barang}</td>
-                <td>{new Date(pinjam.tgl_mulai).toLocaleString()}</td>
-                <td>{new Date(pinjam.tgl_selesai).toLocaleString()}</td>
+                <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
+                <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
                 <td>{pinjam.keperluan}</td>
                 <td>{pinjam.status}</td>
               </tr>

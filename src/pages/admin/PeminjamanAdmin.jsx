@@ -52,8 +52,8 @@ const PeminjamanAdmin = () => {
             <th>Nama</th>
             <th>Email</th>
             <th>Barang</th>
-            <th>Tanggal Mulai</th>
-            <th>Tanggal Selesai</th>
+            <th>Mulai Peminjaman</th>
+            <th>Selesai Peminjaman</th>
             <th>Keperluan</th>
             <th>Status</th>
             <th>Aksi</th>
@@ -66,8 +66,8 @@ const PeminjamanAdmin = () => {
               <td>{pinjam.nama}</td>
               <td>{pinjam.email}</td>
               <td>{pinjam.barang}</td>
-              <td>{new Date(pinjam.tgl_mulai).toLocaleString()}</td> {/* Formatting date */}
-              <td>{new Date(pinjam.tgl_selesai).toLocaleString()}</td> {/* Formatting date */}
+              <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td> {/* Hanya menampilkan tanggal, bukan jam */}
+              <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td> {/* Hanya menampilkan tanggal, bukan jam */}
               <td>{pinjam.keperluan}</td>
               <td>{pinjam.status}</td>
               <td>
@@ -105,8 +105,8 @@ const PeminjamanAdmin = () => {
             <th>Nama</th>
             <th>Email</th>
             <th>Barang</th>
-            <th>Tanggal Mulai</th>
-            <th>Tanggal Selesai</th>
+            <th>Mulai Peminjaman</th>
+            <th> Selesai Peminjaman</th>
             <th>Keperluan</th>
             <th>Status</th>
           </tr>
@@ -118,8 +118,8 @@ const PeminjamanAdmin = () => {
               <td>{pinjam.nama}</td>
               <td>{pinjam.email}</td>
               <td>{pinjam.barang}</td>
-              <td>{new Date(pinjam.tgl_mulai).toLocaleString()}</td> {/* Formatting date */}
-              <td>{new Date(pinjam.tgl_selesai).toLocaleString()}</td> {/* Formatting date */}
+              <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td> {/* Hanya menampilkan tanggal, bukan jam */}
+              <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td> {/* Hanya menampilkan tanggal, bukan jam */}
               <td>{pinjam.keperluan}</td>
               <td>{pinjam.status}</td>
             </tr>
