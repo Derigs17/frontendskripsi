@@ -89,6 +89,7 @@ const PeminjamanInventaris = () => {
         keperluan: '',
       });
     })
+    // eslint-disable-next-line no-unused-vars
     .catch((error) => {
       setAlert({
         show: true,

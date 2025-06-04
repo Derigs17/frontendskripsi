@@ -436,7 +436,7 @@ body {
 }
 
 /* admin layout css */
-
+/* Admin Layout CSS */
 .layout-wrapper {
   display: flex;
   flex-direction: column;
@@ -446,8 +446,12 @@ body {
 .main-content {
   flex: 1;
 }
+
 /* Sidebar Styling for Admin Layout */
 .admin-wrapper .sidebar {
+  display: flex;
+  flex-direction: column;  /* Sidebar menggunakan flex column */
+  justify-content: space-between; /* Menjaga tombol logout di bagian bawah */
   width: 250px;
   background-color: #fff;
   color: #333;
@@ -458,52 +462,38 @@ body {
   top: 0;
   left: 0;
   font-family: 'Poppins', sans-serif;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease;  /* Menambahkan transisi pada lebar */
   z-index: 100;
 }
 
+/* Sidebar mengecil saat collapse */
 .admin-wrapper.collapsed .sidebar {
-  width: 60px;  /* Sidebar mengecil saat collapse */
+  width: 60px;
   background-color: #fff;
+  overflow: hidden;  /* Menyembunyikan teks saat sidebar collapse */
 }
 
-.admin-wrapper .sidebar h2 {
-  color: #333;
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  font-weight: bold;
-  transition: opacity 0.3s ease;
-}
-
-.admin-wrapper.collapsed .sidebar h2 {
-  opacity: 0;  /* Hide title when collapsed */
-}
-
+/* Sidebar Links */
 .admin-wrapper .sidebar ul {
   list-style-type: none;
   padding: 0;
   margin-top: 2rem;
+  flex-grow: 1;  /* Membuat menu-menu mengisi ruang yang ada */
 }
 
-/* Menyembunyikan teks saat sidebar collapse */
+/* Styling untuk setiap link */
 .admin-wrapper .sidebar a {
   color: #333;
   text-decoration: none;
-  margin: 10px 0;
+  margin: 5px 0; /* Mengurangi jarak antar menu */
   padding: 10px 15px;
   display: block;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s, font-size 0.3s;
   font-size: 1.1rem;
-  white-space: nowrap;  /* Mencegah teks untuk wrap */
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;  /* Menambahkan elipsis (...) saat teks tidak muat */
-}
-
-/* Atur ukuran font ketika sidebar ter-collapse */
-.admin-wrapper.collapsed .sidebar a {
-  font-size: 0.9rem;  /* Menyesuaikan ukuran font ketika sidebar kecil */
-  padding: 10px 5px;  /* Mengurangi padding supaya lebih rapat */
+  text-overflow: ellipsis;
 }
 
 /* Active Link */
@@ -518,18 +508,6 @@ body {
 .admin-wrapper .sidebar a:hover {
   background-color: #FDC921;
   color: black;
-}
-
-/* Main Content */
-.admin-wrapper .main-content {
-  margin-left: 250px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  transition: margin-left 0.3s ease;
-}
-
-.admin-wrapper.collapsed .main-content {
-  margin-left: 60px;
 }
 
 /* Hamburger Toggle Button */
@@ -548,7 +526,32 @@ body {
 }
 
 .admin-wrapper.collapsed .toggle-btn {
-  left: 70px; /* Geser tombol saat collapsed */
+  left: 70px;  /* Geser tombol ke kiri saat sidebar kecil */
+}
+
+/* Admin Profile Section - Logout Button */
+.admin-wrapper .admin-profile {
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+.admin-wrapper .admin-profile button {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px;
+  margin-top: auto;  /* Membuat tombol logout selalu berada di bawah */
+}
+
+/* Main Content */
+.admin-wrapper .main-content {
+  margin-left: 250px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  transition: margin-left 0.3s ease;
+}
+
+.admin-wrapper.collapsed .main-content {
+  margin-left: 60px; /* Menyesuaikan margin saat sidebar mengecil */
 }
 
 /* Mobile responsive */
