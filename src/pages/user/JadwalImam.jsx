@@ -59,7 +59,8 @@ const JadwalImam = () => {
                 <th>Tanggal</th>
                 <th>Imam</th>
                 <th>Khatib</th>
-                <th>Muazin & Bilal</th>
+                <th>Muazin </th>
+                <th>Bilal</th>
               </tr>
             </thead>
             <tbody>
@@ -75,7 +76,8 @@ const JadwalImam = () => {
                   </td>
                   <td>{item.imam}</td>
                   <td>{item.khatib}</td>
-                  <td>{item.muazin} & {item.bilal}</td>
+                  <td>{item.muazin}  </td>
+                  <td>{item.bilal}</td>
                 </tr>
               ))}
             </tbody>

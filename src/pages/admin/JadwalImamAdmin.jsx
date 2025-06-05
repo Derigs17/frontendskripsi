@@ -1,74 +1,109 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Table, Form, Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
 const JadwalImamAdmin = () => {
+  const [jadwal, setJadwal] = useState([]);
   const [newJadwal, setNewJadwal] = useState({
+    id: '',
     tanggal: '',
     imam: '',
     khatib: '',
     muazin: '',
-    bilal: ''
+    bilal: '',
   });
+
   const [showForm, setShowForm] = useState(false); // Menampilkan form input jadwal
-  const [showModal, setShowModal] = useState(false); // Modal konfirmasi
-  const [isSubmitting, setIsSubmitting] = useState(false); // Menandakan proses submit
-  const [isEditMode, setIsEditMode] = useState(false); // Untuk menandakan mode edit
+  const [showModal, setShowModal] = useState(false); // Untuk modal konfirmasi
+  const [modalAction, setModalAction] = useState(''); // Tindakan modal (edit / delete / add)
+  
+  // Ambil data jadwal dari API
+  useEffect(() => {
+    fetchJadwal();
+  }, []);
 
-  // Menangani perubahan input form
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewJadwal({ ...newJadwal, [name]: value });
-  };
-
-  // Menangani tombol "Tambah Jadwal" untuk menampilkan form
-  const handleAdd = () => {
-    setShowForm(true); // Menampilkan form untuk menambah jadwal
-  };
-
-  // Menangani tombol Simpan (menampilkan modal konfirmasi)
-  const handleSave = () => {
-    setShowModal(true); // Tampilkan modal konfirmasi saat klik simpan
-  };
-
-  // Menangani konfirmasi Simpan di modal
-  const handleConfirmSave = async () => {
-    setIsSubmitting(true); // Menandakan bahwa data sedang diproses
+  const fetchJadwal = async () => {
     try {
-      // Simulasi mengirim data ke backend (gunakan API endpoint yang sesuai)
-      const response = await axios.post('http://localhost:8001/addJadwalImam', newJadwal);
-      if (response.data.success) {
-        // Reset form dan sembunyikan modal setelah data berhasil disimpan
-        setNewJadwal({
-          tanggal: '',
-          imam: '',
-          khatib: '',
-          muazin: '',
-          bilal: ''
-        });
-        setShowForm(false);
-        setShowModal(false);
-        setIsSubmitting(false);
-      }
+      const response = await axios.get('http://localhost:8001/getAllJadwalImam');
+      setJadwal(response.data);  // Menyimpan data jadwal yang diambil dari backend
     } catch (error) {
-      console.error("Error submitting jadwal:", error);
-      setIsSubmitting(false);
+      console.error("Error fetching jadwal:", error);
     }
   };
 
-  // Menangani batal (menutup modal konfirmasi tanpa menyimpan data)
-  const handleCancel = () => {
-    setShowModal(false); // Menutup modal tanpa menyimpan
+  const handleInputChange = (e) => {
+    setNewJadwal({ ...newJadwal, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Menentukan action berdasarkan apakah itu update atau add
+    const action = newJadwal.id ? 'edit' : 'add';
+    setModalAction(action);  // Menentukan tindakan untuk modal konfirmasi
+    setShowModal(true); // Tampilkan modal konfirmasi
+  };
+
+  const handleEdit = (item) => {
+    setNewJadwal({
+      id: item.id,
+      tanggal: item.tanggal,
+      imam: item.imam,
+      khatib: item.khatib,
+      muazin: item.muazin,
+      bilal: item.bilal,
+    });
+    setShowForm(true); // Tampilkan form untuk edit
+  };
+
+  const handleDelete = (id) => {
+    setModalAction('delete');
+    setNewJadwal({ ...newJadwal, id });
+    setShowModal(true); // Tampilkan modal konfirmasi untuk delete
+  };
+
+  const confirmDelete = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:8001/deleteJadwalImam/${newJadwal.id}`);
+      if (response.data.success) {
+        fetchJadwal();  // Refresh jadwal setelah delete
+        setShowModal(false); // Menutup modal setelah delete
+      }
+    } catch (error) {
+      console.error("Error deleting jadwal:", error);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleConfirmSave = async () => {
+    const url = newJadwal.id
+      ? `http://localhost:8001/updateJadwalImam/${newJadwal.id}`
+      : 'http://localhost:8001/addJadwalImam';
+    
+    try {
+      const response = await axios.post(url, newJadwal);
+      if (response.data.success) {
+        fetchJadwal(); // Refresh jadwal setelah simpan
+        setNewJadwal({ id: '', tanggal: '', imam: '', khatib: '', muazin: '', bilal: '' });
+        setShowForm(false); // Menutup form setelah simpan
+        setShowModal(false); // Menutup modal setelah simpan
+      }
+    } catch (error) {
+      console.error("Error submitting jadwal:", error);
+    }
   };
 
   return (
     <Container>
-      <h2>Tambah Jadwal Imam, Khatib, Muazin & Bilal (Admin)</h2>
-      <Button variant="primary" onClick={handleAdd}>Tambah Jadwal</Button>
+      <h2>Jadwal Imam, Khatib, Muazin & Bilal (Admin)</h2>
+      <Button variant="primary" onClick={() => { setShowForm(true); setNewJadwal({ id: '', tanggal: '', imam: '', khatib: '', muazin: '', bilal: '' }); }}>Tambah Jadwal</Button>
 
-      {/* Form untuk menambah jadwal */}
+      {/* Form Input Jadwal */}
       {showForm && (
-        <Form className="mt-3">
+        <Form onSubmit={handleSubmit} className="mt-3">
           <Form.Group controlId="tanggal">
             <Form.Label>Tanggal</Form.Label>
             <Form.Control
@@ -114,27 +149,74 @@ const JadwalImamAdmin = () => {
               onChange={handleInputChange}
             />
           </Form.Group>
-          <Button variant="success" onClick={handleSave} disabled={isSubmitting}>
-            {isSubmitting ? 'Menyimpan...' : 'Simpan Jadwal'}
+          <Button variant="success" type="submit">
+            {newJadwal.id ? 'Update Jadwal' : 'Tambah Jadwal'}
+          </Button>
+          <Button variant="secondary" onClick={() => { setShowForm(false); setNewJadwal({ id: '', tanggal: '', imam: '', khatib: '', muazin: '', bilal: '' }); }} className="ms-2">
+            Batal
           </Button>
         </Form>
       )}
 
+      <Table striped bordered hover className="mt-4">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Imam</th>
+            <th>Khatib</th>
+            <th>Muazin</th>
+            <th>Bilal</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {jadwal.map((item) => (
+            <tr key={item.id}>
+              <td>{new Date(item.tanggal).toLocaleDateString('id-ID')}</td>
+              <td>{item.imam}</td>
+              <td>{item.khatib}</td>
+              <td>{item.muazin}</td>
+              <td>{item.bilal}</td>
+              <td>
+                <Button variant="warning" onClick={() => handleEdit(item)}>
+                  Edit
+                </Button>
+                <Button variant="danger" onClick={() => handleDelete(item.id)} className="ms-2">
+                  Hapus
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
       {/* Modal Konfirmasi */}
-      <Modal show={showModal} onHide={handleCancel}>
+      <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Konfirmasi</Modal.Title>
+          <Modal.Title>
+            {modalAction === 'edit' ? 'Edit Jadwal Imam' : 'Konfirmasi Simpan'}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Apakah Anda yakin ingin menambahkan jadwal ini?
+          {modalAction === 'edit' ? (
+            <p>Jadwal berhasil disimpan</p>
+          ) : (
+            <p>Apakah Anda yakin ingin menyimpan jadwal ini?</p>
+          )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCancel}>
+          <Button variant="secondary" onClick={handleCloseModal}>
             Batal
           </Button>
-          <Button variant="primary" onClick={handleConfirmSave}>
-            Ya, Tambah
-          </Button>
+          {modalAction === 'edit' || modalAction === 'add' ? (
+            <Button variant="primary" onClick={handleConfirmSave}>
+              Simpan
+            </Button>
+          ) : (
+            <Button variant="danger" onClick={confirmDelete}>
+              Hapus
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </Container>
