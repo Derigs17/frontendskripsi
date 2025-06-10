@@ -1,94 +1,68 @@
-import React from 'react';
-import { Container, Row, Col, Card, Table } from 'react-bootstrap';
-
-// Data dummy — nanti bisa ambil dari backend atau file JSON
-const laporanBulanIni = {
-  totalUang: 10500000,
-  kotakAmal: 3500000,
-  iuranJamaah: 5000000,
-  donaturLain: 2000000,
-};
-
-const pengeluaranBulanIni = [
-  { keterangan: 'Pembelian Karpet Baru', jumlah: 2500000 },
-  { keterangan: 'Perbaikan Sound System', jumlah: 1000000 },
-  { keterangan: 'Honor Penceramah', jumlah: 500000 },
-];
-
-const formatRupiah = (angka) =>
-  new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(angka);
+import React, { useEffect, useState } from 'react';
+import { Container, Table } from 'react-bootstrap';
+import axios from 'axios';
 
 const LaporanKeuangan = () => {
-  const totalPengeluaran = pengeluaranBulanIni.reduce((total, item) => total + item.jumlah, 0);
-  const saldoAkhir = laporanBulanIni.totalUang - totalPengeluaran;
+  const [pemasukanData, setPemasukanData] = useState([]);
+  const [pengeluaranData, setPengeluaranData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const pemasukanResponse = await axios.get('http://localhost:8001/getPemasukan');
+      setPemasukanData(pemasukanResponse.data);
+
+      const pengeluaranResponse = await axios.get('http://localhost:8001/getPengeluaran');
+      setPengeluaranData(pengeluaranResponse.data);
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <Container className="py-4">
-      <h2 className="text-center mb-4">Laporan Keuangan Bulan Ini</h2>
+    <Container className="mt-4">
+      <h2>Laporan Keuangan Bulan Ini</h2>
 
-      {/* Bagian ringkasan pemasukan */}
-      <Row className="g-3 mb-4">
-        <Col xs={12} md={3}>
-          <Card className="shadow-sm" bg="success" text="white">
-            <Card.Body>
-              <Card.Title className="fs-6">Total Uang Sekarang</Card.Title>
-              <Card.Text className="fs-5">{formatRupiah(laporanBulanIni.totalUang)}</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={12} md={3}>
-          <Card className="shadow-sm" bg="info" text="white">
-            <Card.Body>
-              <Card.Title className="fs-6">Kotak Amal</Card.Title>
-              <Card.Text className="fs-5">{formatRupiah(laporanBulanIni.kotakAmal)}</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={12} md={3}>
-          <Card className="shadow-sm" bg="primary" text="white">
-            <Card.Body>
-              <Card.Title className="fs-6">Iuran Jamaah</Card.Title>
-              <Card.Text className="fs-5">{formatRupiah(laporanBulanIni.iuranJamaah)}</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={12} md={3}>
-          <Card className="shadow-sm" bg="warning" text="dark">
-            <Card.Body>
-              <Card.Title className="fs-6">Donatur Lain</Card.Title>
-              <Card.Text className="fs-5">{formatRupiah(laporanBulanIni.donaturLain)}</Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-
-
-      {/* Pengeluaran bulan ini */}
-      <h5 className="mb-3">Pengeluaran Bulan Ini</h5>
-      <Table striped bordered hover responsive className="table-laporan">
+      <h3>Pemasukan Bulan Ini</h3>
+      <Table striped bordered hover>
         <thead>
           <tr>
             <th>No</th>
             <th>Keterangan</th>
             <th>Jumlah</th>
+            <th>Tanggal</th>
           </tr>
         </thead>
         <tbody>
-          {pengeluaranBulanIni.map((item, idx) => (
+          {pemasukanData.map((item, idx) => (
             <tr key={idx}>
               <td>{idx + 1}</td>
               <td>{item.keterangan}</td>
-              <td>{formatRupiah(item.jumlah)}</td>
+              <td>{item.jumlah}</td>
+              <td>{item.tanggal}</td>
             </tr>
           ))}
-          <tr className="fw-bold">
-            <td colSpan={2}>Total Pengeluaran</td>
-            <td>{formatRupiah(totalPengeluaran)}</td>
+        </tbody>
+      </Table>
+
+      <h3>Pengeluaran Bulan Ini</h3>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Keterangan</th>
+            <th>Jumlah</th>
+            <th>Tanggal</th>
           </tr>
-          <tr className="table-success fw-bold">
-            <td colSpan={2}>Saldo Akhir Bulan Ini</td>
-            <td>{formatRupiah(saldoAkhir)}</td>
-          </tr>
+        </thead>
+        <tbody>
+          {pengeluaranData.map((item, idx) => (
+            <tr key={idx}>
+              <td>{idx + 1}</td>
+              <td>{item.keterangan}</td>
+              <td>{item.jumlah}</td>
+              <td>{item.tanggal}</td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </Container>
