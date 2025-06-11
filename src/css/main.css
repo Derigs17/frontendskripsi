@@ -576,3 +576,12 @@ body {
     left: 10px;
   }
 }
+
+
+.card-img-top {
+  width: 100%;
+  height: 200px; /* Tinggi gambar tetap agar seragam */
+  object-fit: contain; /* Pastikan gambar tetap proporsional */
+  border-radius: 8px; /* Sudut melengkung pada gambar */
+  padding-top: 15px; /* Menambah jarak dari bagian atas gambar */
+}
