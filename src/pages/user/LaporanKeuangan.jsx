@@ -130,12 +130,6 @@ const LaporanKeuangan = () => {
           </Card>
         </Col>
       </Row>
-
-      <Row className="text-center">
-        <Col>
-          <Button variant="primary">Cetak Laporan</Button>
-        </Col>
-      </Row>
     </Container>
   );
 };

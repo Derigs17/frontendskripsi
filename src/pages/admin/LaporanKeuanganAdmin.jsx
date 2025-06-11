@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button, Card, Table } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Card, Table, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
 const LaporanKeuanganAdmin = () => {
@@ -12,6 +12,8 @@ const LaporanKeuanganAdmin = () => {
     pengeluaran: [],
   });
   const [editId, setEditId] = useState(null); // Menyimpan ID yang sedang diedit
+  const [showModal, setShowModal] = useState(false); // Menyimpan status modal
+  const [deleteId, setDeleteId] = useState(null); // ID data yang akan dihapus
 
   // Fetch data untuk tabel (Pemasukan dan Pengeluaran)
   useEffect(() => {
@@ -74,10 +76,14 @@ const LaporanKeuanganAdmin = () => {
     setType(type); // Set jenis data yang sedang diedit (pemasukan atau pengeluaran)
   };
 
-  const handleDelete = async (id, type) => {
+  const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:8001/delete${type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran'}/${id}`);
+      const url = `http://localhost:8001/delete${type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran'}/${deleteId}`;
+      await axios.delete(url);
       alert('Data berhasil dihapus');
+      setShowModal(false); // Menutup modal
+      setDeleteId(null); // Reset deleteId
+
       // Refresh data setelah delete
       const response = await axios.get('http://localhost:8001/getLaporanKeuangan');
       setDataLaporan({
@@ -87,7 +93,25 @@ const LaporanKeuanganAdmin = () => {
     } catch (error) {
       console.error('Error deleting data:', error);
       alert('Gagal menghapus data');
+      setShowModal(false); // Menutup modal jika gagal
     }
+  };
+
+  const handleShowModal = (id) => {
+    setDeleteId(id); // Set ID yang akan dihapus
+    setShowModal(true); // Menampilkan modal
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false); // Menutup modal tanpa menghapus
+  };
+
+  const handleCancelEdit = () => {
+    // Reset form dan ID edit ketika batal
+    setKeterangan('');
+    setJumlah('');
+    setTanggal('');
+    setEditId(null);
   };
 
   const formatTanggal = (dateString) => {
@@ -152,6 +176,17 @@ const LaporanKeuanganAdmin = () => {
                 <Button variant="primary" type="submit" className="mt-3 w-100">
                   {editId ? 'Update Data' : 'Simpan Data'}
                 </Button>
+
+                {/* Tombol Batal */}
+                {editId && (
+                  <Button
+                    variant="secondary"
+                    className="mt-3 w-100"
+                    onClick={handleCancelEdit}
+                  >
+                    Batal
+                  </Button>
+                )}
               </Form>
             </Card.Body>
           </Card>
@@ -194,7 +229,7 @@ const LaporanKeuanganAdmin = () => {
                         <Button
                           variant="danger"
                           size="sm"
-                          onClick={() => handleDelete(item.id, 'pemasukan')}
+                          onClick={() => handleShowModal(item.id)}
                           className="ml-2"
                         >
                           Hapus
@@ -242,7 +277,7 @@ const LaporanKeuanganAdmin = () => {
                         <Button
                           variant="danger"
                           size="sm"
-                          onClick={() => handleDelete(item.id, 'pengeluaran')}
+                          onClick={() => handleShowModal(item.id)}
                           className="ml-2"
                         >
                           Hapus
@@ -256,6 +291,24 @@ const LaporanKeuanganAdmin = () => {
           </Card>
         </Col>
       </Row>
+
+      {/* Modal Konfirmasi Hapus */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Konfirmasi Hapus Data</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Apakah Anda yakin ingin menghapus data ini?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Batal
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Hapus
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
