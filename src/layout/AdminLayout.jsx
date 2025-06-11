@@ -94,14 +94,7 @@ const AdminLayout = () => {
             >
               Laporan Keuangan
             </Nav.Link>
-            <Nav.Link 
-              as={Link} 
-              to="/admin/settings" 
-              className={activeMenu === 'settings' ? 'active' : ''} 
-              onClick={() => handleMenuClick('settings')}
-            >
-              Settings
-            </Nav.Link>
+           
             <Nav.Link 
               as={Link} 
               to="/admin/user-management" 

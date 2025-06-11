@@ -20,7 +20,7 @@
   import JadwalImamAdmin from './pages/admin/JadwalImamAdmin';
   import LaporanKegiatanAdmin from './pages/admin/LaporanKegiatanAdmin';
   import LaporanKeuanganAdmin from './pages/admin/LaporanKeuanganAdmin';
-  import Settings from './pages/admin/Settings';
+
   import UserManagement from './pages/admin/UserManagement';  // Import User Management
 
   // Auth Pages
@@ -51,7 +51,7 @@
             <Route path="jadwal-imam" element={<JadwalImamAdmin />} />
             <Route path="laporan-kegiatan" element={<LaporanKegiatanAdmin />} />
             <Route path="laporan-keuangan" element={<LaporanKeuanganAdmin />} />
-            <Route path="settings" element={<Settings />} />
+            
             <Route path="user-management" element={<UserManagement />} /> {/* Add route for User Management */}
           </Route>
 
