@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Table, Button } from 'react-bootstrap'; // Importing necessary components from react-bootstrap
+import { Container, Table, Button, Modal } from 'react-bootstrap'; // Importing necessary components from react-bootstrap
 
 const PeminjamanAdmin = () => {
   const [data, setData] = useState([]); // Data peminjaman menunggu
   const [riwayat, setRiwayat] = useState([]); // Data riwayat yang disetujui/ditolak
+  const [showModal, setShowModal] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
     // Ambil semua riwayat peminjaman dari server
@@ -26,6 +28,27 @@ const PeminjamanAdmin = () => {
       });
   }, []);
 
+  // Fungsi konfirmasi penghapusan
+  const handleDelete = (id) => {
+    setDeleteId(id);
+    setShowModal(true); // Menampilkan modal konfirmasi
+  };
+
+  const confirmDelete = () => {
+    axios.delete(`http://localhost:8001/deleteRiwayatPeminjaman/${deleteId}`)
+      .then(() => {
+        // Hapus data dari riwayat setelah berhasil dihapus
+        setRiwayat(riwayat.filter(item => item.id !== deleteId));
+        setShowModal(false);
+      })
+      .catch(error => console.error('Error deleting record:', error));
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setDeleteId(null);
+  };
+
   const handleKonfirmasi = (id, status) => {
     // Perbarui status peminjaman ke Disetujui atau Ditolak
     axios.post(`http://localhost:8001/updateStatusPeminjaman/${id}`, { status })
@@ -42,7 +65,7 @@ const PeminjamanAdmin = () => {
   return (
     <Container className="py-4">
       <h2 className="mb-4 text-center">Manajemen Peminjaman Inventaris</h2>
-      
+
       {/* Tabel Peminjaman Menunggu */}
       <h4>Peminjaman Menunggu Persetujuan</h4>
       <Table striped bordered hover responsive>
@@ -66,8 +89,8 @@ const PeminjamanAdmin = () => {
               <td>{pinjam.nama}</td>
               <td>{pinjam.email}</td>
               <td>{pinjam.barang}</td>
-              <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td> {/* Hanya menampilkan tanggal, bukan jam */}
-              <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td> {/* Hanya menampilkan tanggal, bukan jam */}
+              <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
+              <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
               <td>{pinjam.keperluan}</td>
               <td>{pinjam.status}</td>
               <td>
@@ -106,9 +129,10 @@ const PeminjamanAdmin = () => {
             <th>Email</th>
             <th>Barang</th>
             <th>Mulai Peminjaman</th>
-            <th> Selesai Peminjaman</th>
+            <th>Selesai Peminjaman</th>
             <th>Keperluan</th>
             <th>Status</th>
+            <th>Aksi</th>
           </tr>
         </thead>
         <tbody>
@@ -118,14 +142,38 @@ const PeminjamanAdmin = () => {
               <td>{pinjam.nama}</td>
               <td>{pinjam.email}</td>
               <td>{pinjam.barang}</td>
-              <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td> {/* Hanya menampilkan tanggal, bukan jam */}
-              <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td> {/* Hanya menampilkan tanggal, bukan jam */}
+              <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
+              <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
               <td>{pinjam.keperluan}</td>
               <td>{pinjam.status}</td>
+              <td>
+                {/* Tombol Hapus */}
+                <Button variant="danger" onClick={() => handleDelete(pinjam.id)}>
+                  Hapus
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
+
+      {/* Modal konfirmasi hapus */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Konfirmasi Hapus</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Apakah Anda yakin ingin menghapus peminjaman ini?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Batal
+          </Button>
+          <Button variant="danger" onClick={confirmDelete}>
+            Hapus
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
