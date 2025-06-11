@@ -24,6 +24,12 @@ const LaporanKeuangan = () => {
   const totalPengeluaran = pengeluaranData.reduce((total, item) => total + item.jumlah, 0);
   const saldo = totalPemasukan - totalPengeluaran;
 
+  // Format tanggal agar hanya menampilkan tanggal saja (YYYY-MM-DD)
+  const formatTanggal = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Mengambil bagian tanggal saja
+  };
+
   return (
     <Container className="mt-5">
       <Row className="mb-4">
@@ -85,7 +91,7 @@ const LaporanKeuangan = () => {
                       <td>{idx + 1}</td>
                       <td>{item.keterangan}</td>
                       <td>{item.jumlah}</td>
-                      <td>{item.tanggal}</td>
+                      <td>{formatTanggal(item.tanggal)}</td> {/* Format tanggal */}
                     </tr>
                   ))}
                 </tbody>
@@ -115,7 +121,7 @@ const LaporanKeuangan = () => {
                       <td>{idx + 1}</td>
                       <td>{item.keterangan}</td>
                       <td>{item.jumlah}</td>
-                      <td>{item.tanggal}</td>
+                      <td>{formatTanggal(item.tanggal)}</td> {/* Format tanggal */}
                     </tr>
                   ))}
                 </tbody>
