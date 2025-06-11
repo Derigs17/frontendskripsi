@@ -1,177 +1,97 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
 import axios from 'axios';
-import { Container, Row, Col, Card, Form, Button, Table } from 'react-bootstrap';
 
 const LaporanKeuanganAdmin = () => {
-  const [pemasukanData, setPemasukanData] = useState([]);
-  const [pengeluaranData, setPengeluaranData] = useState([]);
-  const [newPemasukan, setNewPemasukan] = useState({ jumlah: 0, keterangan: '', tanggal: '' });
-  const [newPengeluaran, setNewPengeluaran] = useState({ jumlah: 0, keterangan: '', tanggal: '' });
+  const [keterangan, setKeterangan] = useState('');
+  const [jumlah, setJumlah] = useState('');
+  const [tanggal, setTanggal] = useState('');
+  const [type, setType] = useState('pemasukan'); // Pilih jenis data: pemasukan atau pengeluaran
 
-  useEffect(() => {
-    // Mengambil data pemasukan dan pengeluaran
-    const fetchData = async () => {
-      const pemasukanResponse = await axios.get('http://localhost:8001/getPemasukan');
-      setPemasukanData(pemasukanResponse.data);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      const pengeluaranResponse = await axios.get('http://localhost:8001/getPengeluaran');
-      setPengeluaranData(pengeluaranResponse.data);
+    const data = {
+      keterangan,
+      jumlah,
+      tanggal,
     };
 
-    fetchData();
-  }, []);
+    const url = type === 'pemasukan' ? 'http://localhost:8001/addPemasukan' : 'http://localhost:8001/addPengeluaran';
 
-  const handleSubmitPemasukan = async () => {
     try {
-      await axios.post('http://localhost:8001/addPemasukan', newPemasukan);
-      setNewPemasukan({ jumlah: 0, keterangan: '', tanggal: '' });
-      alert('Pemasukan berhasil ditambahkan');
-    // eslint-disable-next-line no-unused-vars
+      await axios.post(url, data);
+      alert('Data berhasil ditambahkan');
+      setKeterangan('');
+      setJumlah('');
+      setTanggal('');
     } catch (error) {
-      alert('Gagal menambah pemasukan');
-    }
-  };
-
-  const handleSubmitPengeluaran = async () => {
-    try {
-      await axios.post('http://localhost:8001/addPengeluaran', newPengeluaran);
-      setNewPengeluaran({ jumlah: 0, keterangan: '', tanggal: '' });
-      alert('Pengeluaran berhasil ditambahkan');
-    // eslint-disable-next-line no-unused-vars
-    } catch (error) {
-      alert('Gagal menambah pengeluaran');
+      console.error('Error submitting data:', error);
+      alert('Gagal menambah data');
     }
   };
 
   return (
-    <Container className="mt-4">
-      <h2>Edit Laporan Keuangan</h2>
-
-      <Row className="mb-4">
+    <Container className="mt-5">
+      <h2 className="text-center">Tambah Data Laporan Keuangan</h2>
+      
+      <Row className="mt-4">
         <Col md={6}>
           <Card>
+            <Card.Header className="bg-info text-white">
+              <h5>Tambah {type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran'}</h5>
+            </Card.Header>
             <Card.Body>
-              <h5>Tambah Pemasukan</h5>
-              <Form>
-                <Form.Group controlId="formJumlahPemasukan">
-                  <Form.Label>Jumlah</Form.Label>
-                  <Form.Control
-                    type="number"
-                    value={newPemasukan.jumlah}
-                    onChange={(e) => setNewPemasukan({ ...newPemasukan, jumlah: e.target.value })}
-                    placeholder="Jumlah Pemasukan"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formKeteranganPemasukan">
+              <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="keterangan">
                   <Form.Label>Keterangan</Form.Label>
                   <Form.Control
                     type="text"
-                    value={newPemasukan.keterangan}
-                    onChange={(e) => setNewPemasukan({ ...newPemasukan, keterangan: e.target.value })}
-                    placeholder="Keterangan"
+                    placeholder="Masukkan keterangan"
+                    value={keterangan}
+                    onChange={(e) => setKeterangan(e.target.value)}
                   />
                 </Form.Group>
 
-                <Form.Group controlId="formTanggalPemasukan">
-                  <Form.Label>Tanggal</Form.Label>
-                  <Form.Control
-                    type="date"
-                    value={newPemasukan.tanggal}
-                    onChange={(e) => setNewPemasukan({ ...newPemasukan, tanggal: e.target.value })}
-                  />
-                </Form.Group>
-
-                <Button variant="primary" onClick={handleSubmitPemasukan}>Tambah Pemasukan</Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col md={6}>
-          <Card>
-            <Card.Body>
-              <h5>Tambah Pengeluaran</h5>
-              <Form>
-                <Form.Group controlId="formJumlahPengeluaran">
+                <Form.Group controlId="jumlah" className="mt-3">
                   <Form.Label>Jumlah</Form.Label>
                   <Form.Control
                     type="number"
-                    value={newPengeluaran.jumlah}
-                    onChange={(e) => setNewPengeluaran({ ...newPengeluaran, jumlah: e.target.value })}
-                    placeholder="Jumlah Pengeluaran"
+                    placeholder="Masukkan jumlah"
+                    value={jumlah}
+                    onChange={(e) => setJumlah(e.target.value)}
                   />
                 </Form.Group>
 
-                <Form.Group controlId="formKeteranganPengeluaran">
-                  <Form.Label>Keterangan</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={newPengeluaran.keterangan}
-                    onChange={(e) => setNewPengeluaran({ ...newPengeluaran, keterangan: e.target.value })}
-                    placeholder="Keterangan"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formTanggalPengeluaran">
+                <Form.Group controlId="tanggal" className="mt-3">
                   <Form.Label>Tanggal</Form.Label>
                   <Form.Control
                     type="date"
-                    value={newPengeluaran.tanggal}
-                    onChange={(e) => setNewPengeluaran({ ...newPengeluaran, tanggal: e.target.value })}
+                    value={tanggal}
+                    onChange={(e) => setTanggal(e.target.value)}
                   />
                 </Form.Group>
 
-                <Button variant="danger" onClick={handleSubmitPengeluaran}>Tambah Pengeluaran</Button>
+                <Form.Group controlId="type" className="mt-3">
+                  <Form.Label>Jenis</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                  >
+                    <option value="pemasukan">Pemasukan</option>
+                    <option value="pengeluaran">Pengeluaran</option>
+                  </Form.Control>
+                </Form.Group>
+
+                <Button variant="primary" type="submit" className="mt-3">
+                  Simpan Data
+                </Button>
               </Form>
             </Card.Body>
           </Card>
         </Col>
       </Row>
-
-      <h3>Pemasukan Bulan Ini</h3>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Keterangan</th>
-            <th>Jumlah</th>
-            <th>Tanggal</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pemasukanData.map((item, idx) => (
-            <tr key={idx}>
-              <td>{idx + 1}</td>
-              <td>{item.keterangan}</td>
-              <td>{item.jumlah}</td>
-              <td>{item.tanggal}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-
-      <h3>Pengeluaran Bulan Ini</h3>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Keterangan</th>
-            <th>Jumlah</th>
-            <th>Tanggal</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pengeluaranData.map((item, idx) => (
-            <tr key={idx}>
-              <td>{idx + 1}</td>
-              <td>{item.keterangan}</td>
-              <td>{item.jumlah}</td>
-              <td>{item.tanggal}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
     </Container>
   );
 };

@@ -16,6 +16,12 @@ const AdminLayout = () => {
     // Jika belum login atau bukan admin, arahkan ke halaman login
     if (isLoggedIn !== 'IsLogin' || userRole !== 'admin') {
       navigate('/login'); // Redirect ke halaman login
+    } else {
+      // If logged in, retrieve the active menu from localStorage
+      const savedActiveMenu = localStorage.getItem('activeMenu');
+      if (savedActiveMenu) {
+        setActiveMenu(savedActiveMenu);
+      }
     }
   }, [navigate]);
 
@@ -33,6 +39,12 @@ const AdminLayout = () => {
     navigate('/login'); // Redirect ke halaman login setelah logout
   };
 
+  // Function to handle menu item click
+  const handleMenuClick = (menu) => {
+    setActiveMenu(menu);
+    localStorage.setItem('activeMenu', menu); // Save active menu to localStorage
+  };
+
   return (
     <div className={`admin-wrapper ${collapsed ? 'collapsed' : ''}`}>
       <Container fluid>
@@ -46,7 +58,7 @@ const AdminLayout = () => {
               as={Link} 
               to="/admin" 
               className={activeMenu === 'dashboard' ? 'active' : ''} 
-              onClick={() => setActiveMenu('dashboard')}
+              onClick={() => handleMenuClick('dashboard')}
             >
               Dashboard
             </Nav.Link>
@@ -54,7 +66,7 @@ const AdminLayout = () => {
               as={Link} 
               to="/admin/peminjaman" 
               className={activeMenu === 'peminjaman' ? 'active' : ''} 
-              onClick={() => setActiveMenu('peminjaman')}
+              onClick={() => handleMenuClick('peminjaman')}
             >
               Peminjaman
             </Nav.Link>
@@ -62,7 +74,7 @@ const AdminLayout = () => {
               as={Link} 
               to="/admin/jadwal-imam" 
               className={activeMenu === 'jadwal-imam' ? 'active' : ''} 
-              onClick={() => setActiveMenu('jadwal-imam')}
+              onClick={() => handleMenuClick('jadwal-imam')}
             >
               Jadwal Imam
             </Nav.Link>
@@ -70,7 +82,7 @@ const AdminLayout = () => {
               as={Link} 
               to="/admin/laporan-kegiatan" 
               className={activeMenu === 'laporan-kegiatan' ? 'active' : ''} 
-              onClick={() => setActiveMenu('laporan-kegiatan')}
+              onClick={() => handleMenuClick('laporan-kegiatan')}
             >
               Laporan Kegiatan
             </Nav.Link>
@@ -78,7 +90,7 @@ const AdminLayout = () => {
               as={Link} 
               to="/admin/laporan-keuangan" 
               className={activeMenu === 'laporan-keuangan' ? 'active' : ''} 
-              onClick={() => setActiveMenu('laporan-keuangan')}
+              onClick={() => handleMenuClick('laporan-keuangan')}
             >
               Laporan Keuangan
             </Nav.Link>
@@ -86,7 +98,7 @@ const AdminLayout = () => {
               as={Link} 
               to="/admin/settings" 
               className={activeMenu === 'settings' ? 'active' : ''} 
-              onClick={() => setActiveMenu('settings')}
+              onClick={() => handleMenuClick('settings')}
             >
               Settings
             </Nav.Link>
@@ -94,7 +106,7 @@ const AdminLayout = () => {
               as={Link} 
               to="/admin/user-management" 
               className={activeMenu === 'user-management' ? 'active' : ''} 
-              onClick={() => setActiveMenu('user-management')}
+              onClick={() => handleMenuClick('user-management')}
             >
               User Management
             </Nav.Link>
