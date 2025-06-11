@@ -11,6 +11,7 @@ const LaporanKeuanganAdmin = () => {
     pemasukan: [],
     pengeluaran: [],
   });
+  const [editId, setEditId] = useState(null); // Menyimpan ID yang sedang diedit
 
   // Fetch data untuk tabel (Pemasukan dan Pengeluaran)
   useEffect(() => {
@@ -38,14 +39,21 @@ const LaporanKeuanganAdmin = () => {
       tanggal,
     };
 
-    const url = type === 'pemasukan' ? 'http://localhost:8001/addPemasukan' : 'http://localhost:8001/addPengeluaran';
+    // Jika ada editId, berarti mengupdate data, jika tidak, berarti menambah data
+    const url = editId
+      ? `http://localhost:8001/update${type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran'}/${editId}`
+      : type === 'pemasukan'
+      ? 'http://localhost:8001/addPemasukan'
+      : 'http://localhost:8001/addPengeluaran';
 
     try {
       await axios.post(url, data);
-      alert('Data berhasil ditambahkan');
+      alert(editId ? 'Data berhasil diperbarui' : 'Data berhasil ditambahkan');
       setKeterangan('');
       setJumlah('');
       setTanggal('');
+      setEditId(null); // Reset ID setelah submit
+
       // Refresh data setelah submit
       const response = await axios.get('http://localhost:8001/getLaporanKeuangan');
       setDataLaporan({
@@ -58,7 +66,30 @@ const LaporanKeuanganAdmin = () => {
     }
   };
 
-  // Fungsi untuk format tanggal menjadi YYYY-MM-DD (tanpa waktu)
+  const handleEdit = (id, keterangan, jumlah, tanggal, type) => {
+    setKeterangan(keterangan);
+    setJumlah(jumlah);
+    setTanggal(tanggal);
+    setEditId(id); // Set ID saat edit
+    setType(type); // Set jenis data yang sedang diedit (pemasukan atau pengeluaran)
+  };
+
+  const handleDelete = async (id, type) => {
+    try {
+      await axios.delete(`http://localhost:8001/delete${type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran'}/${id}`);
+      alert('Data berhasil dihapus');
+      // Refresh data setelah delete
+      const response = await axios.get('http://localhost:8001/getLaporanKeuangan');
+      setDataLaporan({
+        pemasukan: response.data.pemasukan,
+        pengeluaran: response.data.pengeluaran,
+      });
+    } catch (error) {
+      console.error('Error deleting data:', error);
+      alert('Gagal menghapus data');
+    }
+  };
+
   const formatTanggal = (dateString) => {
     const date = new Date(dateString);
     return date.toISOString().split('T')[0]; // Mengambil bagian tanggal saja
@@ -67,7 +98,8 @@ const LaporanKeuanganAdmin = () => {
   return (
     <Container className="mt-5">
       <h2 className="text-center">Tambah Data Laporan Keuangan</h2>
-      
+
+      {/* Form Input Data Pemasukan/Pengeluaran */}
       <Row className="mt-4 justify-content-center">
         <Col md={6}>
           <Card className="shadow">
@@ -118,7 +150,7 @@ const LaporanKeuanganAdmin = () => {
                 </Form.Group>
 
                 <Button variant="primary" type="submit" className="mt-3 w-100">
-                  Simpan Data
+                  {editId ? 'Update Data' : 'Simpan Data'}
                 </Button>
               </Form>
             </Card.Body>
@@ -141,6 +173,7 @@ const LaporanKeuanganAdmin = () => {
                     <th>Keterangan</th>
                     <th>Jumlah</th>
                     <th>Tanggal</th>
+                    <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -149,7 +182,24 @@ const LaporanKeuanganAdmin = () => {
                       <td>{idx + 1}</td>
                       <td>{item.keterangan}</td>
                       <td>{item.jumlah}</td>
-                      <td>{formatTanggal(item.tanggal)}</td> {/* Format tanggal */}
+                      <td>{formatTanggal(item.tanggal)}</td>
+                      <td>
+                        <Button
+                          variant="warning"
+                          size="sm"
+                          onClick={() => handleEdit(item.id, item.keterangan, item.jumlah, item.tanggal, 'pemasukan')}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => handleDelete(item.id, 'pemasukan')}
+                          className="ml-2"
+                        >
+                          Hapus
+                        </Button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -171,6 +221,7 @@ const LaporanKeuanganAdmin = () => {
                     <th>Keterangan</th>
                     <th>Jumlah</th>
                     <th>Tanggal</th>
+                    <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -179,7 +230,24 @@ const LaporanKeuanganAdmin = () => {
                       <td>{idx + 1}</td>
                       <td>{item.keterangan}</td>
                       <td>{item.jumlah}</td>
-                      <td>{formatTanggal(item.tanggal)}</td> {/* Format tanggal */}
+                      <td>{formatTanggal(item.tanggal)}</td>
+                      <td>
+                        <Button
+                          variant="warning"
+                          size="sm"
+                          onClick={() => handleEdit(item.id, item.keterangan, item.jumlah, item.tanggal, 'pengeluaran')}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => handleDelete(item.id, 'pengeluaran')}
+                          className="ml-2"
+                        >
+                          Hapus
+                        </Button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
