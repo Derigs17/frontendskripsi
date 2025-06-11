@@ -97,7 +97,7 @@ const Home = () => {
                   textAlign: 'left',
                 }}
               >
-                Masjid Ikatan Masjid
+                Masjid Adalah Rumah Allah
               </h5>
               <h1
                 className="home-title"
@@ -122,20 +122,9 @@ const Home = () => {
                   textAlign: 'left',
                 }}
               >
-                The industry's standard dummy text ever since the 1500s...
+                buatlah masjid sebagai tempat yang nyaman untuk beribadah, belajar, dan berinteraksi sosial. Kami menyediakan berbagai informasi dan layanan untuk mendukung kegiatan keagamaan Anda.
               </p>
-              <Button
-                href="#jadwal-sholat"
-                variant="warning"
-                style={{
-                  fontWeight: 600,
-                  borderRadius: '50px',
-                  padding: '0.75rem 1rem',
-                  maxHeight: '50px',
-                }}
-              >
-                Mulai Jelajah
-              </Button>
+              
             </Col>
           </Row>
         </Container>
