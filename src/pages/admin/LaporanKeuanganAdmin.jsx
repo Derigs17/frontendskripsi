@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Form, Button, Card, Table } from 'react-bootstrap';
 import axios from 'axios';
 
 const LaporanKeuanganAdmin = () => {
@@ -7,6 +7,27 @@ const LaporanKeuanganAdmin = () => {
   const [jumlah, setJumlah] = useState('');
   const [tanggal, setTanggal] = useState('');
   const [type, setType] = useState('pemasukan'); // Pilih jenis data: pemasukan atau pengeluaran
+  const [dataLaporan, setDataLaporan] = useState({
+    pemasukan: [],
+    pengeluaran: [],
+  });
+
+  // Fetch data untuk tabel (Pemasukan dan Pengeluaran)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8001/getLaporanKeuangan');
+        setDataLaporan({
+          pemasukan: response.data.pemasukan,
+          pengeluaran: response.data.pengeluaran,
+        });
+      } catch (error) {
+        console.error('Error fetching laporan:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,19 +46,31 @@ const LaporanKeuanganAdmin = () => {
       setKeterangan('');
       setJumlah('');
       setTanggal('');
+      // Refresh data setelah submit
+      const response = await axios.get('http://localhost:8001/getLaporanKeuangan');
+      setDataLaporan({
+        pemasukan: response.data.pemasukan,
+        pengeluaran: response.data.pengeluaran,
+      });
     } catch (error) {
       console.error('Error submitting data:', error);
       alert('Gagal menambah data');
     }
   };
 
+  // Fungsi untuk format tanggal menjadi YYYY-MM-DD (tanpa waktu)
+  const formatTanggal = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0]; // Mengambil bagian tanggal saja
+  };
+
   return (
     <Container className="mt-5">
       <h2 className="text-center">Tambah Data Laporan Keuangan</h2>
       
-      <Row className="mt-4">
+      <Row className="mt-4 justify-content-center">
         <Col md={6}>
-          <Card>
+          <Card className="shadow">
             <Card.Header className="bg-info text-white">
               <h5>Tambah {type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran'}</h5>
             </Card.Header>
@@ -84,10 +117,73 @@ const LaporanKeuanganAdmin = () => {
                   </Form.Control>
                 </Form.Group>
 
-                <Button variant="primary" type="submit" className="mt-3">
+                <Button variant="primary" type="submit" className="mt-3 w-100">
                   Simpan Data
                 </Button>
               </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* Tabel Pemasukan dan Pengeluaran */}
+      <Row className="mt-5">
+        <Col md={6}>
+          <Card>
+            <Card.Header className="bg-success text-white">
+              <h5>Pemasukan</h5>
+            </Card.Header>
+            <Card.Body>
+              <Table striped bordered hover responsive>
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Keterangan</th>
+                    <th>Jumlah</th>
+                    <th>Tanggal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dataLaporan.pemasukan.map((item, idx) => (
+                    <tr key={idx}>
+                      <td>{idx + 1}</td>
+                      <td>{item.keterangan}</td>
+                      <td>{item.jumlah}</td>
+                      <td>{formatTanggal(item.tanggal)}</td> {/* Format tanggal */}
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col md={6}>
+          <Card>
+            <Card.Header className="bg-danger text-white">
+              <h5>Pengeluaran</h5>
+            </Card.Header>
+            <Card.Body>
+              <Table striped bordered hover responsive>
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Keterangan</th>
+                    <th>Jumlah</th>
+                    <th>Tanggal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dataLaporan.pengeluaran.map((item, idx) => (
+                    <tr key={idx}>
+                      <td>{idx + 1}</td>
+                      <td>{item.keterangan}</td>
+                      <td>{item.jumlah}</td>
+                      <td>{formatTanggal(item.tanggal)}</td> {/* Format tanggal */}
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
             </Card.Body>
           </Card>
         </Col>
