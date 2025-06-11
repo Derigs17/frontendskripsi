@@ -585,3 +585,60 @@ body {
   border-radius: 8px; /* Sudut melengkung pada gambar */
   padding-top: 15px; /* Menambah jarak dari bagian atas gambar */
 }
+
+/* dashboard.css */
+.dashboard-admin {
+  max-width: 1200px;
+  margin-top: 50px;
+}
+
+.box {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.box h4 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.box p {
+  font-size: 1.2rem;
+}
+
+button {
+  font-size: 1.1rem;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+}
+
+.laporan-keuangan {
+  background-color: #d1ffd6;
+}
+
+.peminjaman {
+  background-color: #ffcccb;
+}
+
+.jadwal-imam {
+  background-color: #b0e0e6;
+}
+
+.laporan-kegiatan {
+  background-color: #ffffe0;
+}
+
+.user-management {
+  background-color: #f0f8ff;
+}
+
+/* Responsif untuk tampilan mobile */
+@media (max-width: 768px) {
+  .box {
+    margin-bottom: 1rem;
+  }
+}
