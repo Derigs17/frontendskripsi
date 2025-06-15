@@ -100,7 +100,7 @@ const PeminjamanInventaris = () => {
   };
 
   return (
-    <div className="page-content">
+    <div className="page-content mt-3   ">
       <Container className="py-4">
         <h3 className="mb-4 text-center">Formulir Peminjaman Inventaris</h3>
 
@@ -114,7 +114,7 @@ const PeminjamanInventaris = () => {
           </Alert>
         )}
 
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} style={{borderRadius: '10px', padding: '20px', backgroundColor: '#F2F2F2'}}>
           <Form.Group className="mb-3">
             <Form.Label>Nama Peminjam</Form.Label>
             <Form.Control
@@ -226,17 +226,17 @@ const PeminjamanInventaris = () => {
         </Form>
 
         {/* Tabel Peminjaman Inventaris (Menunggu) */}
-        <h4>Peminjaman Menunggu Persetujuan</h4>
-        <Table striped bordered hover responsive>
-          <thead>
+        <h4 className='mt-3'>Peminjaman Menunggu Persetujuan</h4>
+        <Table striped bordered hover responsive style={{  textAlign: 'center', }}>
+          <thead >
             <tr>
-              <th>No</th>
-              <th>Nama</th>
-              <th>Barang</th>
-              <th> Mulai Peminjaman</th>
-              <th> Selesai Peminjaman</th>
-              <th>Keperluan</th>
-              <th>Status</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>No</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Nama</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Barang</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}> Mulai Peminjaman</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}> Selesai Peminjaman</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Keperluan</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -256,16 +256,16 @@ const PeminjamanInventaris = () => {
 
         {/* Tabel Riwayat Peminjaman */}
         <h4>Riwayat Peminjaman</h4>
-        <Table striped bordered hover responsive>
+        <Table striped bordered hover responsive style={{  textAlign: 'center', }}>
           <thead>
             <tr>
-              <th>No</th>
-              <th>Nama</th>
-              <th>Barang</th>
-              <th> Mulai Peminjaman</th>
-              <th> Selesai Peminjaman</th>
-              <th>Keperluan</th>
-              <th>Status</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>No</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Nama</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Barang</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}> Mulai Peminjaman</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}> Selesai Peminjaman</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Keperluan</th>
+              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Status</th>
             </tr>
           </thead>
           <tbody>

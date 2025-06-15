@@ -43,7 +43,7 @@ const JadwalSholat = () => {
   }, []); // Hanya dijalankan sekali saat komponen pertama kali dimuat
 
   return (
-    <Container className="mt-3">
+    <Container className="mt-5">
       <Row>
         <Col>
           <Card>
@@ -76,16 +76,16 @@ const JadwalSholat = () => {
                   <Spinner animation="border" role="status" />
                 </div>
               ) : (
-                <div className="table-responsive"> {/* Membuat tabel responsif */}
+                <div className="table-responsive" style={{ backgroundColor: '#EFC46F', textAlign: 'center',borderRadius: '10px' }}> {/* Membuat tabel responsif */}
                   <Table striped bordered hover>
                     <thead>
                       <tr>
-                        <th>Tanggal</th>
-                        <th>Subuh</th>
-                        <th>Dzuhur</th>
-                        <th>Ashar</th>
-                        <th>Maghrib</th>
-                        <th>Isha</th>
+                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Tanggal</th>
+                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Subuh</th>
+                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Dzuhur</th>
+                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Ashar</th>
+                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Maghrib</th>
+                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Isha</th>
                       </tr>
                     </thead>
                     <tbody>

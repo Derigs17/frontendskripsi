@@ -29,11 +29,21 @@ const JadwalImam = () => {
 
   return (
     <div className="page-content">
-      <Container className="pt-4">
+      <Container className="mt-5">
         <h2 className="text-center mb-4">Jadwal Imam, Khatib, Muazin & Bilal Jumat</h2>
 
-        <Form className="mb-3 d-flex gap-2 justify-content-center">
-          <Form.Select value={selectedMonth} onChange={handleChangeMonth} style={{ maxWidth: '200px' }}>
+        <Form className="mb-4 d-flex gap-4 justify-content-center">
+          <Form.Select 
+            value={selectedMonth} 
+            onChange={handleChangeMonth} 
+            style={{ 
+              maxWidth: '200px', 
+              borderRadius: '10px', 
+              borderColor: '#FDC921', 
+              backgroundColor: '#fff9e6', 
+              boxShadow: '0 4px 10px rgba(0,0,0,0.1)' 
+            }}
+          >
             {Array.from({ length: 12 }, (_, i) => (
               <option key={i} value={i + 1}>
                 {new Date(0, i).toLocaleString('id-ID', { month: 'long' })}
@@ -41,7 +51,17 @@ const JadwalImam = () => {
             ))}
           </Form.Select>
 
-          <Form.Select value={selectedYear} onChange={handleChangeYear} style={{ maxWidth: '200px' }}>
+          <Form.Select 
+            value={selectedYear} 
+            onChange={handleChangeYear} 
+            style={{ 
+              maxWidth: '200px', 
+              borderRadius: '10px', 
+              borderColor: '#FDC921', 
+              backgroundColor: '#fff9e6', 
+              boxShadow: '0 4px 10px rgba(0,0,0,0.1)' 
+            }}
+          >
             {Array.from({ length: 5 }, (_, i) => selectedYear - 2 + i).map((year) => (
               <option key={year} value={year}>
                 {year}
@@ -50,23 +70,33 @@ const JadwalImam = () => {
           </Form.Select>
         </Form>
 
-        <h5 className="text-center mb-3">{bulanLabel} {selectedYear}</h5>
+        <h5 className="text-center mb-4">{bulanLabel} {selectedYear}</h5>
 
-        <div style={{ overflowX: 'auto' }}>
-          <Table striped bordered hover responsive className="table-jadwal">
+        <div style={{ overflowX: 'auto',borderRadius: '10px', }}>
+          <Table 
+            striped 
+            bordered 
+            hover 
+            responsive 
+            className="table-jadwal-imam"
+           style={{}}
+          >
             <thead>
               <tr>
-                <th>Tanggal</th>
-                <th>Imam</th>
-                <th>Khatib</th>
-                <th>Muazin </th>
-                <th>Bilal</th>
+                <th style={{ backgroundColor: '#EFC46F', color: '#fff', textAlign: 'center' }}>Tanggal</th>
+                <th style={{ backgroundColor: '#EFC46F', color: '#fff', textAlign: 'center' }}>Imam</th>
+                <th style={{ backgroundColor: '#EFC46F', color: '#fff', textAlign: 'center' }}>Khatib</th>
+                <th style={{ backgroundColor: '#EFC46F', color: '#fff', textAlign: 'center' }}>Muazin</th>
+                <th style={{ backgroundColor: '#EFC46F', color: '#fff', textAlign: 'center' }}>Bilal</th>
               </tr>
             </thead>
             <tbody>
               {jadwal.map((item) => (
-                <tr key={item.id}>
-                  <td style={{ whiteSpace: 'nowrap' }}>
+                <tr 
+                  key={item.id} 
+                  
+                >
+                  <td >
                     {new Date(item.tanggal).toLocaleDateString('id-ID', {
                       weekday: 'short',
                       day: 'numeric',
@@ -76,7 +106,7 @@ const JadwalImam = () => {
                   </td>
                   <td>{item.imam}</td>
                   <td>{item.khatib}</td>
-                  <td>{item.muazin}  </td>
+                  <td>{item.muazin}</td>
                   <td>{item.bilal}</td>
                 </tr>
               ))}

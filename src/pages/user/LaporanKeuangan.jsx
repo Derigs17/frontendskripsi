@@ -69,20 +69,20 @@ const LaporanKeuangan = () => {
       </Row>
 
       {/* Tabel Pemasukan dan Pengeluaran */}
-      <Row className="mb-4">
+      <Row className=" mb-4" >
         <Col lg={6}>
           <Card>
             <Card.Header className="bg-success text-white">
               <h5>Pemasukan</h5>
             </Card.Header>
             <Card.Body>
-              <Table striped bordered hover responsive>
+              <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
                 <thead>
                   <tr>
-                    <th>No</th>
-                    <th>Keterangan</th>
-                    <th>Jumlah</th>
-                    <th>Tanggal</th>
+                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>No</th>
+                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Keterangan</th>
+                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Jumlah</th>
+                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Tanggal</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -106,19 +106,19 @@ const LaporanKeuangan = () => {
               <h5>Pengeluaran</h5>
             </Card.Header>
             <Card.Body>
-              <Table striped bordered hover responsive>
+              <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
                 <thead>
                   <tr>
-                    <th>No</th>
-                    <th>Keterangan</th>
-                    <th>Jumlah</th>
-                    <th>Tanggal</th>
+                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>No</th>
+                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Keterangan</th>
+                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Jumlah</th>
+                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Tanggal</th>
                   </tr>
                 </thead>
                 <tbody>
                   {pengeluaranData.map((item, idx) => (
                     <tr key={idx}>
-                      <td>{idx + 1}</td>
+                      <td >{idx + 1}</td>
                       <td>{item.keterangan}</td>
                       <td>{item.jumlah}</td>
                       <td>{formatTanggal(item.tanggal)}</td> {/* Format tanggal */}

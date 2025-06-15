@@ -35,13 +35,13 @@ html, body, #root {
 /* Scroll Behavior */
 @media (max-width: 768px) {
   body {
-    padding-top: 60px; 
+    padding-top: 40px; 
   }
 }
 
 @media (min-width: 769px) {
   body {
-    padding-top: 80px;
+    padding-top: 60px;
     scroll-behavior: smooth; 
   }
 }
@@ -64,36 +64,28 @@ html, body, #root {
 
 /* Navbar Styling */
 .navbar-custom {
-  background-color: #eeeeee !important;
+ background-color: #EFC46F !important; /* Off-White */
+
 }
 
 .navbar-custom .nav-link,
 .navbar-custom .dropdown-item {
-  color: #000;
-  font-weight: 400;
+  color: #000000;
+  font-weight: 500;
+  letter-spacing: 1px;
 }
 
 .navbar-custom .nav-link.active,
 .navbar-custom .dropdown-item.active {
-  color: #FDC921 !important;
+  color: #ffffff !important;
+  
 }
 
 .navbar-custom .nav-link:hover,
 .navbar-custom .dropdown-item:hover {
-  color: #FDC921;
+  color: #ff0000;
 }
 
-.navbar-custom .btn-masuk {
-  color: #000;
-  background-color: #FDC921 !important;
-  border-color: #FDC921;
-  font-weight: 400;
-}
-
-.navbar-custom .btn-masuk:hover {
-  background-color: #e6a800 !important;
-  border-color: #e6a800;
-}
 
 
 /* main.css */
@@ -252,20 +244,6 @@ body {
   font-size: 1rem;
 }
 
-.home-button {
-  background-color: #FDC921;
-  border-color: #FDC921;
-  color: black;
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-weight: bold;
-}
-
-.home-button:hover {
-  background-color: #e6a800;
-  border-color: #e6a800;
-  color: black;
-}
 
 /* Responsif Table Styling */
 @media (max-width: 768px) {

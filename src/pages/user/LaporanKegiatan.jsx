@@ -27,7 +27,7 @@ const LaporanKegiatanUser = () => {
   }, [kegiatan]);
 
   return (
-    <Container className="my-3">
+    <Container className="mt-5 mb-5">
       <h2 className="mb-4 fw-bold">Kegiatan Akan Datang</h2>
       <Row className="g-4 mb-5">
         {kegiatanAkanDatang.map((kg) => (
