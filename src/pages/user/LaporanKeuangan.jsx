@@ -79,7 +79,16 @@ const LaporanKeuangan = () => {
               <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
                 <thead>
                   <tr>
-                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>No</th>
+                    <th style={{ 
+        backgroundColor: '#EFC46F', 
+        color: '#fff', 
+        minWidth: '30px', 
+        maxWidth: '50px', 
+        width: '10%', 
+        whiteSpace: 'nowrap', 
+        textAlign: 'center', 
+        padding: '0.4rem 0.6rem'
+      }}>No</th>
                     <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Keterangan</th>
                     <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Jumlah</th>
                     <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Tanggal</th>
@@ -109,7 +118,16 @@ const LaporanKeuangan = () => {
               <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
                 <thead>
                   <tr>
-                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>No</th>
+                    <th style={{ 
+        backgroundColor: '#EFC46F', 
+        color: '#fff', 
+        minWidth: '30px', 
+        maxWidth: '50px', 
+        width: '10%', 
+        whiteSpace: 'nowrap', 
+        textAlign: 'center',  
+        padding: '0.4rem 0.6rem'
+      }}>No</th>
                     <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Keterangan</th>
                     <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Jumlah</th>
                     <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Tanggal</th>

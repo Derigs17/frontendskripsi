@@ -64,8 +64,7 @@ html, body, #root {
 
 /* Navbar Styling */
 .navbar-custom {
- background-color: #EFC46F !important; /* Off-White */
-
+  background-color: #EFC46F !important; /* Off-White */
 }
 
 .navbar-custom .nav-link,
@@ -75,15 +74,22 @@ html, body, #root {
   letter-spacing: 1px;
 }
 
-.navbar-custom .nav-link.active,
+.navbar-custom .nav-link.active{
+  color: #ffffff !important; /* Active state color */
+
+}
 .navbar-custom .dropdown-item.active {
-  color: #ffffff !important;
-  
+  color: #ffffff !important; /* Active state color */
+  background-color: #EFC46F; /* Active background color */
 }
 
-.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link:hover{
+  color: #ffffff; /* Hover text color */
+
+}
 .navbar-custom .dropdown-item:hover {
-  color: #ff0000;
+  color: #ffffff; /* Hover text color */
+  background-color: #EFC46F; /* Hover background color */
 }
 
 
@@ -620,3 +626,4 @@ button {
     margin-bottom: 1rem;
   }
 }
+
