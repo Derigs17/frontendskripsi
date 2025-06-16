@@ -102,7 +102,7 @@ const PeminjamanInventaris = () => {
   return (
     <div className="page-content mt-3   ">
       <Container className="py-4">
-        <h3 className="mb-4 text-center">Formulir Peminjaman Inventaris</h3>
+        <h2 className="mb-4 text-center">Formulir Peminjaman Inventaris</h2>
 
         {alert.show && (
           <Alert

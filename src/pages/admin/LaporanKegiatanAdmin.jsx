@@ -12,8 +12,6 @@ const LaporanKegiatanAdmin = () => {
   });
 
   const [kegiatan, setKegiatan] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editingId, setEditingId] = useState(null);
 
   // Fungsi untuk menangani perubahan input form
   const handleInputChange = (e) => {
@@ -32,7 +30,7 @@ const LaporanKegiatanAdmin = () => {
     }));
   };
 
-  // Fungsi untuk menambah atau mengedit kegiatan
+  // Fungsi untuk menambah kegiatan
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -41,101 +39,147 @@ const LaporanKegiatanAdmin = () => {
     form.append('tanggal', formData.tanggal);
     form.append('deskripsi', formData.deskripsi);
     form.append('gambar', formData.gambar || 'bukabersama.png');
-    form.append('status', formData.status);
+    form.append('status', formData.status);  // Status awal akan tetap 'Akan Datang'
 
     try {
-      if (isEditing) {
-        await axios.post(`http://localhost:8001/updateKegiatan/${editingId}`, form);
-      } else {
-        await axios.post('http://localhost:8001/addKegiatan', form);
-      }
-      fetchKegiatan();
+      await axios.post('http://localhost:8001/addKegiatan', form);
+      alert('Kegiatan berhasil ditambahkan');
+      fetchKegiatan(); // Memuat data terbaru setelah menambah kegiatan
     } catch (error) {
       console.error('Error saving kegiatan:', error);
+      alert('Gagal menambahkan kegiatan');
     }
 
+    // Reset form
     setFormData({ judul: '', tanggal: '', deskripsi: '', gambar: null, status: 'Akan Datang' });
-    setIsEditing(false);
-    setEditingId(null);
   };
 
-  // Fungsi untuk mengambil data kegiatan
+  // Fungsi untuk mengambil semua kegiatan
   const fetchKegiatan = async () => {
     try {
       const response = await axios.get('http://localhost:8001/getAllKegiatan');
-      setKegiatan(response.data);
+      setKegiatan(response.data); // Memasukkan semua data kegiatan ke state
     } catch (error) {
       console.error('Error fetching kegiatan:', error);
     }
   };
 
+  // Fungsi untuk mengubah status kegiatan menjadi "Telah Selesai"
+  const handleStatusChange = async (id) => {
+    try {
+      // Panggil endpoint untuk memperbarui status kegiatan menjadi "Telah Selesai"
+      await axios.post(`http://localhost:8001/updateStatusKegiatan/${id}`);
+      fetchKegiatan();  // Memuat ulang data setelah status kegiatan diubah
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
+
   React.useEffect(() => {
-    fetchKegiatan();
+    fetchKegiatan();  // Memuat data kegiatan pertama kali
   }, []);
 
   return (
-    <Container className="my-3">
-      <h2 className="mb-4 fw-bold">Laporan Kegiatan Admin</h2>
+    <Container className="my-5">
+      <h2 className="mb-4 fw-bold text-center">Laporan Kegiatan Admin</h2>
 
-      {/* Form untuk menambah dan mengedit kegiatan */}
-      <Form onSubmit={handleFormSubmit} className="mb-4">
-        <Form.Group controlId="judul">
-          <Form.Label>Judul Kegiatan</Form.Label>
-          <Form.Control
-            type="text"
-            name="judul"
-            value={formData.judul}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="tanggal">
-          <Form.Label>Tanggal</Form.Label>
-          <Form.Control
-            type="text"
-            name="tanggal"
-            value={formData.tanggal}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="deskripsi">
-          <Form.Label>Deskripsi</Form.Label>
-          <Form.Control
-            type="text"
-            name="deskripsi"
-            value={formData.deskripsi}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="gambar">
-          <Form.Label>Gambar Kegiatan</Form.Label>
-          <Form.Control
-            type="file"
-            name="gambar"
-            onChange={handleFileChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="status">
-          <Form.Label>Status Kegiatan</Form.Label>
-          <Form.Control
-            as="select"
-            name="status"
-            value={formData.status}
-            onChange={handleInputChange}
-          >
-            <option>Akan Datang</option>
-            <option>Telah Selesai</option>
-          </Form.Control>
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          {isEditing ? 'Update Kegiatan' : 'Tambah Kegiatan'}
-        </Button>
+      {/* Form untuk menambah kegiatan */}
+      <Form onSubmit={handleFormSubmit} className="mb-5">
+        <Row className="g-3">
+          <Col md={6}>
+            <Form.Group controlId="judul">
+              <Form.Label>Judul Kegiatan</Form.Label>
+              <Form.Control
+                type="text"
+                name="judul"
+                value={formData.judul}
+                onChange={handleInputChange}
+                placeholder="Masukkan Judul Kegiatan"
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group controlId="tanggal">
+              <Form.Label>Tanggal</Form.Label>
+              <Form.Control
+                type="text"
+                name="tanggal"
+                value={formData.tanggal}
+                onChange={handleInputChange}
+                placeholder="Masukkan Tanggal Kegiatan"
+              />
+            </Form.Group>
+          </Col>
+          <Col md={12}>
+            <Form.Group controlId="deskripsi">
+              <Form.Label>Deskripsi</Form.Label>
+              <Form.Control
+                type="text"
+                name="deskripsi"
+                value={formData.deskripsi}
+                onChange={handleInputChange}
+                placeholder="Masukkan Deskripsi Kegiatan"
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group controlId="gambar">
+              <Form.Label>Gambar Kegiatan</Form.Label>
+              <Form.Control
+                type="file"
+                name="gambar"
+                onChange={handleFileChange}
+              />
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group controlId="status">
+              <Form.Label>Status Kegiatan</Form.Label>
+              <Form.Control
+                as="select"
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+              >
+                <option>Akan Datang</option>
+                <option>Telah Selesai</option>
+              </Form.Control>
+            </Form.Group>
+          </Col>
+          <Col md={12}>
+            <Button variant="primary" type="submit" className="w-100">
+              Tambah Kegiatan
+            </Button>
+          </Col>
+        </Row>
       </Form>
 
-      {/* Display kegiatan */}
-      <Row className="g-4 mb-5">
-        {kegiatan.map((kg) => (
-          <Col md={4} key={kg.id}>
-            <Card className="h-100">
+      {/* Menampilkan kegiatan yang Akan Datang */}
+      <h3 className="mb-4">Kegiatan Akan Datang</h3>
+      <Row className="g-4">
+        {kegiatan.filter(kg => kg.status === 'Akan Datang').map((kg) => (
+          <Col sm={12} md={6} lg={4} key={kg.id}>
+            <Card className="shadow-sm border-light rounded">
+              <Card.Img variant="top" src={`http://localhost:8001/uploads/${kg.gambar}`} />
+              <Card.Body>
+                <Card.Title>{kg.judul}</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">{kg.tanggal}</Card.Subtitle>
+                <Card.Text>{kg.deskripsi}</Card.Text>
+                <Button onClick={() => handleStatusChange(kg.id)} variant="success" className="w-100">
+                  Tandai Selesai
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+
+      {/* Menampilkan kegiatan yang Telah Selesai */}
+      <h3 className="mb-4 mt-5">Kegiatan Telah Selesai</h3>
+      <Row className="g-4">
+        {kegiatan.filter(kg => kg.status === 'Telah Selesai').map((kg) => (
+          <Col sm={12} md={6} lg={4} key={kg.id}>
+            <Card className="shadow-sm border-light rounded">
               <Card.Img variant="top" src={`http://localhost:8001/uploads/${kg.gambar}`} />
               <Card.Body>
                 <Card.Title>{kg.judul}</Card.Title>
