@@ -70,22 +70,22 @@ const JadwalSholat = () => {
                 {currentDateTime.split(' - ')[1]} {/* Menampilkan tanggal */}
               </div>
 
-              <Card.Title className='pt-3'>Jadwal Sholat</Card.Title>
+              <h4 className='pt-3'>Jadwal Sholat</h4>
               {loading ? (
                 <div className="d-flex justify-content-center">
                   <Spinner animation="border" role="status" />
                 </div>
               ) : (
-                <div className="table-responsive" style={{ backgroundColor: '#EFC46F', textAlign: 'center',borderRadius: '10px' }}> {/* Membuat tabel responsif */}
+                <div className="table-responsive" style={{ backgroundColor: '#0D1B2A ', textAlign: 'center',borderRadius: '10px' }}> {/* Membuat tabel responsif */}
                   <Table striped bordered hover>
                     <thead>
                       <tr>
-                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Tanggal</th>
-                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Subuh</th>
-                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Dzuhur</th>
-                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Ashar</th>
-                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Maghrib</th>
-                        <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Isha</th>
+                        <th style={{ backgroundColor: '#0D1B2A ', color: '#fff',}}>Tanggal</th>
+                        <th style={{ backgroundColor: '#0D1B2A ', color: '#fff',}}>Subuh</th>
+                        <th style={{ backgroundColor: '#0D1B2A ', color: '#fff',}}>Dzuhur</th>
+                        <th style={{ backgroundColor: '#0D1B2A ', color: '#fff',}}>Ashar</th>
+                        <th style={{ backgroundColor: '#0D1B2A ', color: '#fff',}}>Maghrib</th>
+                        <th style={{ backgroundColor: '#0D1B2A ', color: '#fff',}}>Isha</th>
                       </tr>
                     </thead>
                     <tbody>

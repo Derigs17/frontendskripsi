@@ -6,9 +6,8 @@
   box-sizing: border-box;
 }
 
-
-body {
-  font-family: 'Poppins', sans-serif;
+h2,h4{
+  font-weight: bold;
 }
 
 html {
@@ -72,32 +71,41 @@ html, body, #root {
 
 /* Navbar Styling */
 .navbar-custom {
-  background-color: #EFC46F !important; /* Off-White */
+  background-color: #0D1B2A !important; /* Biru gelap untuk navbar */
 }
 
 .navbar-custom .nav-link,
 .navbar-custom .dropdown-item {
-  color: #000000;
+  color: #A4A4A4; /* Teks menu yang tidak aktif */
   font-weight: 500;
   letter-spacing: 1px;
 }
 
-.navbar-custom .nav-link.active{
-  color: #ffffff !important; /* Active state color */
-
+.navbar-custom .nav-link.active {
+  color: #FDC921 !important; /* Warna kuning cerah untuk menu aktif */
 }
+
 .navbar-custom .dropdown-item.active {
-  color: #ffffff !important; /* Active state color */
-  background-color: #EFC46F; /* Active background color */
+  color: #FDC921 !important; /* Warna kuning cerah untuk dropdown item yang aktif */
+  background-color: #0D1B2A; /* Background aktif tetap biru gelap */
 }
 
-.navbar-custom .nav-link:hover{
-  color: #ffffff; /* Hover text color */
-
+.navbar-custom .nav-link:hover {
+  color: #FDC921; /* Hover menjadi kuning */
 }
+
 .navbar-custom .dropdown-item:hover {
-  color: #ffffff; /* Hover text color */
-  background-color: #EFC46F; /* Hover background color */
+  color: #FDC921; /* Hover menjadi kuning */
+  background-color: #0D1B2A; /* Hover background tetap biru gelap */
+}
+
+.navbar-brand {
+  color: #FDC921 !important; /* Warna kuning untuk logo navbar */
+}
+@media (max-width: 768px) {
+  .logo-profile {
+    padding-bottom: 15px; /* Menambah jarak bawah untuk logo profil */
+  }
 }
 
 
@@ -149,6 +157,7 @@ html, body, #root {
   margin-top: 15px;
   font-size: 1rem;
 }
+
 
 
 /* Responsif Table Styling */

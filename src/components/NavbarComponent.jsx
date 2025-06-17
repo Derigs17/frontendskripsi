@@ -48,17 +48,17 @@ const NavbarComponent = () => {
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary navbar-custom fixed-top ">
         <Container fluid>
           {/* Brand Logo */}
-          <Navbar.Brand as={NavLink} to="/" className="ms-0 d-flex align-items-center">
+          <Navbar.Brand  className="ms-0 d-flex align-items-center">
             <img
               src={logomasjid}
               alt="Logo Masjid"
-              style={{ width: '40px', marginRight: '10px', marginLeft: '20px' }}
+              style={{ width: '40px', marginRight: '10px', marginLeft: '20px',marginBottom: '5px' }}
             />
             <span style={{fontWeight:'450'}} className="">Masjid At-Taqwa</span>
           </Navbar.Brand>
 
           {/* Toggle Button */}
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Toggle aria-controls="responsive-navbar-nav"  style={{ backgroundColor: '#ffffff' }} />
 
           {/* Menu */}
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -101,8 +101,8 @@ const NavbarComponent = () => {
             </Nav>
 
             {/* Logo Profile */}
-            <Navbar.Brand className="logo-profile" onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
-              <img src={logosementara} alt="profile" style={{ width: '40px', marginRight: '10px', marginLeft: '20px' }} />
+            <Navbar.Brand className="logo-profile " onClick={handleProfileClick} style={{ cursor: 'pointer'}}>
+              <img className="logo-profile " src={logosementara} alt="profile" style={{ width: '40px', marginRight: '10px', marginLeft: '20px'}} />
             </Navbar.Brand>
           </Navbar.Collapse>
         </Container>

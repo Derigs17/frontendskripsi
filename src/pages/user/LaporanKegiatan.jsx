@@ -29,9 +29,9 @@ const LaporanKegiatanUser = () => {
   return (
     <Container className="mt-5 mb-5">
       {/* Kegiatan Akan Datang */}
-      <h2 className="mb-4 fw-bold text-center" style={{ backgroundColor: '#EFC46F', padding: '10px', borderRadius: '5px' }}>
-        Kegiatan Akan Datang
-      </h2>
+      <h2 className="mb-4 text-center" style={{ color: '#ffffff', backgroundColor: '#0D1B2A', padding: '10px', borderRadius: '5px' }}>
+  Kegiatan Akan Datang
+</h2>
       <Row className="g-4 mb-5">
         {kegiatanAkanDatang.map((kg) => (
           <Col md={4} key={kg.id}>
@@ -48,9 +48,10 @@ const LaporanKegiatanUser = () => {
       </Row>
 
       {/* Kegiatan Telah Selesai */}
-      <h2 className="mb-4 fw-bold text-center" style={{ backgroundColor: '#EFC46F', padding: '10px', borderRadius: '5px' }}>
-        Kegiatan Telah Selesai
-      </h2>
+      <h2 className="mb-4 text-center" style={{ color: '#ffffff', backgroundColor: '#0D1B2A', padding: '10px', borderRadius: '5px' }}>
+  Kegiatan Telah Selesai
+</h2>
+
       <Row className="g-4">
         {kegiatanTelahSelesai.map((kg) => (
           <Col md={4} key={kg.id}>

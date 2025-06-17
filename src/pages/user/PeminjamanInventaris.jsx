@@ -230,13 +230,13 @@ const PeminjamanInventaris = () => {
         <Table striped bordered hover responsive style={{  textAlign: 'center', }}>
           <thead >
             <tr>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>No</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Nama</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Barang</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}> Mulai Peminjaman</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}> Selesai Peminjaman</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Keperluan</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Status</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>No</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Nama</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Barang</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}> Mulai Peminjaman</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}> Selesai Peminjaman</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Keperluan</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -259,13 +259,13 @@ const PeminjamanInventaris = () => {
         <Table striped bordered hover responsive style={{  textAlign: 'center', }}>
           <thead>
             <tr>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>No</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Nama</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Barang</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}> Mulai Peminjaman</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}> Selesai Peminjaman</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Keperluan</th>
-              <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Status</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>No</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Nama</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Barang</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}> Mulai Peminjaman</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}> Selesai Peminjaman</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Keperluan</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Status</th>
             </tr>
           </thead>
           <tbody>

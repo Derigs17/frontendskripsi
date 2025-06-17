@@ -55,7 +55,7 @@ const LaporanKeuangan = () => {
               <h5>Total Pengeluaran</h5>
               <p className="h4 text-danger">Rp {totalPengeluaran.toLocaleString()}</p>
             </Card.Body>
-          </Card>
+          </Card> 
         </Col>
 
         <Col md={4} className="mb-3">
@@ -80,7 +80,7 @@ const LaporanKeuangan = () => {
                 <thead>
                   <tr>
                     <th style={{ 
-        backgroundColor: '#EFC46F', 
+        backgroundColor: '#0D1B2A', 
         color: '#fff', 
         minWidth: '30px', 
         maxWidth: '50px', 
@@ -89,9 +89,9 @@ const LaporanKeuangan = () => {
         textAlign: 'center', 
         padding: '0.4rem 0.6rem'
       }}>No</th>
-                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Keterangan</th>
-                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Jumlah</th>
-                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Tanggal</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Keterangan</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Jumlah</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Tanggal</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -119,7 +119,7 @@ const LaporanKeuangan = () => {
                 <thead>
                   <tr>
                     <th style={{ 
-        backgroundColor: '#EFC46F', 
+        backgroundColor: '#0D1B2A', 
         color: '#fff', 
         minWidth: '30px', 
         maxWidth: '50px', 
@@ -128,9 +128,9 @@ const LaporanKeuangan = () => {
         textAlign: 'center',  
         padding: '0.4rem 0.6rem'
       }}>No</th>
-                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Keterangan</th>
-                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Jumlah</th>
-                    <th style={{ backgroundColor: '#EFC46F', color: '#fff',}}>Tanggal</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Keterangan</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Jumlah</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Tanggal</th>
                   </tr>
                 </thead>
                 <tbody>

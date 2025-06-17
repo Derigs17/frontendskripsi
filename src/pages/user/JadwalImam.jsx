@@ -39,7 +39,7 @@ const JadwalImam = () => {
             style={{ 
               maxWidth: '200px', 
               borderRadius: '10px', 
-              borderColor: '#FDC921', 
+              borderColor: '#0D1B2A ', 
               backgroundColor: '#fff9e6', 
               boxShadow: '0 4px 10px rgba(0,0,0,0.1)' 
             }}
@@ -57,7 +57,7 @@ const JadwalImam = () => {
             style={{ 
               maxWidth: '200px', 
               borderRadius: '10px', 
-              borderColor: '#FDC921', 
+              borderColor: '#0D1B2A ', 
               backgroundColor: '#fff9e6', 
               boxShadow: '0 4px 10px rgba(0,0,0,0.1)' 
             }}
@@ -83,11 +83,11 @@ const JadwalImam = () => {
           >
             <thead>
               <tr>
-                <th style={{ backgroundColor: '#EFC46F', color: '#fff', textAlign: 'center' }}>Tanggal</th>
-                <th style={{ backgroundColor: '#EFC46F', color: '#fff', textAlign: 'center' }}>Imam</th>
-                <th style={{ backgroundColor: '#EFC46F', color: '#fff', textAlign: 'center' }}>Khatib</th>
-                <th style={{ backgroundColor: '#EFC46F', color: '#fff', textAlign: 'center' }}>Muazin</th>
-                <th style={{ backgroundColor: '#EFC46F', color: '#fff', textAlign: 'center' }}>Bilal</th>
+                <th style={{ backgroundColor: '#0D1B2A ', color: '#fff', textAlign: 'center' }}>Tanggal</th>
+                <th style={{ backgroundColor: '#0D1B2A ', color: '#fff', textAlign: 'center' }}>Imam</th>
+                <th style={{ backgroundColor: '#0D1B2A ', color: '#fff', textAlign: 'center' }}>Khatib</th>
+                <th style={{ backgroundColor: '#0D1B2A ', color: '#fff', textAlign: 'center' }}>Muazin</th>
+                <th style={{ backgroundColor: '#0D1B2A ', color: '#fff', textAlign: 'center' }}>Bilal</th>
               </tr>
             </thead>
             <tbody>

@@ -132,7 +132,7 @@ const Home = () => {
 
 
       {/* Jadwal Sholat Section */}
-      <Container className="py-5">
+      <Container className="homejadwalsolat py-5">
         <h2 className="text-center mb-2">Jadwal Waktu Sholat Harian Masjid At-Taqwa</h2>
         <p className="text-center text-muted mb-4">
           Setiap detik adalah panggilan cinta dari-Nya. Waktu sholat bukan hanya jadwal,
