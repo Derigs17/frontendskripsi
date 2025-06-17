@@ -68,94 +68,99 @@ const PeminjamanAdmin = () => {
 
       {/* Tabel Peminjaman Menunggu */}
       <h4>Peminjaman Menunggu Persetujuan</h4>
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Nama</th>
-            <th>Email</th>
-            <th>Barang</th>
-            <th>Mulai Peminjaman</th>
-            <th>Selesai Peminjaman</th>
-            <th>Keperluan</th>
-            <th>Status</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((pinjam, index) => (
-            <tr key={pinjam.id}>
-              <td>{index + 1}</td>
-              <td>{pinjam.nama}</td>
-              <td>{pinjam.email}</td>
-              <td>{pinjam.barang}</td>
-              <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
-              <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
-              <td>{pinjam.keperluan}</td>
-              <td>{pinjam.status}</td>
-              <td>
-                {pinjam.status === 'Menunggu' ? (
-                  <>
-                    <Button
-                      variant="success"
-                      onClick={() => handleKonfirmasi(pinjam.id, 'Disetujui')}
-                      className="me-2"
-                    >
-                      Setujui
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => handleKonfirmasi(pinjam.id, 'Ditolak')}
-                    >
-                      Tolak
-                    </Button>
-                  </>
-                ) : (
-                  'Sudah Disetujui/Tolak'
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+<Table striped bordered hover responsive>
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Nama</th>
+      <th>Nomor Telepon</th> {/* Kolom Nomor Telepon */}
+      <th>Email</th>
+      <th>Barang</th>
+      <th>Mulai Peminjaman</th>
+      <th>Selesai Peminjaman</th>
+      <th>Keperluan</th>
+      <th>Status</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {data.map((pinjam, index) => (
+      <tr key={pinjam.id}>
+        <td>{index + 1}</td>
+        <td>{pinjam.nama}</td>
+        <td>{pinjam.nomor_telepon}</td> {/* Menampilkan Nomor Telepon */}
+        <td>{pinjam.email}</td>
+        <td>{pinjam.barang}</td>
+        <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
+        <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
+        <td>{pinjam.keperluan}</td>
+        <td>{pinjam.status}</td>
+        <td>
+          {pinjam.status === 'Menunggu' ? (
+            <>
+              <Button
+                variant="success"
+                onClick={() => handleKonfirmasi(pinjam.id, 'Disetujui')}
+                className="me-2"
+              >
+                Setujui
+              </Button>
+              <Button
+                variant="danger"
+                onClick={() => handleKonfirmasi(pinjam.id, 'Ditolak')}
+              >
+                Tolak
+              </Button>
+            </>
+          ) : (
+            'Sudah Disetujui/Tolak'
+          )}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</Table>
+
 
       {/* Tabel Riwayat Peminjaman (Disetujui/Tolak) */}
       <h4>Riwayat Peminjaman</h4>
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Nama</th>
-            <th>Email</th>
-            <th>Barang</th>
-            <th>Mulai Peminjaman</th>
-            <th>Selesai Peminjaman</th>
-            <th>Keperluan</th>
-            <th>Status</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {riwayat.map((pinjam, index) => (
-            <tr key={pinjam.id}>
-              <td>{index + 1}</td>
-              <td>{pinjam.nama}</td>
-              <td>{pinjam.email}</td>
-              <td>{pinjam.barang}</td>
-              <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
-              <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
-              <td>{pinjam.keperluan}</td>
-              <td>{pinjam.status}</td>
-              <td>
-                {/* Tombol Hapus */}
-                <Button variant="danger" onClick={() => handleDelete(pinjam.id)}>
-                  Hapus
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+<Table striped bordered hover responsive>
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Nama</th>
+      <th>Nomor Telepon</th> {/* Kolom Nomor Telepon */}
+      <th>Email</th>
+      <th>Barang</th>
+      <th>Mulai Peminjaman</th>
+      <th>Selesai Peminjaman</th>
+      <th>Keperluan</th>
+      <th>Status</th>
+      <th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    {riwayat.map((pinjam, index) => (
+      <tr key={pinjam.id}>
+        <td>{index + 1}</td>
+        <td>{pinjam.nama}</td>
+        <td>{pinjam.nomor_telepon}</td> {/* Menampilkan Nomor Telepon */}
+        <td>{pinjam.email}</td>
+        <td>{pinjam.barang}</td>
+        <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
+        <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
+        <td>{pinjam.keperluan}</td>
+        <td>{pinjam.status}</td>
+        <td>
+          <Button variant="danger" onClick={() => handleDelete(pinjam.id)}>
+            Hapus
+          </Button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</Table>
+
 
       {/* Modal konfirmasi hapus */}
       <Modal show={showModal} onHide={handleCloseModal}>

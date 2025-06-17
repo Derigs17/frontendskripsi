@@ -11,6 +11,7 @@ const PeminjamanInventaris = () => {
     tglMulai: '',
     tglSelesai: '',
     keperluan: '',
+    nomorTelepon: '', // Menambahkan nomor telepon ke dalam state
   });
 
   const [riwayat, setRiwayat] = useState([]); // Data riwayat yang disetujui/ditolak
@@ -70,33 +71,33 @@ const PeminjamanInventaris = () => {
       ...formData,  // Kirim data form lainnya
       barang: barangString // Kirim barang dalam format string
     })
-    .then((response) => {
-      setAlert({
-        show: true,
-        type: 'success',
-        message: response.data.message,
-      });
+      .then((response) => {
+        setAlert({
+          show: true,
+          type: 'success',
+          message: response.data.message,
+        });
 
-      // Simpan riwayat peminjaman
-      setRiwayat(prev => [{ ...formData, status: 'Menunggu' }, ...prev]);
+        // Simpan riwayat peminjaman
+        setRiwayat(prev => [{ ...formData, status: 'Menunggu' }, ...prev]);
 
-      // Reset form data
-      setFormData({
-        nama: '',
-        barang: [],
-        tglMulai: '',
-        tglSelesai: '',
-        keperluan: '',
+        // Reset form data
+        setFormData({
+          nama: '',
+          barang: [],
+          tglMulai: '',
+          tglSelesai: '',
+          keperluan: '',
+        });
+      })
+      // eslint-disable-next-line no-unused-vars
+      .catch((error) => {
+        setAlert({
+          show: true,
+          type: 'danger',
+          message: 'Terjadi kesalahan saat mengajukan peminjaman.',
+        });
       });
-    })
-    // eslint-disable-next-line no-unused-vars
-    .catch((error) => {
-      setAlert({
-        show: true,
-        type: 'danger',
-        message: 'Terjadi kesalahan saat mengajukan peminjaman.',
-      });
-    });
   };
 
   return (
@@ -114,7 +115,7 @@ const PeminjamanInventaris = () => {
           </Alert>
         )}
 
-        <Form onSubmit={handleSubmit} style={{borderRadius: '10px', padding: '20px', backgroundColor: '#F2F2F2'}}>
+        <Form onSubmit={handleSubmit} style={{ borderRadius: '10px', padding: '20px', backgroundColor: '#F2F2F2' }}>
           <Form.Group className="mb-3">
             <Form.Label>Nama Peminjam</Form.Label>
             <Form.Control
@@ -126,6 +127,18 @@ const PeminjamanInventaris = () => {
               required
             />
           </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Nomor Telepon</Form.Label>
+            <Form.Control
+              type="text"
+              name="nomorTelepon"
+              value={formData.nomorTelepon}
+              onChange={handleChange}
+              placeholder="Masukkan nomor telepon"
+              required
+            />
+          </Form.Group>
+
 
           <Form.Group className="mb-3">
             <Form.Label>Pilih Inventaris</Form.Label>
@@ -225,18 +238,18 @@ const PeminjamanInventaris = () => {
           </div>
         </Form>
 
-        {/* Tabel Peminjaman Inventaris (Menunggu) */}
         <h4 className='mt-3'>Peminjaman Menunggu Persetujuan</h4>
-        <Table striped bordered hover responsive style={{  textAlign: 'center', }}>
-          <thead >
+        <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
+          <thead>
             <tr>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>No</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Nama</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Barang</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}> Mulai Peminjaman</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}> Selesai Peminjaman</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Keperluan</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Status</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>No</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Nama</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Nomor Telepon</th> {/* Kolom Nomor Telepon */}
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Barang</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Mulai Peminjaman</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Selesai Peminjaman</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Keperluan</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -244,6 +257,36 @@ const PeminjamanInventaris = () => {
               <tr key={pinjam.id}>
                 <td>{index + 1}</td>
                 <td>{pinjam.nama}</td>
+                <td>{pinjam.nomor_telepon}</td> {/* Menampilkan Nomor Telepon */}
+                <td>{pinjam.barang}</td>
+                <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
+                <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
+                <td>{pinjam.keperluan}</td>
+                <td>{pinjam.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <h4>Riwayat Peminjaman</h4>
+        <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
+          <thead>
+            <tr>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>No</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Nama</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Nomor Telepon</th> {/* Kolom Nomor Telepon */}
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Barang</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Mulai Peminjaman</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Selesai Peminjaman</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Keperluan</th>
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {riwayat.filter(pinjam => pinjam.status !== 'Menunggu').map((pinjam, index) => (
+              <tr key={pinjam.id}>
+                <td>{index + 1}</td>
+                <td>{pinjam.nama}</td>
+                <td>{pinjam.nomor_telepon}</td> {/* Menampilkan Nomor Telepon */}
                 <td>{pinjam.barang}</td>
                 <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
                 <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
@@ -254,34 +297,6 @@ const PeminjamanInventaris = () => {
           </tbody>
         </Table>
 
-        {/* Tabel Riwayat Peminjaman */}
-        <h4>Riwayat Peminjaman</h4>
-        <Table striped bordered hover responsive style={{  textAlign: 'center', }}>
-          <thead>
-            <tr>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>No</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Nama</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Barang</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}> Mulai Peminjaman</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}> Selesai Peminjaman</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Keperluan</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {riwayat.filter(pinjam => pinjam.status !== 'Menunggu').map((pinjam, index) => (
-              <tr key={pinjam.id}>
-                <td>{index + 1}</td>
-                <td>{pinjam.nama}</td>
-                <td>{pinjam.barang}</td>
-                <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
-                <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
-                <td>{pinjam.keperluan}</td>
-                <td>{pinjam.status}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
       </Container>
     </div>
   );
