@@ -85,12 +85,9 @@ const Login = () => {
                 required
               />
             </Form.Group>
-            <p className="text-end mt-2" style={{ fontSize: '0.8rem' }}>
-              <a href="#" style={{ color: '#34745C' }}>
-                Forgot Password?
-              </a>
-            </p>
+            
             <Button
+            className='mt-5'
               variant="secondary"
               type="submit"
               style={{

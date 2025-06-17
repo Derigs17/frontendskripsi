@@ -54,7 +54,7 @@ const NavbarComponent = () => {
               alt="Logo Masjid"
               style={{ width: '40px', marginRight: '10px', marginLeft: '20px' }}
             />
-            <span className="">Masjid At-Taqwa</span>
+            <span style={{fontWeight:'450'}} className="">Masjid At-Taqwa</span>
           </Navbar.Brand>
 
           {/* Toggle Button */}
