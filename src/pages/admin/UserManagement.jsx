@@ -87,7 +87,7 @@ const UserManagement = () => {
               <td>{user.password}</td>
               <td>
                 <Button variant="danger" onClick={() => openDeleteModal(user.email)}>
-                  Delete
+                  Hapus
                 </Button>
               </td>
             </tr>
@@ -150,7 +150,7 @@ const UserManagement = () => {
             Close
           </Button>
           <Button variant="primary" onClick={handleAddUser}>
-            Add User
+            Simpan
           </Button>
         </Modal.Footer>
       </Modal>
@@ -168,7 +168,7 @@ const UserManagement = () => {
             Cancel
           </Button>
           <Button variant="danger" onClick={() => handleDeleteUser(userToDelete)}>
-            Delete
+            Hapus
           </Button>
         </Modal.Footer>
       </Modal>

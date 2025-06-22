@@ -1,50 +1,40 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios
-import bgmasjid from '../../images/bglogin.png';  // Gambar latar belakang
-import logomasjid from '../../assets/logomasjid.png'; // Logo kecil
+import { validateLogin } from './validasilogin';  // Impor fungsi validasi login
+
+import bgmasjid from '../../images/bglogin.png';
+import logomasjid from '../../assets/logomasjid.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-  e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  // Kirim data login ke backend menggunakan axios
-  axios
-    .post('http://localhost:8001/login', {  // Pastikan URL benar
-      email: email,
-      password: password,
-    })
-    .then((response) => {
-      if (response.data.message === 'Login successful') {
-        // Menyimpan email pengguna dan role di localStorage
-        localStorage.setItem('loggedInUserEmail', response.data.user.email);
-        localStorage.setItem('isLoggedIn', 'IsLogin'); // Menyimpan status login
-        localStorage.setItem('userRole', response.data.user.role); // Menyimpan role
+    const result = await validateLogin(email, password);
 
-        // Jika user adalah admin, arahkan ke dashboard admin
-        if (response.data.user.role === 'admin') {
-          navigate('/admin/dashboard');  // Arahkan ke dashboard admin
-        } else {
-          navigate('/profile');  // Arahkan ke halaman profil pengguna setelah login
-        }
+    if (result.success) {
+      // Menyimpan email pengguna dan role di localStorage
+      localStorage.setItem('loggedInUserEmail', result.data.email);
+      localStorage.setItem('isLoggedIn', 'IsLogin');
+      localStorage.setItem('userRole', result.data.role);
+
+      // Jika user adalah admin, arahkan ke dashboard admin
+      if (result.data.role === 'admin') {
+        navigate('/admin/dashboard');
       } else {
-        alert('Email atau password salah!');
+        navigate('/profile');
       }
-    })
-    .catch((error) => {
-      console.error('Login gagal:', error);
-      alert('Terjadi kesalahan saat login. Coba lagi.');
-    });
-};
-
+    } else {
+      alert(result.message);
+    }
+  };
 
   return (
-    <Container className="login-container d-flex flex-column align-items-center justify-content-center ">
+    <Container className="login-container d-flex flex-column align-items-center justify-content-center">
       <Row className="login-content align-items-center mb-5">
         <Col
           className="login-form d-flex flex-column align-items-center justify-content-center"
@@ -87,7 +77,7 @@ const Login = () => {
             </Form.Group>
             
             <Button
-            className='mt-5'
+              className="mt-5"
               variant="secondary"
               type="submit"
               style={{

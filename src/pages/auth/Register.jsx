@@ -117,7 +117,7 @@ const Register = () => {
             alt="Background Image"
             className="img-fluid"
             style={{
-              width: '475px',
+              width: '520px',
               borderRadius: '10px',
             }}
           />

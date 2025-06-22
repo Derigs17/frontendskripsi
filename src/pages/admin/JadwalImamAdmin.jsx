@@ -150,7 +150,7 @@ const JadwalImamAdmin = () => {
             />
           </Form.Group>
           <Button variant="success" type="submit">
-            {newJadwal.id ? 'Update Jadwal' : 'Tambah Jadwal'}
+            {newJadwal.id ? 'Update Jadwal' : 'Simpan Jadwal'}
           </Button>
           <Button variant="secondary" onClick={() => { setShowForm(false); setNewJadwal({ id: '', tanggal: '', imam: '', khatib: '', muazin: '', bilal: '' }); }} className="ms-2">
             Batal
