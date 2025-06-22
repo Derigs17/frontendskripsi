@@ -7,13 +7,12 @@ const LaporanKegiatanAdmin = () => {
     judul: '',
     tanggal: '',
     deskripsi: '',
-    gambar: null,  // Ini untuk menampung gambar
+    gambar: null,
     status: 'Akan Datang',
   });
 
   const [kegiatan, setKegiatan] = useState([]);
 
-  // Fungsi untuk menangani perubahan input form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -22,7 +21,6 @@ const LaporanKegiatanAdmin = () => {
     }));
   };
 
-  // Fungsi untuk menangani perubahan file (gambar)
   const handleFileChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -30,7 +28,6 @@ const LaporanKegiatanAdmin = () => {
     }));
   };
 
-  // Fungsi untuk menambah kegiatan
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -39,51 +36,57 @@ const LaporanKegiatanAdmin = () => {
     form.append('tanggal', formData.tanggal);
     form.append('deskripsi', formData.deskripsi);
     form.append('gambar', formData.gambar || 'bukabersama.png');
-    form.append('status', formData.status);  // Status awal akan tetap 'Akan Datang'
+    form.append('status', formData.status);
 
     try {
       await axios.post('http://localhost:8001/addKegiatan', form);
       alert('Kegiatan berhasil ditambahkan');
-      fetchKegiatan(); // Memuat data terbaru setelah menambah kegiatan
+      fetchKegiatan();
     } catch (error) {
       console.error('Error saving kegiatan:', error);
       alert('Gagal menambahkan kegiatan');
     }
 
-    // Reset form
     setFormData({ judul: '', tanggal: '', deskripsi: '', gambar: null, status: 'Akan Datang' });
   };
 
-  // Fungsi untuk mengambil semua kegiatan
   const fetchKegiatan = async () => {
     try {
       const response = await axios.get('http://localhost:8001/getAllKegiatan');
-      setKegiatan(response.data); // Memasukkan semua data kegiatan ke state
+      setKegiatan(response.data);
     } catch (error) {
       console.error('Error fetching kegiatan:', error);
     }
   };
 
-  // Fungsi untuk mengubah status kegiatan menjadi "Telah Selesai"
   const handleStatusChange = async (id) => {
     try {
-      // Panggil endpoint untuk memperbarui status kegiatan menjadi "Telah Selesai"
       await axios.post(`http://localhost:8001/updateStatusKegiatan/${id}`);
-      fetchKegiatan();  // Memuat ulang data setelah status kegiatan diubah
+      fetchKegiatan();
     } catch (error) {
       console.error('Error updating status:', error);
     }
   };
 
+  const handleDeleteKegiatan = async (id) => {
+    if (window.confirm('Yakin ingin menghapus kegiatan ini?')) {
+      try {
+        await axios.delete(`http://localhost:8001/deleteKegiatan/${id}`);
+        fetchKegiatan();
+      } catch (error) {
+        console.error('Error deleting kegiatan:', error);
+      }
+    }
+  };
+
   React.useEffect(() => {
-    fetchKegiatan();  // Memuat data kegiatan pertama kali
+    fetchKegiatan();
   }, []);
 
   return (
     <Container className="my-5">
       <h2 className="mb-4 fw-bold text-center">Laporan Kegiatan Admin</h2>
 
-      {/* Form untuk menambah kegiatan */}
       <Form onSubmit={handleFormSubmit} className="mb-5">
         <Row className="g-3">
           <Col md={6}>
@@ -154,7 +157,6 @@ const LaporanKegiatanAdmin = () => {
         </Row>
       </Form>
 
-      {/* Menampilkan kegiatan yang Akan Datang */}
       <h3 className="mb-4">Kegiatan Akan Datang</h3>
       <Row className="g-4">
         {kegiatan.filter(kg => kg.status === 'Akan Datang').map((kg) => (
@@ -165,8 +167,11 @@ const LaporanKegiatanAdmin = () => {
                 <Card.Title>{kg.judul}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{kg.tanggal}</Card.Subtitle>
                 <Card.Text>{kg.deskripsi}</Card.Text>
-                <Button onClick={() => handleStatusChange(kg.id)} variant="success" className="w-100">
+                <Button onClick={() => handleStatusChange(kg.id)} variant="success" className="w-100 mb-2">
                   Tandai Selesai
+                </Button>
+                <Button onClick={() => handleDeleteKegiatan(kg.id)} variant="danger" className="w-100">
+                  Hapus
                 </Button>
               </Card.Body>
             </Card>
@@ -174,7 +179,6 @@ const LaporanKegiatanAdmin = () => {
         ))}
       </Row>
 
-      {/* Menampilkan kegiatan yang Telah Selesai */}
       <h3 className="mb-4 mt-5">Kegiatan Telah Selesai</h3>
       <Row className="g-4">
         {kegiatan.filter(kg => kg.status === 'Telah Selesai').map((kg) => (
@@ -185,6 +189,9 @@ const LaporanKegiatanAdmin = () => {
                 <Card.Title>{kg.judul}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{kg.tanggal}</Card.Subtitle>
                 <Card.Text>{kg.deskripsi}</Card.Text>
+                <Button onClick={() => handleDeleteKegiatan(kg.id)} variant="danger" className="w-100">
+                  Hapus
+                </Button>
               </Card.Body>
             </Card>
           </Col>
