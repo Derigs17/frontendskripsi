@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Form, Modal, Card } from 'react-bootstrap';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';  // Ikon untuk melihat/menyembunyikan password
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +13,7 @@ function UserProfile() {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false); 
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);  // State untuk toggle password
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -91,6 +93,10 @@ function UserProfile() {
     setShowConfirmationModal(false); // Tutup modal jika dibatalkan
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);  // Toggle visibility password
+  };
+
   return (
     <>
       <Container className="mt-5 mb-5">
@@ -128,14 +134,19 @@ function UserProfile() {
 
                   <Form.Group className="mb-3">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Password"
-                      name="password"
-                      value={userData.password}
-                      onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-                      disabled={!isEditing}
-                    />
+                    <div className="d-flex align-items-center">
+                      <Form.Control
+                        type={showPassword ? 'text' : 'password'}  // Tampilkan password jika showPassword true
+                        placeholder="Password"
+                        name="password"
+                        value={userData.password}
+                        onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+                        disabled={!isEditing}
+                      />
+                      <Button variant="link" onClick={togglePasswordVisibility} className="ml-2">
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}  {/* Ikon mata */}
+                      </Button>
+                    </div>
                   </Form.Group>
 
                   {isEditing ? (
