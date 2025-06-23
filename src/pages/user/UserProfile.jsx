@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Form, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, Modal, Card } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,8 +9,8 @@ function UserProfile() {
     email: '',
     password: ''
   });
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false); // Modal konfirmasi perubahan
-  const [showLogoutModal, setShowLogoutModal] = useState(false); // Modal konfirmasi logout
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false); 
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
@@ -19,9 +19,8 @@ function UserProfile() {
       const email = localStorage.getItem('loggedInUserEmail');
       const isLoggedIn = localStorage.getItem('isLoggedIn');
 
-      // Cek apakah pengguna sudah login atau belum
       if (!email || isLoggedIn !== 'IsLogin') {
-        navigate('/login'); // Kalau belum login, arahkan ke login
+        navigate('/login'); // Redirect ke halaman login jika belum login
       } else {
         await fetchUserProfile(email); // Ambil data profil pengguna jika sudah login
       }
@@ -58,8 +57,7 @@ function UserProfile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Mengubah state untuk menampilkan modal konfirmasi
-    setShowConfirmationModal(true); // Tampilkan modal konfirmasi sebelum update data
+    setShowConfirmationModal(true); // Tampilkan modal konfirmasi saat menyimpan perubahan
   };
 
   const handleSaveConfirmed = async () => {
@@ -72,9 +70,7 @@ function UserProfile() {
 
       // Simpan perubahan profil
       await axios.post(`http://localhost:8001/updateUserProfile/${encodeURIComponent(userData.email)}`, updatedUserData);
-
-      console.log('User data updated successfully:', updatedUserData);
-      setIsEditing(false); // Kembali ke mode tidak edit setelah menyimpan
+      setIsEditing(false); // Kembali ke mode non-edit setelah menyimpan
       setShowConfirmationModal(false); // Tutup modal setelah perubahan
     } catch (error) {
       console.error('Error updating user profile:', error);
@@ -86,77 +82,83 @@ function UserProfile() {
   };
 
   const handleLogoutModalConfirm = () => {
-    handleLogout(); // Lanjutkan dengan logout
+    handleLogout(); // Proses logout
     setShowLogoutModal(false); // Tutup modal logout setelah logout
   };
 
   const handleCancel = () => {
     setIsEditing(false);
-    setShowConfirmationModal(false); // Tutup modal jika cancel
+    setShowConfirmationModal(false); // Tutup modal jika dibatalkan
   };
 
   return (
     <>
-      <Container className='mt-5 mb-5'>
-        <Row className='justify-content-center'>
-          <Col className='isi-form' xs={{ order: 2, span: 12 }} md={{ order: 2, span: 6 }}>
-            <div className='col-md-10'>
-              <div id='form-profile' className='container2'>
-                <h5 className='mb-4'>Account Settings</h5>
-                
+      <Container className="mt-5 mb-5">
+        <Row className="justify-content-center">
+          <Col xs={{ order: 2, span: 12 }} md={{ order: 2, span: 6 }}>
+            <Card className="shadow-lg p-4">
+              <Card.Header className="text-center">
+                <h5>Pengaturan Akun</h5>
+              </Card.Header>
+              <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                  <Form.Group className="mb-4">
+                  <Form.Group className="mb-3">
+                    <Form.Label>Nama</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Name"
+                      placeholder="Nama"
                       name="name"
                       value={userData.name}
                       onChange={(e) => setUserData({ ...userData, name: e.target.value })}
-                      disabled={!isEditing} // Disabled jika tidak dalam mode edit
+                      disabled={!isEditing}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-4">
+
+                  <Form.Group className="mb-3">
+                    <Form.Label>Email</Form.Label>
                     <Form.Control
                       type="email"
-                      placeholder="Email address"
+                      placeholder="Alamat email"
                       name="email"
                       value={userData.email}
                       onChange={(e) => setUserData({ ...userData, email: e.target.value })}
-                      disabled={!isEditing} // Disabled jika tidak dalam mode edit
+                      disabled={!isEditing}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-4">
+
+                  <Form.Group className="mb-3">
+                    <Form.Label>Password</Form.Label>
                     <Form.Control
                       type="password"
                       placeholder="Password"
                       name="password"
                       value={userData.password}
                       onChange={(e) => setUserData({ ...userData, password: e.target.value })}
-                      disabled={!isEditing} // Disabled jika tidak dalam mode edit
+                      disabled={!isEditing}
                     />
                   </Form.Group>
-                  
 
                   {isEditing ? (
-                    <>
-                      <Button variant="success" className='mb-4' type="submit">
-                        Save Changes
-                      </Button>{' '}
-                      <Button variant="secondary" className='mb-4' onClick={handleCancel}>
-                        Cancel
+                    <div className="d-flex justify-content-between">
+                      <Button variant="success" type="submit">
+                        Simpan Perubahan
                       </Button>
-                    </>
+                      <Button variant="secondary" onClick={handleCancel}>
+                        Batal
+                      </Button>
+                    </div>
                   ) : (
-                    <Button variant="primary" onClick={() => setIsEditing(true)}>
+                    <Button variant="primary" onClick={() => setIsEditing(true)} className="w-100">
                       Edit
                     </Button>
                   )}
                 </Form>
-              </div>
-              <Button variant="danger" className='mt-3 ' onClick={() => setShowLogoutModal(true)}>
-                Logout
-              </Button>
-            </div>
+              </Card.Body>
+            </Card>
+
+            <Button variant="danger" className="mt-3 w-100" onClick={() => setShowLogoutModal(true)}>
+              Logout
+            </Button>
           </Col>
         </Row>
       </Container>
@@ -164,28 +166,32 @@ function UserProfile() {
       {/* Modal konfirmasi perubahan data */}
       <Modal show={showConfirmationModal} onHide={handleCancel}>
         <Modal.Header closeButton>
-          <Modal.Title>Confirmation</Modal.Title>
+          <Modal.Title>Konfirmasi</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Apa Kamu yakin ingin mengubah data profil?
+          Apakah Anda yakin ingin mengubah data profil?
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
-          <Button variant="success" onClick={handleSaveConfirmed}>Save</Button>
+          <Button variant="secondary" onClick={handleCancel}>
+            Batal
+          </Button>
+          <Button variant="success" onClick={handleSaveConfirmed}>
+            Simpan
+          </Button>
         </Modal.Footer>
       </Modal>
 
       {/* Modal konfirmasi logout */}
       <Modal show={showLogoutModal} onHide={handleLogoutModalClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Confirm Logout</Modal.Title>
+          <Modal.Title>Konfirmasi Logout</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           Apakah Anda yakin ingin keluar dari akun ini?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleLogoutModalClose}>
-            Cancel
+            Batal
           </Button>
           <Button variant="danger" onClick={handleLogoutModalConfirm}>
             Logout

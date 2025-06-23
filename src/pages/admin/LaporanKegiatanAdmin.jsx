@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
 const LaporanKegiatanAdmin = () => {
@@ -12,6 +12,7 @@ const LaporanKegiatanAdmin = () => {
   });
 
   const [kegiatan, setKegiatan] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,6 +49,7 @@ const LaporanKegiatanAdmin = () => {
     }
 
     setFormData({ judul: '', tanggal: '', deskripsi: '', gambar: null, status: 'Akan Datang' });
+    setShowModal(false);
   };
 
   const fetchKegiatan = async () => {
@@ -87,10 +89,21 @@ const LaporanKegiatanAdmin = () => {
     <Container className="my-5">
       <h2 className="mb-4 fw-bold text-center">Laporan Kegiatan Admin</h2>
 
-      <Form onSubmit={handleFormSubmit} className="mb-5">
-        <Row className="g-3">
-          <Col md={6}>
-            <Form.Group controlId="judul">
+      {/* Tombol buka modal tambah kegiatan */}
+      <div className="text-center mb-4">
+        <Button variant="primary" onClick={() => setShowModal(true)}>
+          Tambah Kegiatan
+        </Button>
+      </div>
+
+      {/* Modal Form */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Tambah Kegiatan</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleFormSubmit}>
+            <Form.Group className="mb-3" controlId="judul">
               <Form.Label>Judul Kegiatan</Form.Label>
               <Form.Control
                 type="text"
@@ -100,9 +113,7 @@ const LaporanKegiatanAdmin = () => {
                 placeholder="Masukkan Judul Kegiatan"
               />
             </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group controlId="tanggal">
+            <Form.Group className="mb-3" controlId="tanggal">
               <Form.Label>Tanggal</Form.Label>
               <Form.Control
                 type="text"
@@ -112,9 +123,7 @@ const LaporanKegiatanAdmin = () => {
                 placeholder="Masukkan Tanggal Kegiatan"
               />
             </Form.Group>
-          </Col>
-          <Col md={12}>
-            <Form.Group controlId="deskripsi">
+            <Form.Group className="mb-3" controlId="deskripsi">
               <Form.Label>Deskripsi</Form.Label>
               <Form.Control
                 type="text"
@@ -124,38 +133,23 @@ const LaporanKegiatanAdmin = () => {
                 placeholder="Masukkan Deskripsi Kegiatan"
               />
             </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group controlId="gambar">
+            <Form.Group className="mb-3" controlId="gambar">
               <Form.Label>Gambar Kegiatan</Form.Label>
-              <Form.Control
-                type="file"
-                name="gambar"
-                onChange={handleFileChange}
-              />
+              <Form.Control type="file" name="gambar" onChange={handleFileChange} />
             </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group controlId="status">
+            <Form.Group className="mb-3" controlId="status">
               <Form.Label>Status Kegiatan</Form.Label>
-              <Form.Control
-                as="select"
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
-              >
+              <Form.Control as="select" name="status" value={formData.status} onChange={handleInputChange}>
                 <option>Akan Datang</option>
                 <option>Telah Selesai</option>
               </Form.Control>
             </Form.Group>
-          </Col>
-          <Col md={12}>
             <Button variant="primary" type="submit" className="w-100">
-              Tambah Kegiatan
+              Simpan
             </Button>
-          </Col>
-        </Row>
-      </Form>
+          </Form>
+        </Modal.Body>
+      </Modal>
 
       <h3 className="mb-4">Kegiatan Akan Datang</h3>
       <Row className="g-4">
