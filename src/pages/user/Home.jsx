@@ -18,7 +18,7 @@ import toilet from '../../assets/toilet.png'; // Gambar ikon toilet
 const Home = () => {
   const [jadwal, setJadwal] = useState(null);
   const [now, setNow] = useState(new Date());
-  const kota = 'Karawang'; // Ganti sesuai lokasi masjid kamu
+  const kota = 'Sukabumi'; // Ganti sesuai lokasi masjid kamu
 
   useEffect(() => {
     const interval = setInterval(() => setNow(new Date()), 1000);
