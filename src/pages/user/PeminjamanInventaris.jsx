@@ -237,7 +237,16 @@ const PeminjamanInventaris = () => {
             <Button variant="primary" type="submit">Ajukan Peminjaman</Button>
           </div>
         </Form>
-
+{/* Catatan/Peringatan */}
+        <Alert variant="info" className="mt-4">
+          <strong>Catatan:</strong>
+          <ul>
+            <li>Peminjam bertanggung jawab atas kerusakan atau kehilangan barang.</li>
+            <li>Barang harus dikembalikan sesuai waktu yang disepakati.</li>
+            <li>Dikenakan denda jika terlambat/kondisi rusak.</li>
+            <li>Barang tidak boleh dipindahtangankan ke pihak lain.</li>
+          </ul>
+        </Alert>
         <h4 className='mt-3'>Peminjaman Menunggu Persetujuan</h4>
         <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
           <thead>
@@ -266,6 +275,7 @@ const PeminjamanInventaris = () => {
               </tr>
             ))}
           </tbody>
+          
         </Table>
         <h4>Riwayat Peminjaman</h4>
         <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
