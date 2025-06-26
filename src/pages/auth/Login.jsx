@@ -1,35 +1,47 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { validateLogin } from './validasilogin';  // Impor fungsi validasi login
+import axios from 'axios';  // Menggunakan axios untuk request
 
-import bgmasjid from '../../images/bglogin.png';
-import logomasjid from '../../assets/logomasjid.png';
+import bgmasjid from '../../images/bglogin.png';  // Gambar latar belakang
+import logomasjid from '../../assets/logomasjid.png'; // Logo kecil
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const result = await validateLogin(email, password);
+    // Validasi input pengguna sebelum dikirim ke backend
+    if (!email || !password) {
+      setError('Email dan password tidak boleh kosong');
+      return;
+    }
 
-    if (result.success) {
-      // Menyimpan email pengguna dan role di localStorage
-      localStorage.setItem('loggedInUserEmail', result.data.email);
-      localStorage.setItem('isLoggedIn', 'IsLogin');
-      localStorage.setItem('userRole', result.data.role);
+    try {
+      // Mengirim permintaan POST ke server untuk login
+      const response = await axios.post('http://localhost:8001/login', {
+        email: email,
+        password: password,
+      });
 
-      // Jika user adalah admin, arahkan ke dashboard admin
-      if (result.data.role === 'admin') {
-        navigate('/admin/dashboard');
-      } else {
+      if (response.data.message === 'Login successful') {
+        // Menyimpan data user setelah login berhasil
+        localStorage.setItem('loggedInUserEmail', email);
+        localStorage.setItem('isLoggedIn', 'IsLogin');
+        localStorage.setItem('userRole', response.data.user.role);  // Simpan role user
+
+        // Arahkan ke halaman profil
         navigate('/profile');
+      } else {
+        setError(response.data.message || 'Login failed');
       }
-    } else {
-      alert(result.message);
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('Terjadi kesalahan saat login. Silakan coba lagi.');
     }
   };
 
@@ -53,6 +65,9 @@ const Login = () => {
             className="mb-2 mt-4"
           />
           <h2 className="mb-4">Masuk</h2>
+
+          {/* Menampilkan pesan error jika ada */}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
 
           <Form onSubmit={handleLogin}>
             <Form.Group className="text-start mb-3" controlId="formBasicEmail">
