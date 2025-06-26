@@ -64,7 +64,7 @@ const PeminjamanAdmin = () => {
 
   return (
     <Container className="py-4">
-      <h2 className="mb-4 text-center">Manajemen Peminjaman Inventaris</h2>
+      <h2 className="mb-4 text-left">Manajemen Peminjaman Inventaris</h2>
 
       {/* Tabel Peminjaman Menunggu */}
       <h4>Peminjaman Menunggu Persetujuan</h4>

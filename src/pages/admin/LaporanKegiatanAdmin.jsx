@@ -87,10 +87,10 @@ const LaporanKegiatanAdmin = () => {
 
   return (
     <Container className="my-5">
-      <h2 className="mb-4 fw-bold text-center">Laporan Kegiatan Admin</h2>
+      <h2 className="mb-4 fw-bold text-left">Laporan Kegiatan Admin</h2>
 
       {/* Tombol buka modal tambah kegiatan */}
-      <div className="text-center mb-4">
+      <div className="text-left mb-4">
         <Button variant="primary" onClick={() => setShowModal(true)}>
           Tambah Kegiatan
         </Button>

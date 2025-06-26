@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 
 const Dashboard = () => {
   const [summaryData, setSummaryData] = useState({
     laporanKeuangan: { pemasukan: 0, pengeluaran: 0, saldo: 0 },
-    peminjaman: { pending: 0, total: 0 },
-    jadwalImam: [],
-    kegiatan: [],
+    peminjaman: { pending: 0 },
     users: [],
   });
 
@@ -16,22 +14,18 @@ const Dashboard = () => {
       try {
         const laporanKeuanganResponse = await axios.get('http://localhost:8001/getLaporanKeuangan');
         const peminjamanResponse = await axios.get('http://localhost:8001/getAllRiwayatPeminjaman');
-        const jadwalImamResponse = await axios.get('http://localhost:8001/getJadwalImamForMonth?bulan=6&tahun=2025');
-        const kegiatanResponse = await axios.get('http://localhost:8001/getAllKegiatan');
         const usersResponse = await axios.get('http://localhost:8001/getAllUsers');
 
         setSummaryData({
           laporanKeuangan: {
-            pemasukan: laporanKeuanganResponse.data.pemasukan.length,
-            pengeluaran: laporanKeuanganResponse.data.pengeluaran.length,
-            saldo: laporanKeuanganResponse.data.pemasukan.length - laporanKeuanganResponse.data.pengeluaran.length,
+            pemasukan: laporanKeuanganResponse.data.pemasukan.reduce((acc, item) => acc + item.jumlah, 0),
+            pengeluaran: laporanKeuanganResponse.data.pengeluaran.reduce((acc, item) => acc + item.jumlah, 0),
+            saldo: laporanKeuanganResponse.data.pemasukan.reduce((acc, item) => acc + item.jumlah, 0) - 
+                  laporanKeuanganResponse.data.pengeluaran.reduce((acc, item) => acc + item.jumlah, 0),
           },
           peminjaman: {
             pending: peminjamanResponse.data.filter(peminjaman => peminjaman.status === 'Menunggu').length,
-            total: peminjamanResponse.data.length,
           },
-          jadwalImam: jadwalImamResponse.data,
-          kegiatan: kegiatanResponse.data.slice(0, 5),
           users: usersResponse.data,
         });
       } catch (error) {
@@ -44,73 +38,60 @@ const Dashboard = () => {
 
   return (
     <Container className="dashboard-admin mt-5">
+      {/* Judul Dashboard */}
+      <h2 className="mb-4" style={{ textAlign: 'left' }}>Dashboard Admin</h2>
+
       <Row>
-        {/* Laporan Keuangan */}
-        <Col sm={12} md={6} lg={6}>
-          <div className="box laporan-keuangan">
-            <h4>Laporan Keuangan</h4>
-            <div>
-              <p>Pemasukan: {summaryData.laporanKeuangan.pemasukan}</p>
-              <p>Pengeluaran: {summaryData.laporanKeuangan.pengeluaran}</p>
-              <p>Saldo: {summaryData.laporanKeuangan.saldo}</p>
-            </div>
-            <Button variant="primary" href="/admin/laporan-keuangan">Lihat Detail</Button>
-          </div>
+        {/* Pemasukan */}
+        <Col sm={12} md={4} lg={4}>
+          <Card className="shadow" style={{ backgroundColor: '#f8f9fa' }}>
+            <Card.Body>
+              <h5 style={{ fontSize: '20px', color: '#333' }}>Pemasukan Keuangan Masjid</h5>
+              <p className="h4" style={{ fontSize: '28px', color: '#28a745' }}>{`Rp ${summaryData.laporanKeuangan.pemasukan.toLocaleString()}`}</p>
+            </Card.Body>
+          </Card>
         </Col>
 
-        {/* Peminjaman */}
-        <Col sm={12} md={6} lg={6}>
-          <div className="box peminjaman">
-            <h4>Peminjaman</h4>
-            <div>
-              <p>Total Peminjaman: {summaryData.peminjaman.total}</p>
-              <p>Peminjaman Menunggu: {summaryData.peminjaman.pending}</p>
-            </div>
-            <Button variant="primary" href="/admin/peminjaman">Lihat Detail</Button>
-          </div>
+        {/* Pengeluaran */}
+        <Col sm={12} md={4} lg={4}>
+          <Card className="shadow" style={{ backgroundColor: '#f8f9fa' }}>
+            <Card.Body>
+              <h5 style={{ fontSize: '20px', color: '#333' }}>Pengeluaran Keuangan Masjid</h5>
+              <p className="h4" style={{ fontSize: '28px', color: '#dc3545' }}>{`Rp ${summaryData.laporanKeuangan.pengeluaran.toLocaleString()}`}</p>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        {/* Total Saldo */}
+        <Col sm={12} md={4} lg={4}>
+          <Card className="shadow" style={{ backgroundColor: '#f8f9fa' }}>
+            <Card.Body>
+              <h5 style={{ fontSize: '20px', color: '#333' }}>Saldo Total Bulan Ini</h5>
+              <p className="h4" style={{ fontSize: '28px', color: '#007bff' }}>{`Rp ${summaryData.laporanKeuangan.saldo.toLocaleString()}`}</p>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
 
-      <Row>
-        {/* Jadwal Imam */}
+      <Row className="mt-4">
+        {/* Pending Peminjaman */}
         <Col sm={12} md={6} lg={6}>
-          <div className="box jadwal-imam">
-            <h4>Jadwal Imam</h4>
-            <div>
-              <p>Jadwal Imam Terbaru:</p>
-              {summaryData.jadwalImam.slice(0, 2).map((jadwal, index) => (
-                <p key={index}>{jadwal.tanggal} - {jadwal.imam}</p>
-              ))}
-            </div>
-            <Button variant="primary" href="/admin/jadwal-imam">Lihat Detail</Button>
-          </div>
+          <Card className="shadow" style={{ backgroundColor: '#f8f9fa' }}>
+            <Card.Body>
+              <h5 style={{ fontSize: '20px', color: '#333' }}>Pending Peminjaman Masjid</h5>
+              <p className="h4" style={{ fontSize: '28px', color: '#17a2b8' }}>{summaryData.peminjaman.pending} Data</p>
+            </Card.Body>
+          </Card>
         </Col>
 
-        {/* Laporan Kegiatan */}
+        {/* Total User */}
         <Col sm={12} md={6} lg={6}>
-          <div className="box laporan-kegiatan">
-            <h4>Laporan Kegiatan</h4>
-            <div>
-              <p>Kegiatan Terbaru:</p>
-              {summaryData.kegiatan.map((kegiatan, index) => (
-                <p key={index}>{kegiatan.judul} - {kegiatan.tanggal}</p>
-              ))}
-            </div>
-            <Button variant="primary" href="/admin/laporan-kegiatan">Lihat Detail</Button>
-          </div>
-        </Col>
-      </Row>
-
-      <Row>
-        {/* User Management */}
-        <Col sm={12} md={6} lg={6}>
-          <div className="box user-management">
-            <h4>User Management</h4>
-            <div>
-              <p>Total Users: {summaryData.users.length}</p>
-            </div>
-            <Button variant="primary" href="/admin/user-management">Lihat Detail</Button>
-          </div>
+          <Card className="shadow" style={{ backgroundColor: '#f8f9fa' }}>
+            <Card.Body>
+              <h5 style={{ fontSize: '20px', color: '#333' }}>Data Users</h5>
+              <p className="h4" style={{ fontSize: '28px', color: '#28a745' }}>{summaryData.users.length} Users</p>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
     </Container>

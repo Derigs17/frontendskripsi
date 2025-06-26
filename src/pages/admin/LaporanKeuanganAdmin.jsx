@@ -109,7 +109,7 @@ const LaporanKeuanganAdmin = () => {
 
   return (
     <Container className="mt-5">
-      <h2 className="text-center">Laporan Keuangan</h2>
+      <h2 className="text-left">Laporan Keuangan</h2>
 
       <Button variant="primary" className="mb-3" onClick={() => {
         setEditId(null);
