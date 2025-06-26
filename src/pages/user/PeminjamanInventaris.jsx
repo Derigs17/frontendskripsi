@@ -88,6 +88,7 @@ const PeminjamanInventaris = () => {
           nomorTelepon: ''
         });
       })
+      // eslint-disable-next-line no-unused-vars
       .catch((error) => {
         setAlert({
           show: true,
@@ -235,7 +236,7 @@ const PeminjamanInventaris = () => {
           </div>
         </Form>
 
-        {/* Catatan/Peringatan */}
+        {/* Catatan Peringatan */}
         <Alert variant="info" className="mt-4">
           <strong>Catatan:</strong>
           <ul>
