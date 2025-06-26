@@ -11,10 +11,10 @@ const PeminjamanInventaris = () => {
     tglMulai: '',
     tglSelesai: '',
     keperluan: '',
-    nomorTelepon: '', // Menambahkan nomor telepon ke dalam state
+    nomorTelepon: '',
   });
 
-  const [riwayat, setRiwayat] = useState([]); // Data riwayat yang disetujui/ditolak
+  const [riwayat, setRiwayat] = useState([]);
   const [alert, setAlert] = useState({ show: false, type: '', message: '' });
 
   // Ambil riwayat peminjaman berdasarkan email pengguna yang login
@@ -23,7 +23,6 @@ const PeminjamanInventaris = () => {
     if (email) {
       axios.get(`http://localhost:8001/getRiwayatPeminjaman/${email}`)
         .then(response => {
-          // Urutkan data berdasarkan id (id terbesar di atas)
           const sortedData = response.data.sort((a, b) => b.id - a.id);
           setRiwayat(sortedData);
         })
@@ -62,14 +61,13 @@ const PeminjamanInventaris = () => {
       return;
     }
 
-    // Konversi barang menjadi string yang dipisahkan dengan koma
     const barangString = formData.barang.join(',');
 
-    // Kirim data peminjaman ke server, termasuk email dan barang yang sudah diubah menjadi string
+    // Kirim data peminjaman ke server
     axios.post('http://localhost:8001/submitPeminjaman', {
-      email: email, // Kirim email yang diambil dari localStorage
-      ...formData,  // Kirim data form lainnya
-      barang: barangString // Kirim barang dalam format string
+      email: email,
+      ...formData,
+      barang: barangString,
     })
       .then((response) => {
         setAlert({
@@ -78,7 +76,6 @@ const PeminjamanInventaris = () => {
           message: response.data.message,
         });
 
-        // Simpan riwayat peminjaman
         setRiwayat(prev => [{ ...formData, status: 'Menunggu' }, ...prev]);
 
         // Reset form data
@@ -88,9 +85,9 @@ const PeminjamanInventaris = () => {
           tglMulai: '',
           tglSelesai: '',
           keperluan: '',
+          nomorTelepon: ''
         });
       })
-      // eslint-disable-next-line no-unused-vars
       .catch((error) => {
         setAlert({
           show: true,
@@ -101,7 +98,7 @@ const PeminjamanInventaris = () => {
   };
 
   return (
-    <div className="page-content mt-3   ">
+    <div className="page-content mt-3">
       <Container className="py-4">
         <h2 className="mb-4 text-center">Formulir Peminjaman Inventaris</h2>
 
@@ -127,6 +124,7 @@ const PeminjamanInventaris = () => {
               required
             />
           </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Nomor Telepon</Form.Label>
             <Form.Control
@@ -138,7 +136,6 @@ const PeminjamanInventaris = () => {
               required
             />
           </Form.Group>
-
 
           <Form.Group className="mb-3">
             <Form.Label>Pilih Inventaris</Form.Label>
@@ -237,7 +234,8 @@ const PeminjamanInventaris = () => {
             <Button variant="primary" type="submit">Ajukan Peminjaman</Button>
           </div>
         </Form>
-{/* Catatan/Peringatan */}
+
+        {/* Catatan/Peringatan */}
         <Alert variant="info" className="mt-4">
           <strong>Catatan:</strong>
           <ul>
@@ -247,6 +245,7 @@ const PeminjamanInventaris = () => {
             <li>Barang tidak boleh dipindahtangankan ke pihak lain.</li>
           </ul>
         </Alert>
+
         <h4 className='mt-3'>Peminjaman Menunggu Persetujuan</h4>
         <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
           <thead>
@@ -275,9 +274,9 @@ const PeminjamanInventaris = () => {
               </tr>
             ))}
           </tbody>
-          
         </Table>
-        <h4>Riwayat Peminjaman</h4>
+
+        <h4 className='mt-3'>Riwayat Peminjaman</h4>
         <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
           <thead>
             <tr>
@@ -306,7 +305,6 @@ const PeminjamanInventaris = () => {
             ))}
           </tbody>
         </Table>
-
       </Container>
     </div>
   );
