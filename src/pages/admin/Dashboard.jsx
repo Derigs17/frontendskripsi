@@ -7,6 +7,7 @@ const Dashboard = () => {
     laporanKeuangan: { pemasukan: 0, pengeluaran: 0, saldo: 0 },
     peminjaman: { pending: 0 },
     users: [],
+    kegiatan: { selesai: 0, datang: 0 }, // Menambahkan state untuk kegiatan
   });
 
   useEffect(() => {
@@ -15,6 +16,17 @@ const Dashboard = () => {
         const laporanKeuanganResponse = await axios.get('http://localhost:8001/getLaporanKeuangan');
         const peminjamanResponse = await axios.get('http://localhost:8001/getAllRiwayatPeminjaman');
         const usersResponse = await axios.get('http://localhost:8001/getAllUsers');
+        const kegiatanResponse = await axios.get('http://localhost:8001/getAllKegiatan'); // Mendapatkan data kegiatan
+
+        // Debug: Cek data kegiatan yang didapat
+        console.log("Kegiatan Data:", kegiatanResponse.data);
+
+        // Menghitung jumlah kegiatan yang telah selesai dan yang akan datang
+        const selesai = kegiatanResponse.data.filter(kegiatan => kegiatan.status === 'Telah Selesai').length;
+        const datang = kegiatanResponse.data.filter(kegiatan => kegiatan.status === 'Akan Datang').length;
+
+        console.log("Kegiatan Selesai:", selesai);
+        console.log("Kegiatan Akan Datang:", datang);
 
         setSummaryData({
           laporanKeuangan: {
@@ -27,6 +39,10 @@ const Dashboard = () => {
             pending: peminjamanResponse.data.filter(peminjaman => peminjaman.status === 'Menunggu').length,
           },
           users: usersResponse.data,
+          kegiatan: {
+            selesai,
+            datang,
+          },
         });
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -79,7 +95,7 @@ const Dashboard = () => {
           <Card className="shadow" style={{ backgroundColor: '#f8f9fa' }}>
             <Card.Body>
               <h5 style={{ fontSize: '20px', color: '#333' }}>Pending Peminjaman Masjid</h5>
-              <p className="h4" style={{ fontSize: '28px', color: '#17a2b8' }}>{summaryData.peminjaman.pending} Data</p>
+              <p className="h4" style={{ fontSize: '28px', color: '#007bff' }}>{summaryData.peminjaman.pending} Data</p>
             </Card.Body>
           </Card>
         </Col>
@@ -89,7 +105,21 @@ const Dashboard = () => {
           <Card className="shadow" style={{ backgroundColor: '#f8f9fa' }}>
             <Card.Body>
               <h5 style={{ fontSize: '20px', color: '#333' }}>Data Users</h5>
-              <p className="h4" style={{ fontSize: '28px', color: '#28a745' }}>{summaryData.users.length} Users</p>
+              <p className="h4" style={{ fontSize: '28px', color: '#007bff' }}>{summaryData.users.length} Users</p>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* Card Kegiatan */}
+      <Row className="mt-4">
+        <Col sm={12} md={6} lg={6}>
+          <Card className="shadow" style={{ backgroundColor: '#f8f9fa' }}>
+            <Card.Body>
+              <h5 style={{ fontSize: '20px', color: '#333' }}>Kegiatan Masjid</h5>
+              <p className="h4" style={{ fontSize: '28px', color: '#007bff' }}>
+                 {summaryData.kegiatan.datang} Kegiatan Akan Datang <br /> {summaryData.kegiatan.selesai} Kegiatan Selesai 
+              </p>
             </Card.Body>
           </Card>
         </Col>
