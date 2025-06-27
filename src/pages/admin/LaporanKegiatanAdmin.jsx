@@ -193,7 +193,7 @@ const LaporanKegiatanAdmin = () => {
         {kegiatan.filter(kg => kg.status === 'Telah Selesai').map((kg) => (
           <Col sm={12} md={6} lg={4} key={kg.id}>
             <Card className="shadow-sm border-light rounded">
-<Card.Img variant="top" src={kg.gambar ? kg.gambar.replace(/\/\//g, '/') : 'default-image.png'} />
+              <Card.Img variant="top" src={kg.gambar ? kg.gambar.replace(/\/\//g, '/') : 'default-image.png'} />
 
               <Card.Body>
                 <Card.Title>{kg.judul}</Card.Title>
