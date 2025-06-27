@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -14,6 +14,7 @@ const LaporanKegiatanAdmin = () => {
   const [kegiatan, setKegiatan] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
+  // Handle input changes for form fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -22,6 +23,7 @@ const LaporanKegiatanAdmin = () => {
     }));
   };
 
+  // Handle file input change (gambar)
   const handleFileChange = (e) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -29,6 +31,7 @@ const LaporanKegiatanAdmin = () => {
     }));
   };
 
+  // Handle form submission to save new kegiatan
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
@@ -36,11 +39,15 @@ const LaporanKegiatanAdmin = () => {
     form.append('judul', formData.judul);
     form.append('tanggal', formData.tanggal);
     form.append('deskripsi', formData.deskripsi);
-    form.append('gambar', formData.gambar || 'bukabersama.png');
+    form.append('gambar', formData.gambar);  // Gambar yang di-upload
     form.append('status', formData.status);
 
     try {
-      await axios.post('http://localhost:8001/addKegiatan', form);
+      await axios.post('http://localhost:8001/addKegiatan', form, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       alert('Kegiatan berhasil ditambahkan');
       fetchKegiatan();
     } catch (error) {
@@ -48,10 +55,12 @@ const LaporanKegiatanAdmin = () => {
       alert('Gagal menambahkan kegiatan');
     }
 
+    // Reset form after submission
     setFormData({ judul: '', tanggal: '', deskripsi: '', gambar: null, status: 'Akan Datang' });
     setShowModal(false);
   };
 
+  // Fetch kegiatan data from backend
   const fetchKegiatan = async () => {
     try {
       const response = await axios.get('http://localhost:8001/getAllKegiatan');
@@ -61,6 +70,7 @@ const LaporanKegiatanAdmin = () => {
     }
   };
 
+  // Update the status of kegiatan
   const handleStatusChange = async (id) => {
     try {
       await axios.post(`http://localhost:8001/updateStatusKegiatan/${id}`);
@@ -70,6 +80,7 @@ const LaporanKegiatanAdmin = () => {
     }
   };
 
+  // Handle delete kegiatan
   const handleDeleteKegiatan = async (id) => {
     if (window.confirm('Yakin ingin menghapus kegiatan ini?')) {
       try {
@@ -81,7 +92,8 @@ const LaporanKegiatanAdmin = () => {
     }
   };
 
-  React.useEffect(() => {
+  // Fetch kegiatan data on component mount
+  useEffect(() => {
     fetchKegiatan();
   }, []);
 
@@ -96,7 +108,7 @@ const LaporanKegiatanAdmin = () => {
         </Button>
       </div>
 
-      {/* Modal Form */}
+      {/* Modal Form untuk menambah kegiatan */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Tambah Kegiatan</Modal.Title>
@@ -116,7 +128,7 @@ const LaporanKegiatanAdmin = () => {
             <Form.Group className="mb-3" controlId="tanggal">
               <Form.Label>Tanggal</Form.Label>
               <Form.Control
-                type="text"
+                type="date"
                 name="tanggal"
                 value={formData.tanggal}
                 onChange={handleInputChange}
@@ -151,12 +163,14 @@ const LaporanKegiatanAdmin = () => {
         </Modal.Body>
       </Modal>
 
+      {/* Kegiatan Akan Datang */}
       <h3 className="mb-4">Kegiatan Akan Datang</h3>
       <Row className="g-4">
         {kegiatan.filter(kg => kg.status === 'Akan Datang').map((kg) => (
           <Col sm={12} md={6} lg={4} key={kg.id}>
             <Card className="shadow-sm border-light rounded">
-              <Card.Img variant="top" src={`http://localhost:8001/uploads/${kg.gambar}`} />
+              <Card.Img variant="top" src={kg.gambar ? kg.gambar.replace(/\/\//g, '/') : 'default-image.png'} />
+
               <Card.Body>
                 <Card.Title>{kg.judul}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{kg.tanggal}</Card.Subtitle>
@@ -173,12 +187,14 @@ const LaporanKegiatanAdmin = () => {
         ))}
       </Row>
 
+      {/* Kegiatan Telah Selesai */}
       <h3 className="mb-4 mt-5">Kegiatan Telah Selesai</h3>
       <Row className="g-4">
         {kegiatan.filter(kg => kg.status === 'Telah Selesai').map((kg) => (
           <Col sm={12} md={6} lg={4} key={kg.id}>
             <Card className="shadow-sm border-light rounded">
-              <Card.Img variant="top" src={`http://localhost:8001/uploads/${kg.gambar}`} />
+<Card.Img variant="top" src={kg.gambar ? kg.gambar.replace(/\/\//g, '/') : 'default-image.png'} />
+
               <Card.Body>
                 <Card.Title>{kg.judul}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{kg.tanggal}</Card.Subtitle>
