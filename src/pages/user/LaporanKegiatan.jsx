@@ -10,7 +10,7 @@ const LaporanKegiatanUser = () => {
   // Ambil data kegiatan dari backend
   const fetchKegiatan = async () => {
     try {
-      const response = await axios.get('http://localhost:8001/getAllKegiatan');
+      const response = await axios.get('https://backendskripsi.vercel.app/getAllKegiatan');
       setKegiatan(response.data);
     } catch (error) {
       console.error('Error fetching kegiatan:', error);
@@ -36,7 +36,7 @@ const LaporanKegiatanUser = () => {
         {kegiatanAkanDatang.map((kg) => (
           <Col md={4} key={kg.id}>
             <Card className="h-100">
-              <Card.Img variant="top" src={`http://localhost:8001/uploads/${kg.gambar}`} />
+              <img src={kg.gambar} alt="Gambar Kegiatan" />
               <Card.Body>
                 <Card.Title>{kg.judul}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{kg.tanggal}</Card.Subtitle>
@@ -56,7 +56,7 @@ const LaporanKegiatanUser = () => {
         {kegiatanTelahSelesai.map((kg) => (
           <Col md={4} key={kg.id}>
             <Card className="h-100">
-              <Card.Img variant="top" src={`http://localhost:8001/uploads/${kg.gambar}`} />
+              <img src={kg.gambar} alt="Gambar Kegiatan" />
               <Card.Body>
                 <Card.Title>{kg.judul}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">{kg.tanggal}</Card.Subtitle>

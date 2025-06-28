@@ -42,18 +42,19 @@ const LaporanKegiatanAdmin = () => {
     form.append('gambar', formData.gambar);  // Gambar yang di-upload
     form.append('status', formData.status);
 
-    try {
-      await axios.post('http://localhost:8001/addKegiatan', form, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      alert('Kegiatan berhasil ditambahkan');
-      fetchKegiatan();
-    } catch (error) {
-      console.error('Error saving kegiatan:', error);
-      alert('Gagal menambahkan kegiatan');
-    }
+try {
+  // Ganti URL dengan URL Vercel untuk backend Anda
+  await axios.post('https://backendskripsi.vercel.app/addKegiatan', form, {  // Ganti dengan URL Vercel backend
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  alert('Kegiatan berhasil ditambahkan');
+  fetchKegiatan();  // Refresh kegiatan setelah simpan
+} catch (error) {
+  console.error('Error saving kegiatan:', error);
+  alert('Gagal menambahkan kegiatan');
+}
 
     // Reset form after submission
     setFormData({ judul: '', tanggal: '', deskripsi: '', gambar: null, status: 'Akan Datang' });
@@ -63,7 +64,7 @@ const LaporanKegiatanAdmin = () => {
   // Fetch kegiatan data from backend
   const fetchKegiatan = async () => {
     try {
-      const response = await axios.get('http://localhost:8001/getAllKegiatan');
+      const response = await axios.get('https://backendskripsi.vercel.app/getAllKegiatan');
       setKegiatan(response.data);
     } catch (error) {
       console.error('Error fetching kegiatan:', error);
@@ -73,7 +74,7 @@ const LaporanKegiatanAdmin = () => {
   // Update the status of kegiatan
   const handleStatusChange = async (id) => {
     try {
-      await axios.post(`http://localhost:8001/updateStatusKegiatan/${id}`);
+      await axios.post(`https://backendskripsi.vercel.app/updateStatusKegiatan/${id}`);
       fetchKegiatan();
     } catch (error) {
       console.error('Error updating status:', error);
@@ -84,7 +85,7 @@ const LaporanKegiatanAdmin = () => {
   const handleDeleteKegiatan = async (id) => {
     if (window.confirm('Yakin ingin menghapus kegiatan ini?')) {
       try {
-        await axios.delete(`http://localhost:8001/deleteKegiatan/${id}`);
+        await axios.delete(`https://backendskripsi.vercel.app/deleteKegiatan/${id}`);
         fetchKegiatan();
       } catch (error) {
         console.error('Error deleting kegiatan:', error);
@@ -169,7 +170,8 @@ const LaporanKegiatanAdmin = () => {
         {kegiatan.filter(kg => kg.status === 'Akan Datang').map((kg) => (
           <Col sm={12} md={6} lg={4} key={kg.id}>
             <Card className="shadow-sm border-light rounded">
-             <Card.Img variant="top" src={kg.gambar ? kg.gambar : 'default-image.png'} />
+            <img src={kg.gambar} alt="Gambar Kegiatan" />
+
 
 
 
@@ -195,7 +197,7 @@ const LaporanKegiatanAdmin = () => {
         {kegiatan.filter(kg => kg.status === 'Telah Selesai').map((kg) => (
           <Col sm={12} md={6} lg={4} key={kg.id}>
             <Card className="shadow-sm border-light rounded">
-            <Card.Img variant="top" src={kg.gambar ? kg.gambar : 'default-image.png'} />
+            <img src={kg.gambar} alt="Gambar Kegiatan" />
 
 
               <Card.Body>

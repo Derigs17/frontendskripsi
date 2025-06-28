@@ -9,7 +9,7 @@ const LaporanKeuangan = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const pemasukanResponse = await axios.get('http://localhost:8001/getLaporanKeuangan');
+        const pemasukanResponse = await axios.get('https://backendskripsi.vercel.app/getLaporanKeuangan');
         setPemasukanData(pemasukanResponse.data.pemasukan);
         setPengeluaranData(pemasukanResponse.data.pengeluaran);
       } catch (error) {

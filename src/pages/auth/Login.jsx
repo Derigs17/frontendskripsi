@@ -23,7 +23,7 @@ const Login = () => {
 
     try {
       // Mengirim permintaan POST ke server untuk login
-      const response = await axios.post('http://localhost:8001/login', {
+      const response = await axios.post('https://backendskripsi.vercel.app/login', {
         email: email,
         password: password,
       });

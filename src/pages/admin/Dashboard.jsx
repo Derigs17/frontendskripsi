@@ -13,10 +13,11 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const laporanKeuanganResponse = await axios.get('http://localhost:8001/getLaporanKeuangan');
-        const peminjamanResponse = await axios.get('http://localhost:8001/getAllRiwayatPeminjaman');
-        const usersResponse = await axios.get('http://localhost:8001/getAllUsers');
-        const kegiatanResponse = await axios.get('http://localhost:8001/getAllKegiatan'); // Mendapatkan data kegiatan
+const laporanKeuanganResponse = await axios.get('https://backendskripsi.vercel.app/getLaporanKeuangan');
+const peminjamanResponse = await axios.get('https://backendskripsi.vercel.app/getAllRiwayatPeminjaman');
+const usersResponse = await axios.get('https://backendskripsi.vercel.app/getAllUsers');
+const kegiatanResponse = await axios.get('https://backendskripsi.vercel.app/getAllKegiatan');
+ // Mendapatkan data kegiatan
 
         // Debug: Cek data kegiatan yang didapat
         console.log("Kegiatan Data:", kegiatanResponse.data);

@@ -11,7 +11,7 @@ const UserManagement = () => {
 
   // Ambil data user dari backend saat komponen pertama kali dirender
   useEffect(() => {
-    axios.get('http://localhost:8001/getAllUsers')
+    axios.get('https://backendskripsi.vercel.app/getAllUsers')
       .then(response => {
         setUsers(response.data);  // Menyimpan data user yang diterima dari backend
       })
@@ -28,7 +28,7 @@ const UserManagement = () => {
     }
 
     // Mengirim request POST ke backend untuk menambah user
-    axios.post('http://localhost:8001/addUser', newUser)
+    axios.post('https://backendskripsi.vercel.app/addUser', newUser)
       // eslint-disable-next-line no-unused-vars
       .then(response => {
         setUsers([...users, { email: newUser.email, role: newUser.role, name: newUser.name, password: newUser.password }]);  // Menambah user baru ke daftar
@@ -42,7 +42,7 @@ const UserManagement = () => {
 
   // Fungsi untuk menghapus user berdasarkan email
   const handleDeleteUser = (email) => {
-    axios.delete(`http://localhost:8001/deleteUser/${email}`)
+    axios.delete(`https://backendskripsi.vercel.app/deleteUser/${email}`)
       .then(() => {
         setUsers(users.filter(user => user.email !== email));  // Menghapus user dari daftar
         setShowDeleteModal(false);  // Menutup modal setelah user dihapus

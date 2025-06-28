@@ -10,7 +10,7 @@ const PeminjamanAdmin = () => {
 
   useEffect(() => {
     // Ambil semua riwayat peminjaman dari server
-    axios.get('http://localhost:8001/getAllRiwayatPeminjaman')
+    axios.get('https://backendskripsi.vercel.app/getAllRiwayatPeminjaman')
       .then(response => {
         // Pisahkan data berdasarkan status
         const filteredData = response.data.filter(item => item.status === 'Menunggu');
@@ -35,7 +35,7 @@ const PeminjamanAdmin = () => {
   };
 
   const confirmDelete = () => {
-    axios.delete(`http://localhost:8001/deleteRiwayatPeminjaman/${deleteId}`)
+    axios.delete(`https://backendskripsi.vercel.app/deleteRiwayatPeminjaman/${deleteId}`)
       .then(() => {
         // Hapus data dari riwayat setelah berhasil dihapus
         setRiwayat(riwayat.filter(item => item.id !== deleteId));
@@ -51,7 +51,7 @@ const PeminjamanAdmin = () => {
 
   const handleKonfirmasi = (id, status) => {
     // Perbarui status peminjaman ke Disetujui atau Ditolak
-    axios.post(`http://localhost:8001/updateStatusPeminjaman/${id}`, { status })
+    axios.post(`https://backendskripsi.vercel.app/updateStatusPeminjaman/${id}`, { status })
       .then(() => {
         // Update data di frontend setelah status diperbarui
         setData(data.filter(item => item.id !== id)); // Hapus data dari tabel Menunggu

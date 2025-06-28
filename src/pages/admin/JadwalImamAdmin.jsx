@@ -22,14 +22,15 @@ const JadwalImamAdmin = () => {
     fetchJadwal();
   }, []);
 
-  const fetchJadwal = async () => {
-    try {
-      const response = await axios.get('http://localhost:8001/getAllJadwalImam');
-      setJadwal(response.data);  // Menyimpan data jadwal yang diambil dari backend
-    } catch (error) {
-      console.error("Error fetching jadwal:", error);
-    }
-  };
+const fetchJadwal = async () => {
+  try {
+    const response = await axios.get('https://backendskripsi.vercel.app/getAllJadwalImam');
+    setJadwal(response.data);  // Menyimpan data jadwal yang diambil dari backend
+  } catch (error) {
+    console.error("Error fetching jadwal:", error);
+  }
+};
+
 
   const handleInputChange = (e) => {
     setNewJadwal({ ...newJadwal, [e.target.name]: e.target.value });
@@ -62,39 +63,42 @@ const JadwalImamAdmin = () => {
     setShowModal(true); // Tampilkan modal konfirmasi untuk delete
   };
 
-  const confirmDelete = async () => {
-    try {
-      const response = await axios.delete(`http://localhost:8001/deleteJadwalImam/${newJadwal.id}`);
-      if (response.data.success) {
-        fetchJadwal();  // Refresh jadwal setelah delete
-        setShowModal(false); // Menutup modal setelah delete
-      }
-    } catch (error) {
-      console.error("Error deleting jadwal:", error);
+const confirmDelete = async () => {
+  try {
+    const response = await axios.delete(`https://backendskripsi.vercel.app/deleteJadwalImam/${newJadwal.id}`);
+    if (response.data.success) {
+      fetchJadwal();  // Refresh jadwal setelah delete
+      setShowModal(false); // Menutup modal setelah delete
     }
-  };
+  } catch (error) {
+    console.error("Error deleting jadwal:", error);
+  }
+};
+
 
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
-  const handleConfirmSave = async () => {
-    const url = newJadwal.id
-      ? `http://localhost:8001/updateJadwalImam/${newJadwal.id}`
-      : 'http://localhost:8001/addJadwalImam';
-    
-    try {
-      const response = await axios.post(url, newJadwal);
-      if (response.data.success) {
-        fetchJadwal(); // Refresh jadwal setelah simpan
-        setNewJadwal({ id: '', tanggal: '', imam: '', khatib: '', muazin: '', bilal: '' });
-        setShowForm(false); // Menutup form setelah simpan
-        setShowModal(false); // Menutup modal setelah simpan
-      }
-    } catch (error) {
-      console.error("Error submitting jadwal:", error);
+const handleConfirmSave = async () => {
+  // Ganti URL sesuai dengan backend yang sudah di-deploy di Vercel
+  const url = newJadwal.id
+    ? `https://backendskripsi.vercel.app/updateJadwalImam/${newJadwal.id}`  // Ganti dengan URL Vercel backend
+    : 'https://backendskripsi.vercel.app/addJadwalImam';  // Ganti dengan URL Vercel backend
+
+  try {
+    const response = await axios.post(url, newJadwal); // Kirim data newJadwal ke backend
+    if (response.data.success) {
+      fetchJadwal();  // Refresh jadwal setelah simpan
+      setNewJadwal({ id: '', tanggal: '', imam: '', khatib: '', muazin: '', bilal: '' }); // Reset form
+      setShowForm(false); // Menutup form setelah simpan
+      setShowModal(false); // Menutup modal setelah simpan
     }
-  };
+  } catch (error) {
+    console.error("Error submitting jadwal:", error); // Menangani error jika ada masalah saat submit
+  }
+};
+
 
   return (
     <Container>

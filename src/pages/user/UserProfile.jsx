@@ -33,7 +33,7 @@ function UserProfile() {
 
   const fetchUserProfile = async (email) => {
     try {
-      const response = await axios.get(`http://localhost:8001/getUserProfile/${encodeURIComponent(email)}`);
+      const response = await axios.get(`https://backendskripsi.vercel.app/getUserProfile/${encodeURIComponent(email)}`);
       if (response.data) {
         setUserData(response.data);
       } else {
@@ -47,7 +47,7 @@ function UserProfile() {
   const handleLogout = async () => {
     try {
       const email = localStorage.getItem('loggedInUserEmail');
-      await axios.post('http://localhost:8001/logout', { email });
+      await axios.post('https://backendskripsi.vercel.app/logout', { email });
 
       localStorage.removeItem('loggedInUserEmail');
       localStorage.removeItem('isLoggedIn');
@@ -71,7 +71,7 @@ function UserProfile() {
       };
 
       // Simpan perubahan profil
-      await axios.post(`http://localhost:8001/updateUserProfile/${encodeURIComponent(userData.email)}`, updatedUserData);
+      await axios.post(`https://backendskripsi.vercel.app/updateUserProfile/${encodeURIComponent(userData.email)}`, updatedUserData);
       setIsEditing(false); // Kembali ke mode non-edit setelah menyimpan
       setShowConfirmationModal(false); // Tutup modal setelah perubahan
     } catch (error) {

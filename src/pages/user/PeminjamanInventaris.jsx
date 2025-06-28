@@ -21,7 +21,7 @@ const PeminjamanInventaris = () => {
   useEffect(() => {
     const email = localStorage.getItem('loggedInUserEmail');
     if (email) {
-      axios.get(`http://localhost:8001/getRiwayatPeminjaman/${email}`)
+      axios.get(`https://backendskripsi.vercel.app/getRiwayatPeminjaman/${email}`)
         .then(response => {
           const sortedData = response.data.sort((a, b) => b.id - a.id);
           setRiwayat(sortedData);
@@ -64,7 +64,7 @@ const PeminjamanInventaris = () => {
     const barangString = formData.barang.join(',');
 
     // Kirim data peminjaman ke server
-    axios.post('http://localhost:8001/submitPeminjaman', {
+    axios.post('https://backendskripsi.vercel.app/submitPeminjaman', {
       email: email,
       ...formData,
       barang: barangString,

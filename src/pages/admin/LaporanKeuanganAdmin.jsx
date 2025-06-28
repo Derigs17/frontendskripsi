@@ -13,29 +13,33 @@ const LaporanKeuanganAdmin = () => {
   const [deleteId, setDeleteId] = useState(null);
   const [showFormModal, setShowFormModal] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:8001/getLaporanKeuangan');
-        setDataLaporan({
-          pemasukan: response.data.pemasukan,
-          pengeluaran: response.data.pengeluaran,
-        });
-      } catch (error) {
-        console.error('Error fetching laporan:', error);
-      }
-    };
-    fetchData();
-  }, []);
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      // Ganti URL dengan URL Vercel untuk backend Anda
+      const response = await axios.get('https://backendskripsi.vercel.app/getLaporanKeuangan');  // Ganti dengan URL Vercel backend
+      setDataLaporan({
+        pemasukan: response.data.pemasukan,
+        pengeluaran: response.data.pengeluaran,
+      });
+    } catch (error) {
+      console.error('Error fetching laporan:', error);
+    }
+  };
+  fetchData();
+}, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const data = { keterangan, jumlah, tanggal };
-    const url = editId
-      ? `http://localhost:8001/update${type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran'}/${editId}`
-      : type === 'pemasukan'
-      ? 'http://localhost:8001/addPemasukan'
-      : 'http://localhost:8001/addPengeluaran';
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const data = { keterangan, jumlah, tanggal };
+
+  // Tentukan URL untuk update atau add berdasarkan type dan editId
+  const url = editId
+    ? `https://backendskripsi.vercel.app/update${type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran'}/${editId}`  // Ganti dengan URL Vercel backend
+    : type === 'pemasukan'
+    ? 'https://backendskripsi.vercel.app/addPemasukan'  // Ganti dengan URL Vercel backend
+    : 'https://backendskripsi.vercel.app/addPengeluaran';  // Ganti dengan URL Vercel backend
 
     try {
       await axios.post(url, data);
@@ -46,7 +50,7 @@ const LaporanKeuanganAdmin = () => {
       setEditId(null);
       setShowFormModal(false);
 
-      const response = await axios.get('http://localhost:8001/getLaporanKeuangan');
+      const response = await axios.get('https://backendskripsi.vercel.app/getLaporanKeuangan');
       setDataLaporan({
         pemasukan: response.data.pemasukan,
         pengeluaran: response.data.pengeluaran,
@@ -68,12 +72,12 @@ const LaporanKeuanganAdmin = () => {
 
   const handleDelete = async () => {
     try {
-      const url = `http://localhost:8001/delete${type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran'}/${deleteId}`;
+      const url = `https://backendskripsi.vercel.app/delete${type === 'pemasukan' ? 'Pemasukan' : 'Pengeluaran'}/${deleteId}`;
       await axios.delete(url);
       alert('Data berhasil dihapus');
       setShowModal(false);
       setDeleteId(null);
-      const response = await axios.get('http://localhost:8001/getLaporanKeuangan');
+      const response = await axios.get('https://backendskripsi.vercel.app/getLaporanKeuangan');
       setDataLaporan({
         pemasukan: response.data.pemasukan,
         pengeluaran: response.data.pengeluaran,

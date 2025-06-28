@@ -14,7 +14,7 @@ const JadwalImam = () => {
   }, [selectedMonth, selectedYear]); // Fetch ulang setiap bulan atau tahun berubah
 
   const fetchJadwal = async () => {
-    const response = await fetch(`http://localhost:8001/getJadwalImamForMonth?bulan=${selectedMonth}&tahun=${selectedYear}`);
+    const response = await fetch(`https://backendskripsi.vercel.app/getJadwalImamForMonth?bulan=${selectedMonth}&tahun=${selectedYear}`);
     const data = await response.json();
     setJadwal(data);
   };
