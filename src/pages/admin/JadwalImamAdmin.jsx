@@ -19,6 +19,7 @@ const JadwalImamAdmin = () => {
   
   // Ambil data jadwal dari API
   useEffect(() => {
+    
     fetchJadwal();
   }, []);
 
@@ -26,6 +27,8 @@ const fetchJadwal = async () => {
   try {
     const response = await axios.get('https://backendskripsi.vercel.app/getAllJadwalImam');
     setJadwal(response.data);  // Menyimpan data jadwal yang diambil dari backend
+    console.log("JadwalImamAdmin - data jadwal imam:", response.data);
+
   } catch (error) {
     console.error("Error fetching jadwal:", error);
   }

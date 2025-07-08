@@ -33,6 +33,9 @@ const Register = () => {
         console.error('Error during registration:', error);
         alert('An error occurred. Please try again later.');
       });
+    // console.log("Try register - name:", nama);
+    // console.log("Try register - email:", email);
+    // console.log("Try register - password:", password);
   };
 
   return (
@@ -55,10 +58,10 @@ const Register = () => {
             className="mb-2 mt-3"
           />
           <h2 className="mb-4">Daftar</h2>
-          
+
           <Form onSubmit={handleRegister}>
             <Form.Group className="text-start mb-3" controlId="formBasicNama">
-                <h5>Nama</h5>
+              <h5>Nama</h5>
               <Form.Control
                 type="text"
                 name="nama"
@@ -67,9 +70,9 @@ const Register = () => {
                 required
               />
             </Form.Group>
-            
+
             <Form.Group className="text-start mb-3" controlId="formBasicEmail">
-                <h5>Email</h5>
+              <h5>Email</h5>
               <Form.Control
                 type="email"
                 name="email"
@@ -79,7 +82,7 @@ const Register = () => {
               />
             </Form.Group>
             <Form.Group className="text-start mb-3" controlId="formBasicPassword">
-                <h5>Password</h5>
+              <h5>Password</h5>
               <Form.Control
                 type="password"
                 name="password"

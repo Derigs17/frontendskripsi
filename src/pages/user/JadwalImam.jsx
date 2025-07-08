@@ -16,6 +16,7 @@ const JadwalImam = () => {
   const fetchJadwal = async () => {
     const response = await fetch(`https://backendskripsi.vercel.app/getJadwalImamForMonth?bulan=${selectedMonth}&tahun=${selectedYear}`);
     const data = await response.json();
+    
     setJadwal(data);
   };
 

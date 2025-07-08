@@ -55,7 +55,7 @@ const LaporanKeuangan = () => {
               <h5>Total Pengeluaran</h5>
               <p className="h4 text-danger">Rp {totalPengeluaran.toLocaleString()}</p>
             </Card.Body>
-          </Card> 
+          </Card>
         </Col>
 
         <Col md={4} className="mb-3">
@@ -79,19 +79,19 @@ const LaporanKeuangan = () => {
               <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
                 <thead>
                   <tr>
-                    <th style={{ 
-        backgroundColor: '#0D1B2A', 
-        color: '#fff', 
-        minWidth: '30px', 
-        maxWidth: '50px', 
-        width: '10%', 
-        whiteSpace: 'nowrap', 
-        textAlign: 'center', 
-        padding: '0.4rem 0.6rem'
-      }}>No</th>
-                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Keterangan</th>
-                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Jumlah</th>
-                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Tanggal</th>
+                    <th style={{
+                      backgroundColor: '#0D1B2A',
+                      color: '#fff',
+                      minWidth: '30px',
+                      maxWidth: '50px',
+                      width: '10%',
+                      whiteSpace: 'nowrap',
+                      textAlign: 'center',
+                      padding: '0.4rem 0.6rem'
+                    }}>No</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff', }}>Keterangan</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff', }}>Jumlah</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff', }}>Tanggal</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -100,7 +100,7 @@ const LaporanKeuangan = () => {
                       <td>{idx + 1}</td>
                       <td>{item.keterangan}</td>
                       <td>{item.jumlah}</td>
-                      <td>{formatTanggal(item.tanggal)}</td> {/* Format tanggal */}
+                      <td>{formatTanggal(item.tanggal)}</td> 
                     </tr>
                   ))}
                 </tbody>
@@ -118,19 +118,19 @@ const LaporanKeuangan = () => {
               <Table striped bordered hover responsive style={{ textAlign: 'center' }}>
                 <thead>
                   <tr>
-                    <th style={{ 
-        backgroundColor: '#0D1B2A', 
-        color: '#fff', 
-        minWidth: '30px', 
-        maxWidth: '50px', 
-        width: '10%', 
-        whiteSpace: 'nowrap', 
-        textAlign: 'center',  
-        padding: '0.4rem 0.6rem'
-      }}>No</th>
-                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Keterangan</th>
-                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Jumlah</th>
-                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff',}}>Tanggal</th>
+                    <th style={{
+                      backgroundColor: '#0D1B2A',
+                      color: '#fff',
+                      minWidth: '30px',
+                      maxWidth: '50px',
+                      width: '10%',
+                      whiteSpace: 'nowrap',
+                      textAlign: 'center',
+                      padding: '0.4rem 0.6rem'
+                    }}>No</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff', }}>Keterangan</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff', }}>Jumlah</th>
+                    <th style={{ backgroundColor: '#0D1B2A', color: '#fff', }}>Tanggal</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -139,7 +139,7 @@ const LaporanKeuangan = () => {
                       <td >{idx + 1}</td>
                       <td>{item.keterangan}</td>
                       <td>{item.jumlah}</td>
-                      <td>{formatTanggal(item.tanggal)}</td> {/* Format tanggal */}
+                      <td>{formatTanggal(item.tanggal)}</td> 
                     </tr>
                   ))}
                 </tbody>

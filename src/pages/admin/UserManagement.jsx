@@ -13,11 +13,13 @@ const UserManagement = () => {
   useEffect(() => {
     axios.get('https://backendskripsi.vercel.app/getAllUsers')
       .then(response => {
+        console.log("UserManagement - data user:", response.data);
         setUsers(response.data);  // Menyimpan data user yang diterima dari backend
       })
       .catch(error => {
         console.error("Error fetching users:", error);
       });
+      
   }, []);
 
   // Fungsi untuk menambah user baru
@@ -74,7 +76,6 @@ const UserManagement = () => {
             <th>Email</th>
             <th>Role</th>
             <th>Name</th>
-            <th>Password</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -84,7 +85,6 @@ const UserManagement = () => {
               <td>{user.email}</td>
               <td>{user.role}</td>
               <td>{user.name}</td>
-              <td>{user.password}</td>
               <td>
                 <Button variant="danger" onClick={() => openDeleteModal(user.email)}>
                   Hapus

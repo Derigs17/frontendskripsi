@@ -96,6 +96,13 @@ const PeminjamanInventaris = () => {
           message: 'Terjadi kesalahan saat mengajukan peminjaman.',
         });
       });
+    console.log("Try peminjaman - nama:", formData.nama);
+    console.log("Try peminjaman - nomor telepon:", formData.nomorTelepon);
+    console.log("Try peminjaman - barang:", formData.barang);
+    console.log("Try peminjaman - tgl mulai:", formData.tglMulai);
+    console.log("Try peminjaman - tgl selesai:", formData.tglSelesai);
+    console.log("Try peminjaman - keperluan:", formData.keperluan);
+
   };
 
   return (
@@ -253,7 +260,7 @@ const PeminjamanInventaris = () => {
             <tr>
               <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>No</th>
               <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Nama</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Nomor Telepon</th> {/* Kolom Nomor Telepon */}
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Nomor Telepon</th>
               <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Barang</th>
               <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Mulai Peminjaman</th>
               <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Selesai Peminjaman</th>
@@ -263,10 +270,10 @@ const PeminjamanInventaris = () => {
           </thead>
           <tbody>
             {riwayat.filter(pinjam => pinjam.status === 'Menunggu').map((pinjam, index) => (
-              <tr key={pinjam.id}>
+              <tr key={pinjam.id || index}>
                 <td>{index + 1}</td>
                 <td>{pinjam.nama}</td>
-                <td>{pinjam.nomor_telepon}</td> {/* Menampilkan Nomor Telepon */}
+                <td>{pinjam.nomor_telepon}</td>
                 <td>{pinjam.barang}</td>
                 <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
                 <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>
@@ -283,7 +290,7 @@ const PeminjamanInventaris = () => {
             <tr>
               <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>No</th>
               <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Nama</th>
-              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Nomor Telepon</th> {/* Kolom Nomor Telepon */}
+              <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Nomor Telepon</th>
               <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Barang</th>
               <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Mulai Peminjaman</th>
               <th style={{ backgroundColor: '#0D1B2A', color: '#fff' }}>Selesai Peminjaman</th>
@@ -293,10 +300,10 @@ const PeminjamanInventaris = () => {
           </thead>
           <tbody>
             {riwayat.filter(pinjam => pinjam.status !== 'Menunggu').map((pinjam, index) => (
-              <tr key={pinjam.id}>
+              <tr key={pinjam.id || index}>
                 <td>{index + 1}</td>
                 <td>{pinjam.nama}</td>
-                <td>{pinjam.nomor_telepon}</td> {/* Menampilkan Nomor Telepon */}
+                <td>{pinjam.nomor_telepon}</td>
                 <td>{pinjam.barang}</td>
                 <td>{new Date(pinjam.tgl_mulai).toLocaleDateString()}</td>
                 <td>{new Date(pinjam.tgl_selesai).toLocaleDateString()}</td>

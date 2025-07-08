@@ -13,37 +13,42 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    // Validasi input pengguna sebelum dikirim ke backend
-    if (!email || !password) {
-      setError('Email dan password tidak boleh kosong');
-      return;
-    }
+  if (!email || !password) {
+    setError('Email dan password tidak boleh kosong');
+    return;
+  }
 
-    try {
-      // Mengirim permintaan POST ke server untuk login
-      const response = await axios.post('https://backendskripsi.vercel.app/login', {
-        email: email,
-        password: password,
-      });
+  try {
+    const response = await axios.post('https://backendskripsi.vercel.app/login', {
+      email: email,
+      password: password,
+    });
 
-      if (response.data.message === 'Login successful') {
-        // Menyimpan data user setelah login berhasil
-        localStorage.setItem('loggedInUserEmail', email);
-        localStorage.setItem('isLoggedIn', 'IsLogin');
-        localStorage.setItem('userRole', response.data.user.role);  // Simpan role user
+    if (response.data.message === 'Login successful') {
+      localStorage.setItem('loggedInUserEmail', email);
+      localStorage.setItem('isLoggedIn', 'IsLogin');
+      localStorage.setItem('userRole', response.data.user.role);
 
-        // Arahkan ke halaman profil
-        navigate('/profile');
+      // Routing sesuai role
+      if (response.data.user.role === 'admin') {
+        navigate('/admin/dashboard');
       } else {
-        setError(response.data.message || 'Login failed');
+        navigate('/profile');
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      setError('Terjadi kesalahan saat login. Silakan coba lagi.');
+    } else {
+      setError(response.data.message || 'Login failed');
     }
-  };
+  } catch (error) {
+    console.error('Login error:', error);
+    setError('Terjadi kesalahan saat login. Silakan coba lagi.');
+  }
+
+  // console.log("Try login - email:", email);
+  // console.log("Try login - password:", password);
+};
+
 
   return (
     <Container className="login-container d-flex flex-column align-items-center justify-content-center">
@@ -90,7 +95,7 @@ const Login = () => {
                 required
               />
             </Form.Group>
-            
+
             <Button
               className="mt-5"
               variant="secondary"
